@@ -260,12 +260,12 @@ contract NodeRegistry {
         if (from == NodeType.Cloud && to == NodeType.Fog) {
             return "Cloud->Fog:READ,WRITE";
         } else if (from == NodeType.Cloud && to == NodeType.Edge) {
-            return "Cloud->Edge:READ";
+            return "Cloud->Edge:READ,UPDATE";
 
         } else if (from == NodeType.Fog && to == NodeType.Cloud) {
-            return "Fog->Cloud:READ,WRITE";
+            return "Fog->Cloud:READ,REMOVE,UPDATE";
         } else if (from == NodeType.Fog && to == NodeType.Edge) {
-            return "Fog->Edge:READ,UPDATE";
+            return "Fog->Edge:READ,WRITE";
 
         } else if (from == NodeType.Edge && to == NodeType.Cloud) {
             return "Edge->Cloud:WRITE,UPDATE";
@@ -275,10 +275,7 @@ contract NodeRegistry {
 
         } else if (from == NodeType.Sensor && to == NodeType.Edge) {
             return "Sensor->Edge:WRITE,REMOVE";
-  
 
-        } else if (from == NodeType.Actuator && to == NodeType.Fog) {
-            return "Actuator->Fog:READ,REMOVE";
 
         } else 
         return "NO POLICY"; // Default policy

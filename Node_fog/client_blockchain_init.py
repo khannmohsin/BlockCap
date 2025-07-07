@@ -74,7 +74,12 @@ class BlockchainInit:
                 "--miner-coinbase=" + first_address,
                 "--rpc-http-cors-origins=all",
                 "--min-gas-price=0",
-                "--rpc-http-port=" + str(rpc_http_port)],
+                "--rpc-http-port=" + str(rpc_http_port),
+                # ✅ Metrics flags for monitoring
+                "--metrics-enabled",
+                "--metrics-host=0.0.0.0",
+                "--metrics-port=9546",  # ← Use a different port than other nodes
+                "--metrics-category=BLOCKCHAIN,JVM,NETWORK,RPC,TRANSACTION_POOL,PEERS,SYNCHRONIZER,ETHEREUM,PERMISSIONING","PROCESS"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True

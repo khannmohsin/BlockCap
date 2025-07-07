@@ -1,10 +1,10 @@
 {
-    "node_id": "FG-001",
-    "node_name": "Fog_Node",
-    "node_type": "Fog",
-    "public_key": "0x42f6780963beb92f720f1714f04a08439f1d6bbb067791ae09b6488f94d9b0fb8aaf63297832545fbf00d821982b8e52fd26c430668df15c00e1cbdf88af2589",
-    "address": "0xd65e4002ba06acf9b54452be3ce020c71a4cdac3",
-    "node_url": "http://127.0.0.1:5001",
-    "rpcURL": "http://127.0.0.1:8546",
-    "signature": "0x5e9966e93e17e4d1e977b51a1f67a56d3bf9a1cb0e97301c8b01a1abee0a7f6f1bd5c481595cfe2294779b05c9c13044bf48d61f6aff3f3f8befd693cc69991d00"
+    "node_id": "EG-001",
+    "node_name": "Edge_001",
+    "node_type": "Edge",
+    "public_key": "0x382f12889930c1096fc4a30672ddee8b5eeed9a3500f36c046f7c9f7b7f7ba81fb4f31e036fd743c6a47ea914d12123a274828f2131bcfe194b78c125fc36877",
+    "address": "0x40cc47a166de1163347704a29a01ad13d7c72dc6",
+    "node_url": "http://127.0.0.1:5003",
+    "rpcURL": "http://127.0.0.1:8548",
+    "signature": "0x463dd562ae7ca662af539935e84efa659314659d2200f95d3e54b6d7d87055cf51044b152c82df6326ae6877a86eb238e95863ba50cc4dbb56406acb993c15d100"
 }

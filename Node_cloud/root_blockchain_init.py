@@ -240,7 +240,13 @@ class BlockchainInit:
                 "--miner-enabled",
                 "--miner-coinbase=" + first_address,
                 "--min-gas-price=0",
-                "--rpc-http-cors-origins=all"],
+                "--rpc-http-cors-origins=all",
+                # ✅ Metrics config
+                 "--metrics-enabled",
+                "--metrics-host=0.0.0.0",
+                "--metrics-port=9545",
+                "--metrics-category=BLOCKCHAIN,JVM,NETWORK,RPC,TRANSACTION_POOL,PEERS,SYNCHRONIZER,ETHEREUM,PERMISSIONING","PROCESS"
+                ],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True

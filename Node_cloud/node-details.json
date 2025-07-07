@@ -1,10 +1,10 @@
 {
-    "node_id": "CL-001",
-    "node_name": "Cloud_Node",
+    "node_id": "Cloud-001",
+    "node_name": "Cloudy",
     "node_type": "Cloud",
-    "public_key": "0xd2896391e821ee8d6fbe9e90ac51b3be12b8aab8785858e99cf894cd4e9f207378b87c3f9ff8a2eb24e40758cc2283d1d6caf250e1ee0a37442cf3785991970f",
-    "address": "0x91037b9f27f842b62e7db068250a01ac4a1b9dc8",
+    "public_key": "0x128d0a83f75b68d7261943c0b295637762b0f29e74ca1eba13a677a5b33b9dfcdb47dcc975015cb8c3592123e5255948345c99cfeaf7da2d1e8b551144959b62",
+    "address": "0x4369d43b08819e328c7d179952d6680bdd4d123e",
     "node_url": "http://127.0.0.1:5000",
     "rpcURL": "http://127.0.0.1:8545",
-    "signature": "0x06442b93475fa134e85891ea07235602363485fc5de8940be11bcd6d17fece32003ce6f6b92aecd39f0554bad83c82efc0c3571e4d433a16a09277ccf33b316b00"
+    "signature": "0xe1d5420634b00a3c6d83cfd3259546316f0ae2622c6497ce1213810db2e1e94e1199115ccca8532530404e910f0c3bcd6a136d84f21c12a0f891e95b889ae68301"
 }

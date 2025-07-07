@@ -1,10 +1,10 @@
 {
     "node_id": "FG-001",
-    "node_name": "Fog_Node",
+    "node_name": "Foggy",
     "node_type": "Fog",
-    "public_key": "0x42f6780963beb92f720f1714f04a08439f1d6bbb067791ae09b6488f94d9b0fb8aaf63297832545fbf00d821982b8e52fd26c430668df15c00e1cbdf88af2589",
-    "address": "0xd65e4002ba06acf9b54452be3ce020c71a4cdac3",
+    "public_key": "0xfe39ddb1e6414f36f6e9b1489267f0cc0f9a9d8b3b560e33e6abdc2e810ff28c02702258a69af027d5d7a1dd3e84a911984087ae7f9e2ad1f8df9c82f854af8b",
+    "address": "0xd6fe47a2eaa5fdf4b68cd51a803d70577c936315",
     "node_url": "http://127.0.0.1:5001",
     "rpcURL": "http://127.0.0.1:8546",
-    "signature": "0x5e9966e93e17e4d1e977b51a1f67a56d3bf9a1cb0e97301c8b01a1abee0a7f6f1bd5c481595cfe2294779b05c9c13044bf48d61f6aff3f3f8befd693cc69991d00"
+    "signature": "0x25fef003a1b0db0f6962188fd7c2c86e9646856f8abf356daa457a42148ef35e534e670707637d58020e64c072d76c4210ae9795304ca99c2db8ba2c0b99b98c01"
 }
