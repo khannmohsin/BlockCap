@@ -3,7 +3,44 @@ from eth_account import Account
 import subprocess
 import os
 import sys
+from monitor import track_performance
+# import time, tracemalloc, resource, functools
+# from prometheus_client import Summary, Gauge
 from eth_keys import keys
+import threading
+# from prometheus_client import start_http_server
+import inspect
+# import socket
+# import time
+
+# # Function-level metrics
+# FUNCTION_DURATION = Summary('function_duration_seconds', 'Time spent in function', ['function'])
+# FUNCTION_MEMORY = Gauge('function_memory_kb', 'Memory used in function (KB)', ['function'])
+# FUNCTION_CPU = Gauge('function_cpu_time_seconds', 'CPU time used in function', ['function'])
+
+# def track_performance(func):
+#     @functools.wraps(func)
+#     def wrapper(*args, **kwargs):
+#         fname = func.__name__
+#         print(f"[Monitor] Tracking performance for: {fname}")
+#         tracemalloc.start()
+#         cpu_start = resource.getrusage(resource.RUSAGE_SELF).ru_utime
+#         start = time.time()
+#         result = func(*args, **kwargs)
+#         end = time.time()
+#         cpu_end = resource.getrusage(resource.RUSAGE_SELF).ru_utime
+#         current, _ = tracemalloc.get_traced_memory()
+#         tracemalloc.stop()
+
+#         # print(f"[Monitor] Reporting metrics for: {fname}")
+#         FUNCTION_DURATION.labels(fname).observe(end - start)
+#         FUNCTION_MEMORY.labels(fname).set(current / 1024)
+#         FUNCTION_CPU.labels(fname).set(cpu_end - cpu_start)
+#         print(FUNCTION_DURATION.collect())
+#         print(FUNCTION_MEMORY.collect())
+#         print(FUNCTION_CPU.collect())
+#         return result
+#     return wrapper
 
 class BlockchainInit:
     def __init__(self):
@@ -16,8 +53,11 @@ class BlockchainInit:
         self.public_key = os.path.join(self.data_path, "key.pub")
         self.validator_addresses = os.path.join(self.genesis_files_path, "validator_address.json")
         self.genesis_file = os.path.join(self.genesis_files_path, "genesis.json")
+        # start_metrics_server()  # Start the Prometheus metrics server
 
     #---------------------Node Public and Private generation----------------------------
+
+    @track_performance
     def generate_keys(self):
         """Generates a new Ethereum account (private key and address)."""
         account = Account.create()
@@ -33,6 +73,7 @@ class BlockchainInit:
             pub_file.write(public_key.to_hex())
 
     #---------------------Create etherium accounts with ETH balance----------------------------
+    @track_performance
     def generate_account(self):
         """Generates a new Ethereum account (private key and address)."""
         account = Account.create()
@@ -42,6 +83,7 @@ class BlockchainInit:
         }
 
     #---------------------Create QBFT config file----------------------------
+    # @track_performance
     def create_qbft_file(self, num_prefunded_accounts, num_validators):
         num_prefunded_accounts = int(num_prefunded_accounts)  # Ensure it's an integer
         num_validators = int(num_validators) 
@@ -98,6 +140,7 @@ class BlockchainInit:
         print(f"\n Prefunded account keys saved in:  `{self.prefunded_account_file}`\n")
 
     #---------------------Create genesis file from the QBFT config file----------------------------
+    @track_performance
     def create_genesis_file(self, qbft_config_path):
 
         # Run Besu command to generate blockchain config
@@ -110,6 +153,7 @@ class BlockchainInit:
         print(f"\nGenesis file generated successfully at loc: {self.genesis_files_path}\n")
 
     #---------------------Update the genesis file with updated extradata----------------------------
+    @track_performance
     def update_genesis_file(self):
         """Extract Ethereum address from private key using Besu CLI and store in JSON."""
         
@@ -154,6 +198,7 @@ class BlockchainInit:
             return None
         
     #---------------------Extra data generation----------------------------
+    @track_performance
     def update_extra_data_in_genesis(self):
             """Encodes validators into RLP and updates extraData in genesis.json."""
 
@@ -191,6 +236,7 @@ class BlockchainInit:
 
 
     #---------------------Get the node address besides pub and private key----------------------------
+    @track_performance
     def get_validator_address(self):
         """Extract Ethereum address from private key using Besu CLI."""
         node_address_file = os.path.join(self.data_path, "node_address.txt") 
@@ -217,6 +263,7 @@ class BlockchainInit:
             print(f"Error extracting node address: {result.stderr}")
 
     #---------------------Start the blockchain node----------------------------
+    @track_performance
     def start_blockchain_node(self):
         """Starts the Besu node using subprocess.Popen()"""
 
@@ -266,6 +313,31 @@ class BlockchainInit:
             print(f"Unexpected error: {e}")
 
 if __name__ == "__main__":
+    # def is_port_in_use(port):
+    #     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    #         return s.connect_ex(('localhost', port)) == 0
+        
+    # def start_metrics_server(port):
+    #     """Start the Prometheus metrics server and keep it running."""
+    #     print(f"[Monitor] Starting Prometheus metrics server on port {port}...")
+    #     threading.Thread(target=start_http_server, args=(port,), daemon=True).start()
+
+    # if not is_port_in_use(9101):
+    #     print("Port 9101 is available. Starting metrics server...")
+    #     # Start the Prometheus metrics server on port 9101
+    #     start_metrics_server(9101)  # This will start the server in the main thread
+
+    #     # Wait for the metrics server port to be open (max 10 seconds)
+    #     for _ in range(20):
+    #         if is_port_in_use(9101):
+    #             print("Prometheus metrics server is now running on port 9101.")
+    #             break
+    #         time.sleep(0.5)
+    #     else:
+    #         print("Warning: Prometheus metrics server did not start within 10 seconds.")
+    # else:
+    #     print("Port 9101 already in use.")
+
     blockchain_init = BlockchainInit()
     
     if len(sys.argv) > 1:
@@ -276,7 +348,8 @@ if __name__ == "__main__":
             method = getattr(blockchain_init, method_name)
 
             if callable(method):
-                arg_count = method.__code__.co_argcount - 1  # Subtract 1 for `self`
+                # arg_count = method.__code__.co_argcount - 1  # Subtract 1 for `self`
+                arg_count = len(inspect.signature(method).parameters)
                 
                 if len(method_args) == arg_count:
                     method(*method_args)

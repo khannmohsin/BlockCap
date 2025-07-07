@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import requests
+from monitor import track_performance, observe_request_metrics
 import os
 import subprocess
 import sys
@@ -8,6 +9,7 @@ import time
 import json  # <-- Added for signing
 from eth_keys import keys  # <-- Added for signing
 from eth_utils import keccak
+
 
 class Node:
     def __init__(self, node_id, node_name, node_type, registration_url, key_path, node_url, rpc_url):
@@ -43,7 +45,7 @@ class Node:
         else:
             raise FileNotFoundError(f"Public Key File Not Found: {key_path}")
         
-
+    @track_performance
     def sign_identity(self):
         message_dict = {
             "node_id": self.node_id,
@@ -64,7 +66,7 @@ class Node:
         signature = private_key.sign_msg_hash(message_hash)
         return signature.to_hex()
     
-    
+    @track_performance
     def register_node(self):
 
         """Send Public Key & Metadata to Cloud API for Registration."""
@@ -78,8 +80,9 @@ class Node:
             "rpcURL" : self.rpc_URL,
             "signature": self.sign_identity()
         }
-
         response = requests.post(f"{self.registration_url}/register-node", json=data)
+        observe_request_metrics("register_node", len(json.dumps(data)), len(response.content), response.elapsed.total_seconds())
+
         if response.status_code == 200:
             print(f"{self.node_type.capitalize()} Node '{self.node_name}' (ID: {self.node_id}) Registered Successfully!")
             print(f"Public Key Sent: {self.public_key}")
@@ -88,10 +91,9 @@ class Node:
                 json.dump(data, json_file, indent=4)
             print(response.json())
         else:
-            
-            print(f"Error Registering Node '{self.node_name}' (ID: {self.node_id}):")
-            print(json.dumps(response.json(), indent=4))
+            print(f"\nError Registering {self.node_type.capitalize()} \nNode {self.node_id}: {response.json()}")
 
+    @track_performance
     def read_data(self):
 
         data = {
@@ -105,6 +107,7 @@ class Node:
 
         """Read data from the accessed Node."""
         response = requests.get(f"{self.registration_url}/read", params=data)
+        observe_request_metrics("read_data", len(json.dumps(data)), len(response.content), response.elapsed.total_seconds())
 
         try:
             if response.status_code == 200:
@@ -119,6 +122,7 @@ class Node:
             print("Raw response:", response.text)
             return None
         
+    @track_performance
     def remove_data(self):
         data = {
             "node_id": self.node_id,
@@ -130,6 +134,7 @@ class Node:
         }
         """Transmit data to the Cloud Node."""
         response = requests.delete(f"{self.registration_url}/remove", params=data)
+        observe_request_metrics("remove_data", len(json.dumps(data)), len(response.content), response.elapsed.total_seconds())
 
         try:
             if response.status_code == 200:
@@ -143,7 +148,8 @@ class Node:
             print("Error: Response was not valid JSON")
             print("Raw response:", response.text)
             return None
-        
+
+    @track_performance      
     def write_data(self):
         data = {
             "node_id": self.node_id,
@@ -155,6 +161,7 @@ class Node:
         }
         """Transmit data to the Cloud Node."""
         response = requests.post(f"{self.registration_url}/write", params=data)
+        observe_request_metrics("write_data", len(json.dumps(data)), len(response.content), response.elapsed.total_seconds())
 
         try:
             if response.status_code == 200:
@@ -168,7 +175,8 @@ class Node:
             print("Error: Response was not valid JSON")
             print("Raw response:", response.text)
             return None
-        
+    
+    @track_performance
     def update_data(self):
         data = {
             "node_id": self.node_id,
@@ -180,6 +188,7 @@ class Node:
         }
         """Execute a command on the Cloud Node."""
         response = requests.put(f"{self.registration_url}/update", params=data)
+        observe_request_metrics("update_data", len(json.dumps(data)), len(response.content), response.elapsed.total_seconds())
 
         try:
             if response.status_code == 200:

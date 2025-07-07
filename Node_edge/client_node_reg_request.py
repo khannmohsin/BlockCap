@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import requests
+from monitor import track_performance, observe_request_metrics
 import os
 import subprocess
 import sys
@@ -44,6 +45,7 @@ class Node:
             raise FileNotFoundError(f"Public Key File Not Found: {key_path}")
         
 
+    @track_performance
     def sign_identity(self):
         message_dict = {
             "node_id": self.node_id,
@@ -64,7 +66,7 @@ class Node:
         signature = private_key.sign_msg_hash(message_hash)
         return signature.to_hex()
     
-    
+    @track_performance
     def register_node(self):
 
         data = {
@@ -79,6 +81,8 @@ class Node:
         }
 
         response = requests.post(f"{self.registration_url}/register-node", json=data)
+        observe_request_metrics("register_node", len(json.dumps(data)), len(response.content), response.elapsed.total_seconds())
+
         if response.status_code == 200:
             print(f"{self.node_type.capitalize()} Node {self.node_id} Registered Successfully as '{self.node_name}'!")
             print(f"Public Key Sent: {self.public_key}")
@@ -90,6 +94,7 @@ class Node:
 
             print(f"\nError Registering {self.node_type.capitalize()} \nNode {self.node_id}: {response.json()}")
 
+    @track_performance
     def read_data(self):
 
         data = {
@@ -103,7 +108,7 @@ class Node:
 
         """Read data from the accessed Node."""
         response = requests.get(f"{self.registration_url}/read", params=data)
-
+        observe_request_metrics("register_node", len(json.dumps(data)), len(response.content), response.elapsed.total_seconds())
         try:
             if response.status_code == 200:
                 print("Data:", response.json())
@@ -117,6 +122,7 @@ class Node:
             print("Raw response:", response.text)
             return None
         
+    @track_performance
     def remove_data(self):
         data = {
             "node_id": self.node_id,
@@ -128,7 +134,7 @@ class Node:
         }
         """Transmit data to the Cloud Node."""
         response = requests.delete(f"{self.registration_url}/remove", params=data)
-
+        observe_request_metrics("register_node", len(json.dumps(data)), len(response.content), response.elapsed.total_seconds())
         try:
             if response.status_code == 200:
                 print("Data:", response.json())
@@ -141,7 +147,8 @@ class Node:
             print("Error: Response was not valid JSON")
             print("Raw response:", response.text)
             return None
-        
+
+    @track_performance
     def write_data(self):
         data = {
             "node_id": self.node_id,
@@ -153,6 +160,7 @@ class Node:
         }
         """Transmit data to the Cloud Node."""
         response = requests.post(f"{self.registration_url}/write", params=data)
+        observe_request_metrics("register_node", len(json.dumps(data)), len(response.content), response.elapsed.total_seconds())
 
         try:
             if response.status_code == 200:
@@ -166,7 +174,8 @@ class Node:
             print("Error: Response was not valid JSON")
             print("Raw response:", response.text)
             return None
-        
+
+    @track_performance
     def update_data(self):
         data = {
             "node_id": self.node_id,
@@ -178,7 +187,7 @@ class Node:
         }
         """Execute a command on the Registering Node."""
         response = requests.put(f"{self.registration_url}/update", params=data)
-
+        observe_request_metrics("register_node", len(json.dumps(data)), len(response.content), response.elapsed.total_seconds())
         try:
             if response.status_code == 200:
                 print("Data:", response.json())

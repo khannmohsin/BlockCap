@@ -1,5 +1,6 @@
 import requests
 import re
+from monitor import track_performance
 
 class AcknowledgementSender:
     """Sends acknowledgment, enode, and required files to the Fog Node."""
@@ -19,6 +20,7 @@ class AcknowledgementSender:
         self.besu_rpc_url = besu_rpc_url
         self.prefunded_keys_file = prefunded_keys_file
 
+    @track_performance
     def get_enode(self):
         """Fetches the full enode URL from the Besu blockchain."""
         payload = {
@@ -46,7 +48,7 @@ class AcknowledgementSender:
             print(f"Error fetching enode: {e}")
             return None
         
-
+    @track_performance
     def send_acknowledgment(self, node_id):
         """Sends acknowledgment, enode, and files to the Fog Node."""
         

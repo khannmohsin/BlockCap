@@ -1,5 +1,6 @@
 import requests
 import re
+from monitor import track_performance
 
 class AcknowledgementSender:
 
@@ -12,6 +13,7 @@ class AcknowledgementSender:
         self.prefunded_keys_file = prefunded_keys_file
         self.enode_file = enode_file
 
+    @track_performance
     def get_enode(self):
         payload = {
             "jsonrpc": "2.0",
@@ -44,7 +46,7 @@ class AcknowledgementSender:
         #     print(f"Unexpected error: {e}")
         #     return None
 
-
+    @track_performance
     def send_acknowledgment(self, node_id):        
         enode_id = self.get_enode()
         if not enode_id:
