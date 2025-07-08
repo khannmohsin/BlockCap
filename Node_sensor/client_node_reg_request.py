@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import requests
+from monitor import track_performance, observe_request_metrics
 import os
 import subprocess
 import sys
@@ -43,7 +44,7 @@ class Node:
         else:
             raise FileNotFoundError(f"Public Key File Not Found: {key_path}")
         
-
+    @track_performance
     def sign_identity(self):
         message_dict = {
             "node_id": self.node_id,
@@ -64,7 +65,8 @@ class Node:
         signature = private_key.sign_msg_hash(message_hash)
         return signature.to_hex()
     
-    
+
+    @track_performance
     def register_node(self):
 
         data = {
@@ -79,6 +81,8 @@ class Node:
         }
 
         response = requests.post(f"{self.registration_url}/register-node", json=data)
+        observe_request_metrics("register_node", len(json.dumps(data)), len(response.content), response.elapsed.total_seconds())
+
         if response.status_code == 200:
             print(f"{self.node_type.capitalize()} Node {self.node_id} Registered Successfully as '{self.node_name}'!")
             print(f"Public Key Sent: {self.public_key}")
@@ -90,6 +94,7 @@ class Node:
 
             print(f"\nError Registering {self.node_type.capitalize()} \nNode {self.node_id}: {response.json()}")
 
+    @track_performance
     def read_data(self):
 
         data = {
@@ -103,6 +108,34 @@ class Node:
 
         """Read data from the accessed Node."""
         response = requests.get(f"{self.registration_url}/read", params=data)
+        observe_request_metrics("read_data", len(json.dumps(data)), len(response.content), response.elapsed.total_seconds())
+
+        try:
+            if response.status_code == 200:
+                print("Data:", response.json())
+                return response.json()
+            else:
+                print(f"Error Reading Data (Status {response.status_code}): {response.text}")
+                return None
+            
+        except ValueError:
+            print("Error: Response was not valid JSON")
+            print("Raw response:", response.text)
+            return None
+
+    @track_performance
+    def remove_data(self):
+        data = {
+            "node_id": self.node_id,
+            "node_name": self.node_name,
+            "node_type": self.node_type, 
+            "public_key": self.public_key,
+            "address": self.address,
+            "signature": self.sign_identity()
+        }
+        """Transmit data to the Cloud Node."""
+        response = requests.delete(f"{self.registration_url}/remove", params=data)
+        observe_request_metrics("remove_data", len(json.dumps(data)), len(response.content), response.elapsed.total_seconds())
 
         try:
             if response.status_code == 200:
@@ -117,31 +150,8 @@ class Node:
             print("Raw response:", response.text)
             return None
         
-    def transmit_data(self):
-        data = {
-            "node_id": self.node_id,
-            "node_name": self.node_name,
-            "node_type": self.node_type,  
-            "public_key": self.public_key,
-            "address": self.address,
-            "signature": self.sign_identity()
-        }
-        """Transmit data to the Cloud Node."""
-        response = requests.post(f"{self.registration_url}/transmit", params=data)
 
-        try:
-            if response.status_code == 200:
-                print("Data:", response.json())
-                return response.json()
-            else:
-                print(f"Error Transmitting Data (Status {response.status_code}): {response.text}")
-                return None
-            
-        except ValueError:
-            print("Error: Response was not valid JSON")
-            print("Raw response:", response.text)
-            return None
-        
+    @track_performance    
     def write_data(self):
         data = {
             "node_id": self.node_id,
@@ -153,6 +163,7 @@ class Node:
         }
         """Transmit data to the Cloud Node."""
         response = requests.post(f"{self.registration_url}/write", params=data)
+        observe_request_metrics("write_data", len(json.dumps(data)), len(response.content), response.elapsed.total_seconds())
 
         try:
             if response.status_code == 200:
@@ -166,31 +177,34 @@ class Node:
             print("Error: Response was not valid JSON")
             print("Raw response:", response.text)
             return None
-        
-    def execute_command(self):
+
+    @track_performance
+    def update_data(self):
         data = {
             "node_id": self.node_id,
             "node_name": self.node_name,
-            "node_type": self.node_type,  
+            "node_type": self.node_type,  # Node type added
             "public_key": self.public_key,
             "address": self.address,
             "signature": self.sign_identity()
         }
-        """Execute a command on the Registering Node."""
-        response = requests.post(f"{self.registration_url}/execute", params=data)
+        """Execute a command on the Cloud Node."""
+        response = requests.put(f"{self.registration_url}/update", params=data)
+        observe_request_metrics("update_data", len(json.dumps(data)), len(response.content), response.elapsed.total_seconds())
 
         try:
             if response.status_code == 200:
                 print("Data:", response.json())
                 return response.json()
             else:
-                print(f"Error Executing Command (Status {response.status_code}): {response.text}")
+                print(f"Error Reading Data (Status {response.status_code}): {response.text}")
                 return None
             
         except ValueError:
             print("Error: Response was not valid JSON")
             print("Raw response:", response.text)
             return None
+            
         
 
 if __name__ == "__main__":
@@ -225,23 +239,23 @@ if __name__ == "__main__":
             node = Node(node_id, node_name, node_type, registration_url, key_path, "", "")
             node.write_data()
 
-        elif command == "transmit":
+        elif command == "remove":
             if len(sys.argv) != 7:
-                print("Usage: python client_node_reg_request.py transmit <node_id>, <node_name>, <node_type>, <registration_url>, <key_path>")
+                print("Usage: python client_node_reg_request.py remove <node_id>, <node_name>, <node_type>, <registration_url>, <key_path>")
                 sys.exit(1)
 
             node_id, node_name, node_type, registration_url, key_path = sys.argv[2:]
             node = Node(node_id, node_name, node_type, registration_url, key_path, "", "")
-            node.transmit_data()
+            node.remove_data()
 
-        elif command == "execute":
+        elif command == "update":
             if len(sys.argv) != 7:
-                print("Usage: python client_node_reg_request.py execute <node_id>, <node_name>, <node_type>, <registration_url>, <key_path>")
+                print("Usage: python client_node_reg_request.py update <node_id>, <node_name>, <node_type>, <registration_url>, <key_path>")
                 sys.exit(1)
 
             node_id, node_name, node_type, registration_url, key_path = sys.argv[2:]
             node = Node(node_id, node_name, node_type, registration_url, key_path, "", "")
-            node.execute_command()
+            node.update_data()
 
         else:
             print(f"Error: Unknown command '{command}'")

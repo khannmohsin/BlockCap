@@ -4,43 +4,8 @@ import subprocess
 import os
 import sys
 from monitor import track_performance
-# import time, tracemalloc, resource, functools
-# from prometheus_client import Summary, Gauge
 from eth_keys import keys
-import threading
-# from prometheus_client import start_http_server
 import inspect
-# import socket
-# import time
-
-# # Function-level metrics
-# FUNCTION_DURATION = Summary('function_duration_seconds', 'Time spent in function', ['function'])
-# FUNCTION_MEMORY = Gauge('function_memory_kb', 'Memory used in function (KB)', ['function'])
-# FUNCTION_CPU = Gauge('function_cpu_time_seconds', 'CPU time used in function', ['function'])
-
-# def track_performance(func):
-#     @functools.wraps(func)
-#     def wrapper(*args, **kwargs):
-#         fname = func.__name__
-#         print(f"[Monitor] Tracking performance for: {fname}")
-#         tracemalloc.start()
-#         cpu_start = resource.getrusage(resource.RUSAGE_SELF).ru_utime
-#         start = time.time()
-#         result = func(*args, **kwargs)
-#         end = time.time()
-#         cpu_end = resource.getrusage(resource.RUSAGE_SELF).ru_utime
-#         current, _ = tracemalloc.get_traced_memory()
-#         tracemalloc.stop()
-
-#         # print(f"[Monitor] Reporting metrics for: {fname}")
-#         FUNCTION_DURATION.labels(fname).observe(end - start)
-#         FUNCTION_MEMORY.labels(fname).set(current / 1024)
-#         FUNCTION_CPU.labels(fname).set(cpu_end - cpu_start)
-#         print(FUNCTION_DURATION.collect())
-#         print(FUNCTION_MEMORY.collect())
-#         print(FUNCTION_CPU.collect())
-#         return result
-#     return wrapper
 
 class BlockchainInit:
     def __init__(self):
@@ -83,7 +48,7 @@ class BlockchainInit:
         }
 
     #---------------------Create QBFT config file----------------------------
-    # @track_performance
+    @track_performance
     def create_qbft_file(self, num_prefunded_accounts, num_validators):
         num_prefunded_accounts = int(num_prefunded_accounts)  # Ensure it's an integer
         num_validators = int(num_validators) 

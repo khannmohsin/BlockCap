@@ -1,6 +1,7 @@
 import os
 import sys
 from eth_keys import keys
+from monitor import track_performance
 
 class KeyGenerator:
     def __init__(self):
@@ -9,6 +10,7 @@ class KeyGenerator:
         self.private_key_path = os.path.join(self.data_path, "key.priv")
         self.public_key_path = os.path.join(self.data_path, "key.pub")
 
+    @track_performance
     def generate_keys(self):
         """Generates a new node private and public key pair and saves them to files."""
         os.makedirs(self.data_path, exist_ok=True)
