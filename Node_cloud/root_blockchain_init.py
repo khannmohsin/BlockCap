@@ -247,6 +247,7 @@ class BlockchainInit:
                 "--node-private-key-file=" + self.private_key,
                 "--genesis-file=" + self.genesis_file,
                 "--rpc-http-enabled",
+                "--rpc-http-host=0.0.0.0", 
                 "--rpc-http-api=ETH,NET,QBFT,ADMIN,WEB3,TXPOOL,MINER",
                 "--host-allowlist=*",
                 "--miner-enabled",

@@ -13,7 +13,7 @@ rm -f "$TRUFFLE_CONFIG" "$DEPLOY_SCRIPT"  # Remove old files if they exist
 
 # Private key and RPC URL (Update these before running the script) of the ETH account
 PRIVATE_KEY="$1"  # Accept private key as an argument to the script
-BESU_RPC_URL="http://127.0.0.1:8545"
+BESU_RPC_URL="http://10.239.152.40:8545"
 
 echo ""
 # Step 1: Generate `truffle-config.js` dynamically
