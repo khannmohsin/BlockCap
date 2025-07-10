@@ -2,7 +2,7 @@
 
 
 ROOT_PATH="$(pwd)"
-
+IP_ADDRESS=http://127.0.0.1
 # Check if .env file exists
 if [ -f "$ROOT_PATH/.env" ]; then
     echo ".env file found. Loading configuration from .env."
@@ -21,8 +21,8 @@ else
     read -p "Enter P2P_PORT: " P2P_PORT
 
     # Create NODE_URL and BESU_RPC_URL dynamically
-    NODE_URL="http://127.0.0.1:$FLASK_PORT"
-    BESU_RPC_URL="http://127.0.0.1:$BESU_PORT"
+    NODE_URL="$IP_ADDRESS:$FLASK_PORT"
+    BESU_RPC_URL="$IP_ADDRESS:$BESU_PORT"
 
     # Save to a .env file
     cat > "$ROOT_PATH/.env" <<EOL
@@ -130,8 +130,8 @@ reinitialize_chain_client() {
     read -p "Enter BESU_PORT: " BESU_PORT
     read -p "Enter P2P_PORT: " P2P_PORT
 
-    NODE_URL="http://127.0.0.1:$FLASK_PORT"
-    BESU_RPC_URL="http://127.0.0.1:$BESU_PORT"
+    NODE_URL="$IP_ADDRESS:$FLASK_PORT"
+    BESU_RPC_URL="$IP_ADDRESS:$BESU_PORT"
 
     cat > "$ROOT_PATH/.env" <<EOL
 FLASK_PORT=$FLASK_PORT
@@ -182,9 +182,9 @@ node_registration_request() {
     echo "-> Node Name: $node_name"
     local node_type="$3"
     echo "-> Node Type: $node_type"
-    local registration_url="http://127.0.0.1:$4"
+    local registration_url="http://$4"
     echo "-> Connecting Node URL: $registration_url"
-    local rpc_url="http://127.0.0.1:$BESU_PORT"
+    local rpc_url="$IP_ADDRESS:$BESU_PORT"
     echo "-> rpc URL: $rpc_url"
     local key_path="/$ROOT_PATH/data/key.pub"
     echo "-> Key Path: $key_path"
@@ -228,7 +228,7 @@ node_read(){
     echo "-> Node Name: $node_name"
     local node_type="$3"
     echo "-> Node Type: $node_type"
-    local read_url="http://127.0.0.1:$4"
+    local read_url="http://$4"
     echo "-> Connecting Node URL: $read_url"
     local key_path="$ROOT_PATH/data/key.pub"
     echo "-> Key Path: $key_path"
@@ -252,7 +252,7 @@ node_write(){
     echo "-> Node Name: $node_name"
     local node_type="$3"
     echo "-> Node Type: $node_type"
-    local write_url="http://127.0.0.1:$4"
+    local write_url="http://$4"
     echo "-> Connecting Node URL: $write_url"
     local key_path="$ROOT_PATH/data/key.pub"
     echo "-> Key Path: $key_path"
@@ -277,7 +277,7 @@ node_remove(){
     echo "-> Node Name: $node_name"
     local node_type="$3"
     echo "-> Node Type: $node_type"
-    local transmit_url="http://127.0.0.1:$4"
+    local transmit_url="http://$4"
     echo "-> Connecting Node URL: $transmit_url"
     local key_path="$ROOT_PATH/data/key.pub"
     echo "Key Path: $key_path"
@@ -301,7 +301,7 @@ node_update(){
     echo "-> Node Name: $node_name"
     local node_type="$3"
     echo "-> Node Type: $node_type"
-    local execute_url="http://127.0.0.1:$4"
+    local execute_url="http://$4"
     echo "-> Connecting Node URL: $execute_url"
     local key_path="$ROOT_PATH/data/key.pub"
     echo "-> Key Path: $key_path"

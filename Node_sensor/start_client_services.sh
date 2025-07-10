@@ -1,11 +1,9 @@
 #!/bin/bash
 
-# Set Python Virtual Environment and Paths
-PYTHON_V_ENV="/Users/khannmohsin/VSCode_Projects/MyDisIoT_Project/.venv/bin/python"
-
-
 # Define paths to Python scripts
 ROOT_PATH="$(pwd)"
+# Set Python Virtual Environment and Paths
+PYTHON_V_ENV="$ROOT_PATH/.venv/bin/python"
 KEY_GENERATION_PATH="$ROOT_PATH/end_node_initialization.py"
 NODE_REGISTRATION_SCRIPT="$ROOT_PATH/client_node_reg_request.py"
 
@@ -53,7 +51,7 @@ node_registration_request() {
     echo "-> Node Name: $node_name"
     local node_type="$3"
     echo "-> Node Type: $node_type"
-    local registration_url="http://127.0.0.1:$4"
+    local registration_url="http://$4"
     echo "-> Connecting Node URL: $registration_url"
     local rpc_url="None"
     echo "-> rpc URL: $rpc_url"
@@ -85,7 +83,7 @@ node_read(){
     echo "-> Node Name: $node_name"
     local node_type="$3"
     echo "-> Node Type: $node_type"
-    local read_url="http://127.0.0.1:$4"
+    local read_url="http://$4"
     echo "-> Connecting Node URL: $read_url"
     local key_path="$ROOT_PATH/data/key.pub"
     echo "-> Key Path: $key_path"
@@ -110,7 +108,7 @@ node_write(){
     echo "-> Node Name: $node_name"
     local node_type="$3"
     echo "-> Node Type: $node_type"
-    local write_url="http://127.0.0.1:$4"
+    local write_url="http://$4"
     echo "-> Connecting Node URL: $write_url"
     local key_path="$ROOT_PATH/data/key.pub"
     echo "-> Key Path: $key_path"
@@ -136,7 +134,7 @@ node_remove(){
     echo "-> Node Name: $node_name"
     local node_type="$3"
     echo "-> Node Type: $node_type"
-    local transmit_url="http://127.0.0.1:$4"
+    local transmit_url="http://$4"
     echo "-> Connecting Node URL: $transmit_url"
     local key_path="$ROOT_PATH/data/key.pub"
     echo "Key Path: $key_path"
@@ -161,7 +159,7 @@ node_update(){
     echo "-> Node Name: $node_name"
     local node_type="$3"
     echo "-> Node Type: $node_type"
-    local execute_url="http://127.0.0.1:$4"
+    local execute_url="http://$4"
     echo "-> Connecting Node URL: $execute_url"
     local key_path="$ROOT_PATH/data/key.pub"
     echo "-> Key Path: $key_path"

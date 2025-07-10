@@ -9,6 +9,8 @@ from flask import Flask, Response
 from prometheus_client import Summary, Gauge, multiprocess, REGISTRY, generate_latest, CONTENT_TYPE_LATEST, write_to_textfile
 import csv
 
+root_path = os.path.dirname(os.path.abspath(__file__))
+
 # --- Setup Prometheus Multiprocessing ---
 PROMETHEUS_DIR = "/tmp/prometheus_multiproc"
 os.environ["PROMETHEUS_MULTIPROC_DIR"] = PROMETHEUS_DIR
@@ -70,7 +72,7 @@ def track_performance(func):
 
         print(f"[Monitor] {time.strftime('%Y-%m-%d %H:%M:%S')} - {fname} - Duration: {end - start:.4f}s, Memory: {current / 1024:.2f}KB, CPU Time: {cpu_end - cpu_start:.4f}s")
         # Append metrics to CSV
-        csv_file = "measurements/function_metrics.csv"
+        csv_file = os.path.join(root_path, "measurements", "function_metrics.csv")
         file_exists = os.path.isfile(csv_file)
         with open(csv_file, mode='a', newline='') as f:
             writer = csv.writer(f)
@@ -87,13 +89,13 @@ def observe_request_metrics(func_name, payload_size, response_size, duration):
     REQUEST_RESPONSE_SIZE.labels(func_name).set(response_size)
     timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
     print(f"[Monitor] {timestamp} - Request Metrics - Function: {func_name}, Duration: {duration:.4f}s, Payload Size: {payload_size} bytes, Response Size: {response_size} bytes")
-    csv_file = "measurements/request_metrics.csv"
+    csv_file = os.path.join(root_path, "measurements", "request_metrics.csv")
     file_exists = os.path.isfile(csv_file)
     with open(csv_file, mode='a', newline='') as f:
         writer = csv.writer(f)
         if not file_exists:
             writer.writerow(["timestamp", "function", "duration_seconds", "payload_size_bytes", "response_size_bytes"])
-        writer.writerow([func_name, f"{duration:.4f}", payload_size, response_size])
+        writer.writerow([timestamp, func_name, f"{duration:.4f}", payload_size, response_size])
 
 @track_performance
 def dummy_work():

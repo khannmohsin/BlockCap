@@ -1,17 +1,20 @@
 #!/bin/bash
 
+# Define paths to Python scripts
+ROOT_PATH="$(pwd)"
+
 # Set Python Virtual Environment and Paths
-PYTHON_V_ENV="/Users/khannmohsin/VSCode_Projects/MyDisIoT_Project/.venv/bin/python"
+PYTHON_V_ENV="$ROOT_PATH/.venv/bin/python"
 
 
 # Network Configuration
 FLASK_PORT=5000
 BESU_PORT=8545
-NODE_URL=http://127.0.0.1:$FLASK_PORT
-BESU_RPC_URL=http://127.0.0.1:$BESU_PORT
+IP_ADDRESS=http://127.0.0.1
 
-# Define paths to Python scripts
-ROOT_PATH="$(pwd)"
+NODE_URL=$IP_ADDRESS:$FLASK_PORT
+BESU_RPC_URL=$IP_ADDRESS:$BESU_PORT
+
 BLOCKCHAIN_SCRIPT="$ROOT_PATH/root_blockchain_init.py"
 FLASK_SCRIPT="$ROOT_PATH/root_node_registration.py"
 NODE_REGISTRATION_SCRIPT="$ROOT_PATH/root_node_reg_request.py"
@@ -125,10 +128,10 @@ self_register(){
     echo "-> Node Name: $node_name"
     local node_type="$3"
     echo "-> Node Type: $node_type"
-    local root_url="http://127.0.0.1:$FLASK_PORT"
+    local root_url="$IP_ADDRESS:$FLASK_PORT"
     echo "-> Root Node URL: $root_url"
-    local rpc_url="http://127.0.0.1:$BESU_PORT"
-    echo "-> rpl URL: $rpc_url"
+    local rpc_url="$IP_ADDRESS:$BESU_PORT"
+    echo "-> rpc URL: $rpc_url"
     local key_path="/$ROOT_PATH/data/key.pub"
     echo "-> Key Path: $key_path"
     echo ""
@@ -171,7 +174,7 @@ node_read(){
     echo "-> Node Name: $node_name"
     local node_type="$3"
     echo "-> Node Type: $node_type"
-    local read_url="http://127.0.0.1:$4"
+    local read_url="http://$4"
     echo "-> Connecting Node URL: $read_url"
     local key_path="$ROOT_PATH/data/key.pub"
     echo "-> Key Path: $key_path"
@@ -196,7 +199,7 @@ node_write(){
     echo "-> Node Name: $node_name"
     local node_type="$3"
     echo "-> Node Type: $node_type"
-    local write_url="http://127.0.0.1:$4"
+    local write_url="http://$4"
     echo "-> Connecting Node URL: $write_url"
     local key_path="$ROOT_PATH/data/key.pub"
     echo "-> Key Path: $key_path"
@@ -221,7 +224,7 @@ node_remove(){
     echo "-> Node Name: $node_name"
     local node_type="$3"
     echo "-> Node Type: $node_type"
-    local transmit_url="http://127.0.0.1:$4"
+    local transmit_url="http://$4"
     echo "-> Connecting Node URL: $transmit_url"
     local key_path="$ROOT_PATH/data/key.pub"
     echo "Key Path: $key_path"
@@ -246,7 +249,7 @@ node_update(){
     echo "-> Node Name: $node_name"
     local node_type="$3"
     echo "-> Node Type: $node_type"
-    local execute_url="http://127.0.0.1:$4"
+    local execute_url="http://$4"
     echo "-> Connecting Node URL: $execute_url"
     local key_path="$ROOT_PATH/data/key.pub"
     echo "-> Key Path: $key_path"
