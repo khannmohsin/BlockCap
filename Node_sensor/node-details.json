@@ -1,10 +1,10 @@
 {
-    "node_id": "SEN-001",
-    "node_name": "Sensor_001",
+    "node_id": "SN-001",
+    "node_name": "Sensy001",
     "node_type": "Sensor",
-    "public_key": "0x3b53472bc835fdcb30a2157a71220c82ebaa8653d5c0f0ae38c7fafb455fe2a0129485c184013a3f81f6c403798ce9b9a971687cb98b1cb040179a272b75f5af",
-    "address": "0xa3eac7412e58024941869b885e44e793c7f729d7",
+    "public_key": "0x42b5826200967edbd1265ffe9628e0e12c018e580cd05ea94dd2d22f29c9a72e3713ee903bdcf6eb9100f92038a68adc0849e0163961c78fe2cbfb377468a502",
+    "address": "0x5936b173169d6554a4e6224ad5321ba60d2a58f4",
     "node_url": "",
     "rpcURL": "None",
-    "signature": "0xc410fef118e1c6b378ef07171afee00963ea0d49ce64bfa95a13d4c43c044c7a798f3756150de254ec5ac5a813528ff2867404017dd44c4ebcbd979b0a5d2d5900"
+    "signature": "0x8c20a976b52154f580fa1339fd8768acd17fd48360c96308c4a3d62fb7b702873f5414a3ffe0845e93728f17bf2dbb918ca731c1a90de994ebb019c4eac7317d00"
 }

@@ -46,7 +46,8 @@ fi
 
 
 # Set Python Virtual Environment and Paths
-PYTHON_V_ENV="/Users/khannmohsin/VSCode_Projects/MyDisIoT_Project/.venv/bin/python"
+ROOT_PATH_PYTHON="$(dirname "$(pwd)")"
+PYTHON_V_ENV="$ROOT_PATH_PYTHON/.venv/bin/python"
 # Define paths to Python scripts
 BLOCKCHAIN_SCRIPT="$ROOT_PATH/client_blockchain_init.py"
 FLASK_SCRIPT="$ROOT_PATH/client_node_registration.py"

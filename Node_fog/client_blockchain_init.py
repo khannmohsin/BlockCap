@@ -5,6 +5,7 @@ import subprocess
 import os
 from eth_keys import keys
 import sys
+import inspect
 
 class BlockchainInit:
     def __init__(self):
@@ -112,7 +113,8 @@ if __name__ == "__main__":
             method = getattr(blockchain_init, method_name)
 
             if callable(method):
-                arg_count = method.__code__.co_argcount - 1 
+                # arg_count = method.__code__.co_argcount - 1 
+                arg_count = len(inspect.signature(method).parameters)
                 
                 if len(method_args) == arg_count:
                     method(*method_args)

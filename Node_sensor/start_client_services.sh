@@ -3,7 +3,8 @@
 # Define paths to Python scripts
 ROOT_PATH="$(pwd)"
 # Set Python Virtual Environment and Paths
-PYTHON_V_ENV="$ROOT_PATH/.venv/bin/python"
+ROOT_PATH_PYTHON="$(dirname "$(pwd)")"
+PYTHON_V_ENV="$ROOT_PATH_PYTHON/.venv/bin/python"
 KEY_GENERATION_PATH="$ROOT_PATH/end_node_initialization.py"
 NODE_REGISTRATION_SCRIPT="$ROOT_PATH/client_node_reg_request.py"
 

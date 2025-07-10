@@ -2,9 +2,9 @@
 
 # Define paths to Python scripts
 ROOT_PATH="$(pwd)"
-
+ROOT_PATH_PYTHON="$(dirname "$(pwd)")"
 # Set Python Virtual Environment and Paths
-PYTHON_V_ENV="$ROOT_PATH/.venv/bin/python"
+PYTHON_V_ENV="$ROOT_PATH_PYTHON/.venv/bin/python"
 
 
 # Network Configuration
