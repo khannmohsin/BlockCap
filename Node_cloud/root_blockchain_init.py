@@ -22,7 +22,7 @@ class BlockchainInit:
 
     #---------------------Node Public and Private generation----------------------------
 
-    @track_performance
+    #@track_performance
     def generate_keys(self):
         """Generates a new Ethereum account (private key and address)."""
         account = Account.create()
@@ -38,7 +38,7 @@ class BlockchainInit:
             pub_file.write(public_key.to_hex())
 
     #---------------------Create etherium accounts with ETH balance----------------------------
-    @track_performance
+    #@track_performance
     def generate_account(self):
         """Generates a new Ethereum account (private key and address)."""
         account = Account.create()
@@ -48,7 +48,7 @@ class BlockchainInit:
         }
 
     #---------------------Create QBFT config file----------------------------
-    @track_performance
+    #@track_performance
     def create_qbft_file(self, num_prefunded_accounts, num_validators):
         num_prefunded_accounts = int(num_prefunded_accounts)  # Ensure it's an integer
         num_validators = int(num_validators) 
@@ -105,7 +105,7 @@ class BlockchainInit:
         print(f"\n Prefunded account keys saved in:  `{self.prefunded_account_file}`\n")
 
     #---------------------Create genesis file from the QBFT config file----------------------------
-    @track_performance
+    #@track_performance
     def create_genesis_file(self, qbft_config_path):
 
         # Run Besu command to generate blockchain config
@@ -118,7 +118,7 @@ class BlockchainInit:
         print(f"\nGenesis file generated successfully at loc: {self.genesis_files_path}\n")
 
     #---------------------Update the genesis file with updated extradata----------------------------
-    @track_performance
+    #@track_performance
     def update_genesis_file(self):
         """Extract Ethereum address from private key using Besu CLI and store in JSON."""
         
@@ -163,7 +163,7 @@ class BlockchainInit:
             return None
         
     #---------------------Extra data generation----------------------------
-    @track_performance
+    #@track_performance
     def update_extra_data_in_genesis(self):
             """Encodes validators into RLP and updates extraData in genesis.json."""
 
@@ -201,7 +201,7 @@ class BlockchainInit:
 
 
     #---------------------Get the node address besides pub and private key----------------------------
-    @track_performance
+    #@track_performance
     def get_validator_address(self):
         """Extract Ethereum address from private key using Besu CLI."""
         node_address_file = os.path.join(self.data_path, "node_address.txt") 
@@ -228,7 +228,7 @@ class BlockchainInit:
             print(f"Error extracting node address: {result.stderr}")
 
     #---------------------Start the blockchain node----------------------------
-    @track_performance
+    #@track_performance
     def start_blockchain_node(self):
         """Starts the Besu node using subprocess.Popen()"""
 
@@ -254,6 +254,7 @@ class BlockchainInit:
                 "--miner-coinbase=" + first_address,
                 "--min-gas-price=0",
                 "--rpc-http-cors-origins=all",
+                "--p2p-host=10.239.152.40",
                 # ✅ Metrics config
                  "--metrics-enabled",
                 "--metrics-host=0.0.0.0",

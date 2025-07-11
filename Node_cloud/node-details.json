@@ -2,9 +2,9 @@
     "node_id": "CL-001",
     "node_name": "Cloudy",
     "node_type": "Cloud",
-    "public_key": "0xaef22271e937a17cfc856bc0c7024145f191eb8ce90bc97acad49c4f795dabf7e002b49861844ceb20d90f963870b3bb4e0dcd23d8a85d209660c4d5f3c02914",
-    "address": "0x6453adb1c240c724635b9dab18aa27743cbad1f4",
+    "public_key": "0xdc545ce32dbd6dbe46beaef612d470f48d6e48174317d482dcc0fcb1cd4e5ede410f6a5521dd983078d92e68dc37b50fe43a4c1bb5b50d14d52a3d98720d155a",
+    "address": "0xac7fd2e7435e2743dddc8657022a6d4d15f38aaf",
     "node_url": "http://10.239.152.40:5000",
     "rpcURL": "http://10.239.152.40:8545",
-    "signature": "0xf37286ebef8a3e28f369f7843e827dd880756308828208985107add7a4ea922a64c537ec6bc722a5f777366dc83110c1d983d20c7885c0a8e98460545cee550f00"
+    "signature": "0xe4ea06605d32aea9976d50f1c318d6e359975981c91c09e4a1f665f3df4abea63f598cc013767e4981e714de2bd90c3c6754e716ac4ff06705b989e365ddf97400"
 }

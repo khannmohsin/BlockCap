@@ -2,9 +2,9 @@
     "node_id": "FG-002",
     "node_name": "Foggy002",
     "node_type": "Fog",
-    "public_key": "0xbfb732a0eb5b70dd0c547c44899d422744323f37d9784c8873921964130d65a0519c127a7643a694f75d69c2ef7ddc5a73fafb7488521a507f1432605aa974e9",
-    "address": "0xa5ee777149a661cca40ff249a699338ff39c7c21",
-    "node_url": "http://127.0.0.1:5002",
-    "rpcURL": "http://127.0.0.1:8547",
-    "signature": "0x65bdc859bc93730b904a0d372b7ea9e54193d40201a358a16f0cfb1dc3aa4ae349a72060f7253197eca9b8445724d50c505188579b2a7e4a4679d20a42d2e9cc01"
+    "public_key": "0xb0399f3483675504154e151ecf06eea8a97633cbf912136cc604044da8aeca6ba9714d6066e4bea5cec379045e2d78df580b842c438190af10f7ff526c6fcd04",
+    "address": "0x5784de7f3e8e0fb4916a0ddddc330722443d4816",
+    "node_url": "http://10.239.152.40:5001",
+    "rpcURL": "http://10.239.152.40:8546",
+    "signature": "0x07fb80a81a1cb8a37500840d5bdbae52c8714afbda58c3d157fe8fc90afbc1ab42856557752a1db48a66f55aea30222d123d6e353a61d73047f5a70becfebf3e00"
 }

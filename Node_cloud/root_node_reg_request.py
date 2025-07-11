@@ -45,7 +45,7 @@ class Node:
         else:
             raise FileNotFoundError(f"Public Key File Not Found: {key_path}")
         
-    @track_performance
+    #@track_performance
     def sign_identity(self):
         message_dict = {
             "node_id": self.node_id,
@@ -66,7 +66,7 @@ class Node:
         signature = private_key.sign_msg_hash(message_hash)
         return signature.to_hex()
     
-    @track_performance
+    #@track_performance
     def register_node(self):
 
         """Send Public Key & Metadata to Cloud API for Registration."""
@@ -93,7 +93,7 @@ class Node:
         else:
             print(f"\nError Registering {self.node_type.capitalize()} \nNode {self.node_id}: {response.json()}")
 
-    @track_performance
+    #@track_performance
     def read_data(self):
 
         data = {
@@ -122,7 +122,7 @@ class Node:
             print("Raw response:", response.text)
             return None
         
-    @track_performance
+    #@track_performance
     def remove_data(self):
         data = {
             "node_id": self.node_id,
@@ -149,7 +149,7 @@ class Node:
             print("Raw response:", response.text)
             return None
 
-    @track_performance      
+    #@track_performance      
     def write_data(self):
         data = {
             "node_id": self.node_id,
@@ -176,7 +176,7 @@ class Node:
             print("Raw response:", response.text)
             return None
     
-    @track_performance
+    #@track_performance
     def update_data(self):
         data = {
             "node_id": self.node_id,

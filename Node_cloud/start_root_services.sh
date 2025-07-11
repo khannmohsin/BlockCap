@@ -10,6 +10,7 @@ PYTHON_V_ENV="$ROOT_PATH_PYTHON/.venv/bin/python"
 # Network Configuration
 FLASK_PORT=5000
 BESU_PORT=8545
+Naked_IP_ADD=10.239.152.40
 IP_ADDRESS=http://10.239.152.40
 
 NODE_URL=$IP_ADDRESS:$FLASK_PORT
@@ -135,13 +136,13 @@ self_register(){
     local key_path="/$ROOT_PATH/data/key.pub"
     echo "-> Key Path: $key_path"
     echo ""
-    if nc -z localhost "$FLASK_PORT"; then
+    if nc -z $Naked_IP_ADD "$FLASK_PORT"; then
         echo "Flask is already running on port $FLASK_PORT."
     else
         echo "Flask is not running. Starting Flask..."
         start_flask
         sleep 5
-        if nc -z localhost "$FLASK_PORT"; then
+        if nc -z $Naked_IP_ADD "$FLASK_PORT"; then
             echo "Flask started successfully."
         else
             echo "Failed to start Flask. Please check the Flask script."

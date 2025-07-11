@@ -2,7 +2,12 @@
 
 
 ROOT_PATH="$(pwd)"
-IP_ADDRESS=http://127.0.0.1
+# Get the naked IP address (without protocol)
+Naked_IP_ADD=$(ip -4 addr show wlan0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+
+# Add 'http://' prefix to create full IP address
+IP_ADDRESS="http://$Naked_IP_ADD"
+
 # Check if .env file exists
 if [ -f "$ROOT_PATH/.env" ]; then
     echo ".env file found. Loading configuration from .env."
@@ -59,7 +64,7 @@ start_flask() {
     echo "----------------------------------"
     echo " Starting Client Node Flask API..."
     echo "----------------------------------"
-    osascript -e "tell application \"Terminal\" to do script \"$PYTHON_V_ENV $FLASK_SCRIPT $BESU_RPC_URL $FLASK_PORT\"" 
+    nohup $PYTHON_V_ENV $FLASK_SCRIPT $BESU_RPC_URL $FLASK_PORT > "$ROOT_PATH/flask.log" 2>&1 &
 }
 
 
@@ -85,7 +90,7 @@ start_blockchain() {
         echo "Acknowledgement not received from the connecting node. Please check the Flask script."
         exit 1
     fi
-    osascript -e "tell application \"Terminal\" to do script \"$PYTHON_V_ENV "$BLOCKCHAIN_SCRIPT" start_blockchain_node $P2P_PORT $BESU_PORT\""
+    nohup $PYTHON_V_ENV "$BLOCKCHAIN_SCRIPT" start_blockchain_node $P2P_PORT $BESU_PORT > "$ROOT_PATH/besu.log" 2>&1 &
 }
 
 stop_blockchain() {
@@ -190,13 +195,13 @@ node_registration_request() {
     local key_path="/$ROOT_PATH/data/key.pub"
     echo "-> Key Path: $key_path"
     echo ""
-    if nc -z localhost "$FLASK_PORT"; then
+    if nc -z $Naked_IP_ADD "$FLASK_PORT"; then
         echo "Flask is already running on port $FLASK_PORT."
     else
         echo "Flask is not running. Starting Flask..."
         start_flask
         sleep 5
-        if nc -z localhost "$FLASK_PORT"; then
+        if nc -z $Naked_IP_ADD "$FLASK_PORT"; then
             echo "Flask started successfully."
         else
             echo "Failed to start Flask. Please check the Flask script."

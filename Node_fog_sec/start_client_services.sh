@@ -2,7 +2,7 @@
 
 
 ROOT_PATH="$(pwd)"
-IP_ADDRESS=http://127.0.0.1
+IP_ADDRESS=http://10.239.152.40
 # Check if .env file exists
 if [ -f "$ROOT_PATH/.env" ]; then
     echo ".env file found. Loading configuration from .env."

@@ -73,6 +73,7 @@ class BlockchainInit:
                 "--bootnodes=" + enode_address,
                 "--p2p-port=" + str(p2p_port),
                 "--rpc-http-enabled",
+                "--rpc-http-host=0.0.0.0", 
                 "--rpc-http-api=ETH,NET,QBFT,ADMIN,WEB3,TXPOOL,MINER",
                 "--host-allowlist=*",
                 "--miner-enabled",
