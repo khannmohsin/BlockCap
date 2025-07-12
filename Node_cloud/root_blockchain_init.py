@@ -229,7 +229,7 @@ class BlockchainInit:
 
     #---------------------Start the blockchain node----------------------------
     #@track_performance
-    def start_blockchain_node(self):
+    def start_blockchain_node(self, ip_address):
         """Starts the Besu node using subprocess.Popen()"""
 
         with open(self.prefunded_account_file, "r") as f:
@@ -254,7 +254,7 @@ class BlockchainInit:
                 "--miner-coinbase=" + first_address,
                 "--min-gas-price=0",
                 "--rpc-http-cors-origins=all",
-                "--p2p-host=10.239.152.40",
+                "--p2p-host=" + str(ip_address),
                 # ✅ Metrics config
                  "--metrics-enabled",
                 "--metrics-host=0.0.0.0",

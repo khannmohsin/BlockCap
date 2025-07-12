@@ -28130,12 +28130,12 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0x32cE48655658700e180cf3C9F83bc9566343F093",
-      "transactionHash": "0x93bdd651c9f3b61a609c385966f42bf2c5ba8adccccd31c645aaea326d193aee"
+      "address": "0x8C712cF876878C7f3C3a1e399CBde012Caf5bDEe",
+      "transactionHash": "0xbd09f2295fa40f22d1acb22c36153119a99ce42df0063406215b5967046035ad"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-07-11T11:28:41.893Z",
+  "updatedAt": "2025-07-11T18:54:25.732Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

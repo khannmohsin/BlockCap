@@ -10,3 +10,9 @@ timestamp,function,duration_seconds,payload_size_bytes,response_size_bytes
 2025-07-11 13:21:41,register_node,4.5278,500,117
 2025-07-11 13:28:02,register_node,0.0121,500,105
 2025-07-11 13:28:57,register_node,7.4162,500,117
+2025-07-11 18:10:51,register_node,5.2996,500,117
+2025-07-11 18:56:16,register_node,6.5447,500,117
+2025-07-11 19:27:38,register_node,3.5331,500,117
+2025-07-11 19:54:40,register_node,3.3946,500,117
+2025-07-11 20:30:18,register_node,6.3793,500,117
+2025-07-11 20:55:06,register_node,3.3658,500,117

@@ -64,7 +64,7 @@ start_flask() {
     echo "----------------------------------"
     echo " Starting Client Node Flask API..."
     echo "----------------------------------"
-    nohup $PYTHON_V_ENV $FLASK_SCRIPT $BESU_RPC_URL $FLASK_PORT > "$ROOT_PATH/flask.log" 2>&1 &
+    $PYTHON_V_ENV $FLASK_SCRIPT $BESU_RPC_URL $FLASK_PORT 
 }
 
 
@@ -90,7 +90,7 @@ start_blockchain() {
         echo "Acknowledgement not received from the connecting node. Please check the Flask script."
         exit 1
     fi
-    nohup $PYTHON_V_ENV "$BLOCKCHAIN_SCRIPT" start_blockchain_node $P2P_PORT $BESU_PORT > "$ROOT_PATH/besu.log" 2>&1 &
+    nohup $PYTHON_V_ENV "$BLOCKCHAIN_SCRIPT" start_blockchain_node $P2P_PORT $BESU_PORT $Naked_IP_ADD > "$ROOT_PATH/besu.log" 2>&1 &
 }
 
 stop_blockchain() {

@@ -15,6 +15,7 @@ class AcknowledgementSender:
 
     #@track_performance
     def get_enode(self):
+        """Fetches the full enode URL from the Besu blockchain."""
         payload = {
             "jsonrpc": "2.0",
             "method": "admin_nodeInfo",
@@ -23,28 +24,22 @@ class AcknowledgementSender:
         }
 
         try:
-        #     with open(self.enode_file, "r") as file:
-        #         enode_url = file.read().strip()
             response = requests.post(self.besu_rpc_url, json=payload, headers={"Content-Type": "application/json"})
             data = response.json()
+
+            # Extract enode URL
             enode_url = data.get("result", {}).get("enode", "")
 
             if enode_url:
-                
+                # Ensure enode URL follows correct format
                 match = re.match(r"enode://([a-fA-F0-9]+)@([\d\.]+):(\d+)", enode_url)
                 if match:
-                    return enode_url  
+                    return enode_url  # Return the full enode URL
             return None
-        
+
         except requests.exceptions.RequestException as e:
             print(f"Error fetching enode: {e}")
             return None
-        # except FileNotFoundError as e:
-        #     print(f"Error: {e}")
-        #     return None
-        # except Exception as e:
-        #     print(f"Unexpected error: {e}")
-        #     return None
 
 
     #@track_performance

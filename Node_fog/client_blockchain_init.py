@@ -53,7 +53,7 @@ class BlockchainInit:
 
     #---------------------Start the blockchain node----------------------------
     #@track_performance
-    def start_blockchain_node(self, p2p_port, rpc_http_port):
+    def start_blockchain_node(self, p2p_port, rpc_http_port, ip_address):
         enode_address = self.load_enode_address()
         with open(self.prefunded_account_file, "r") as f:
             data = json.load(f)
@@ -81,6 +81,7 @@ class BlockchainInit:
                 "--rpc-http-cors-origins=all",
                 "--min-gas-price=0",
                 "--rpc-http-port=" + str(rpc_http_port),
+                "--p2p-host=" + str(ip_address),
                 # ✅ Metrics flags for monitoring
                 "--metrics-enabled",
                 "--metrics-host=0.0.0.0",

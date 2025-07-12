@@ -78,7 +78,7 @@ start_blockchain() {
     echo "----------------------"
     echo "Starting Blockchain..."
     echo "----------------------"
-    osascript -e "tell application \"Terminal\" to do script \"$PYTHON_V_ENV "$BLOCKCHAIN_SCRIPT" start_blockchain_node\""
+    osascript -e "tell application \"Terminal\" to do script \"$PYTHON_V_ENV "$BLOCKCHAIN_SCRIPT" start_blockchain_node $Naked_IP_ADD\""
 }
 
 stop_blockchain() {

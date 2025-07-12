@@ -19,13 +19,13 @@ scrape_configs:
     static_configs:
       - targets: ['10.239.150.252:9548']
 
-  - job_name: 'besu-Edge2_RapsberryPi4'
+  - job_name: 'besu-Edge2_RapsberryPi4B'
     static_configs:
-      - targets: ['10.239.159.153:9549']
+      - targets: ['10.239.148.15:9549']
 
-  - job_name: 'besu-Edge3_RapsberryPi4'
+  - job_name: 'besu-Edge3_RapsberryPi4B'
     static_configs:
-      - targets: ['10.239.148.15:9550']
+      - targets: ['10.239.149.202:9550']
 
   # - job_name: 'system-metrics-cloud'
   #   static_configs:
