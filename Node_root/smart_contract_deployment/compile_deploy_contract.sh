@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ROOT_DIR="/Users/khannmohsin/VSCode_Projects/MyDisIoT_Project/Node_cloud/smart_contract_deployment"
+ROOT_DIR="/Users/khannmohsin/VSCode_Projects/MyDisIoT_Project/Node_root/smart_contract_deployment"
 # Set variables
 cd "$ROOT_DIR" || exit
 NETWORK="besuWallet"

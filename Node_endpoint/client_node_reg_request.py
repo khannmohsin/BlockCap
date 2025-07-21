@@ -23,7 +23,7 @@ class Node:
         self.root_path = os.path.dirname(os.path.abspath(__file__))
         self.private_key =  os.path.join(self.root_path, "data/key.priv")
         self.address = self.get_address()  # Get the address of the node
-
+    @track_performance
     def get_address(self):
         result = subprocess.run(
             ["besu", "public-key", "export-address", "--node-private-key-file=" + self.private_key],
@@ -35,7 +35,7 @@ class Node:
             print(f"Extracted Node Address: {last_line}\n")
 
             return last_line
-
+    @track_performance
     def load_public_key(self, key_path):
         """Read the stored public key from key.pub file."""
         if os.path.exists(key_path):

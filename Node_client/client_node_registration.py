@@ -33,7 +33,7 @@ class NodeRegistry:
         self.app = Flask(__name__)
         self.setup_routes() 
 
-    #@track_performance
+    @track_performance
     def verify_node_identity(self, data):
         try:
             signature_hex = data.get("signature")
@@ -63,7 +63,7 @@ class NodeRegistry:
             print("Signature verification failed:", str(e))
             return False
 
-    #@track_performance
+    @track_performance
     def register_node_on_chain(self, node_id, node_name, node_type, public_key, address, rpcURL, receiver_node_type, regNodeSig, regBySig):
         try:
             result = subprocess.run([
@@ -82,7 +82,7 @@ class NodeRegistry:
         except Exception as e:
             return "error", f"Exception occurred: {str(e)}", ""  
 
-    #@track_performance
+    @track_performance
     def is_node_registered_js(self, nodeSignature):
         try:
             result = subprocess.run(
@@ -103,7 +103,7 @@ class NodeRegistry:
         except Exception as e:
             return {"status": "error", "message": str(e)}, 500
 
-    #@track_performance   
+    @track_performance   
     def get_node_details_js(self, nodeSignature):
         try:
             result = subprocess.run(
@@ -126,7 +126,7 @@ class NodeRegistry:
         except Exception as e:
             return {"status": "error", "message": str(e)}, 500
 
-    #@track_performance
+    @track_performance
     def check_smart_contract(self):
         if os.path.exists(self.node_registry_path):
             print("Node registry file exists. Smart contract can be checked onchain.")
@@ -135,7 +135,7 @@ class NodeRegistry:
             print("Node registry file does not exist. Smart contract cannot be checked onchain.")
             return False
 
-    #@track_performance
+    @track_performance
     def check_smart_contract_deployment(self):
             result = subprocess.run([
                 "node", self.interact_file_path, "checkIfDeployed",
@@ -152,7 +152,7 @@ class NodeRegistry:
                 print("Unexpected output:", output)
                 return False
 
-    #@track_performance     
+    # @track_performance     
     def checkValidator(self, node_Signature):
         result = subprocess.run([
             "node", self.interact_file_path, "isValidator", node_Signature
@@ -164,7 +164,7 @@ class NodeRegistry:
         else:
             return False
 
-    #@track_performance
+    @track_performance
     def proposeValidator(self, address, add):
         # print(address)
         result = subprocess.run([
@@ -175,7 +175,7 @@ class NodeRegistry:
         output = result.stdout.strip()
         return output
 
-    #@track_performance
+    @track_performance
     def emitValidatorProposalToChain(self, address):
         result = subprocess.run([
             "node", self.interact_file_path,
@@ -186,7 +186,7 @@ class NodeRegistry:
         print("Raw JS Output emitValidatorProposalToChain:", output)
         return output
 
-    #@track_performance  
+    # @track_performance  
     def listenForValidatorProposal(self):
         while True:
             if os.path.exists(self.node_details):
@@ -231,7 +231,7 @@ class NodeRegistry:
                 print("Waiting for the Node to get registered to start the eventListener.")
             time.sleep(10)
 
-    #@track_performance
+    # @track_performance
     def get_all_validators(self):
 
         result = subprocess.run([
@@ -241,7 +241,7 @@ class NodeRegistry:
         output = result.stdout.strip()
         return output
     
-    #@track_performance
+    @track_performance
     def get_peers(self):
         result = subprocess.run([
             "node", self.interact_file_path, "getPeerCount"
@@ -250,7 +250,7 @@ class NodeRegistry:
         output = result.stdout.strip()
         return output
     
-    #@track_performance
+    @track_performance
     def issue_capability_token(self, from_node, to_node):
 
         result = subprocess.run([
@@ -262,7 +262,7 @@ class NodeRegistry:
         print("Raw JS Output issueCapabilityToken:", output)
         return output
     
-    #@track_performance
+    @track_performance
     def revoke_capability_token(self, from_node, to_node):
         result = subprocess.run([
             "node", self.interact_file_path, "revokeCapabilityToken",
@@ -273,7 +273,7 @@ class NodeRegistry:
         print("Raw JS Output revokeCapabilityToken:", output)
         return output
     
-    #@track_performance
+    @track_performance
     def get_capability_token(self, from_node, to_node):
         result = subprocess.run([
             "node", self.interact_file_path, "getCapabilityToken",
@@ -283,7 +283,7 @@ class NodeRegistry:
         output = result.stdout.strip()
         return output
 
-    #@track_performance    
+    @track_performance    
     def check_token_expiry(self, from_node, to_node, validity_period):
         result = subprocess.run([
             "node", self.interact_file_path, "checkTokenExpiry",
@@ -297,7 +297,7 @@ class NodeRegistry:
         elif output == "false":
             return False
     
-    #@track_performance
+    @track_performance
     def check_token_availability(self, from_node, to_node):
         result = subprocess.run([
             "node", self.interact_file_path, "checkCapabilityToken",
@@ -316,7 +316,7 @@ class NodeRegistry:
         """Setup Flask API routes inside the class."""
 
         @self.app.route("/register-node", methods=["POST"])
-        #@track_performance
+        @track_performance
         def register_node():
 
             check_smart_contract = self.check_smart_contract()
@@ -455,7 +455,7 @@ class NodeRegistry:
                     
 
         @self.app.route("/read", methods=["GET"])
-        #@track_performance
+        @track_performance
         def read():
             from_signature = request.args.get("signature")
             node_id = request.args.get("node_id")
@@ -557,7 +557,7 @@ class NodeRegistry:
 
 
         @self.app.route("/write", methods=["POST"])
-        #@track_performance
+        @track_performance
         def write():
             from_signature = request.args.get("signature")
             node_id = request.args.get("node_id")
@@ -659,7 +659,7 @@ class NodeRegistry:
             
 
         @self.app.route("/update", methods=["PUT"])
-        #@track_performance
+        @track_performance
         def update():
             from_signature = request.args.get("signature")
             node_id = request.args.get("node_id")
@@ -760,7 +760,7 @@ class NodeRegistry:
                 return jsonify({"status": "error", "message": f"Node {node_id}:{node_name} is not registered.  Register the node first"}), 404        
            
         @self.app.route("/remove", methods=["DELETE"])
-        #@track_performance
+        @track_performance
         def remove():
             from_signature = request.args.get("signature")
             node_id = request.args.get("node_id")
@@ -861,7 +861,7 @@ class NodeRegistry:
                 return jsonify({"status": "error", "message": f"Node {node_id}:{node_name} is not registered.  Register the node first"}), 404
 
         @self.app.route("/acknowledgement", methods=["POST"])
-        #@track_performance
+        @track_performance
         def acknowledgement():
             print("-----------------------------")
             print("Received Node Acknowledgement")

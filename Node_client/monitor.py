@@ -22,9 +22,12 @@ os.makedirs(PROMETHEUS_DIR)
 multiprocess.MultiProcessCollector(REGISTRY)
 
 # --- Define Metrics ---
-FUNCTION_DURATION = Summary('function_duration_seconds', 'Time spent in function', ['function'])
-FUNCTION_MEMORY = Gauge('function_memory_kb', 'Memory used in function (KB)', ['function'])
-FUNCTION_CPU = Gauge('function_cpu_time_seconds', 'CPU time used in function', ['function'])
+FUNCTION_DURATION = Summary("function_duration_seconds", "Time spent in function", ["function"])
+FUNCTION_MEMORY = Gauge("function_memory_kb", "Memory used by function (in KB)", ["function"])
+FUNCTION_CPU_USER = Gauge("function_cpu_user_seconds", "User CPU time used by function", ["function"])
+FUNCTION_CPU_SYSTEM = Gauge("function_cpu_system_seconds", "System CPU time used by function", ["function"])
+FUNCTION_CPU_TOTAL = Gauge("function_cpu_total_seconds", "Total CPU time (user + system) used by function", ["function"])
+
 
 # Request-level metrics
 REQUEST_DURATION = Summary('request_duration_seconds', 'Time for outgoing request', ['function'])
@@ -49,36 +52,46 @@ def track_performance(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         fname = func.__name__
-        # print(f"[Monitor] Tracking performance for: {fname}")
-        
+
         # Start tracking
         tracemalloc.start()
-        cpu_start = resource.getrusage(resource.RUSAGE_SELF).ru_utime
-        start = time.time()
-        
-        # Run function
+        usage_start = resource.getrusage(resource.RUSAGE_SELF)
+        start_time = time.time()
+
         result = func(*args, **kwargs)
-        
+
         # End tracking
-        end = time.time()
-        cpu_end = resource.getrusage(resource.RUSAGE_SELF).ru_utime
-        current, _ = tracemalloc.get_traced_memory()
+        end_time = time.time()
+        usage_end = resource.getrusage(resource.RUSAGE_SELF)
+        current_mem, _ = tracemalloc.get_traced_memory()
         tracemalloc.stop()
 
-        # Record metrics
-        FUNCTION_DURATION.labels(fname).observe(end - start)
-        FUNCTION_MEMORY.labels(fname).set(current / 1024)
-        FUNCTION_CPU.labels(fname).set(cpu_end - cpu_start)
+        # Calculate times
+        user_cpu = usage_end.ru_utime - usage_start.ru_utime
+        sys_cpu = usage_end.ru_stime - usage_start.ru_stime
+        total_cpu = user_cpu + sys_cpu
 
-        # print(f"[Monitor] {time.strftime('%Y-%m-%d %H:%M:%S')} - {fname} - Duration: {end - start:.4f}s, Memory: {current / 1024:.2f}KB, CPU Time: {cpu_end - cpu_start:.4f}s")
-        # Append metrics to CSV
+        # Record metrics
+        FUNCTION_DURATION.labels(fname).observe(end_time - start_time)
+        FUNCTION_MEMORY.labels(fname).set(current_mem / 1024)  # Convert to KB
+        FUNCTION_CPU_USER.labels(fname).set(user_cpu)
+        FUNCTION_CPU_SYSTEM.labels(fname).set(sys_cpu)
+        FUNCTION_CPU_TOTAL.labels(fname).set(total_cpu)
+
+        # Append metrics to CSV with duration_seconds, memory_kb, and total_cpu_time_seconds
         csv_file = os.path.join(root_path, "measurements", "function_metrics.csv")
         file_exists = os.path.isfile(csv_file)
         with open(csv_file, mode='a', newline='') as f:
             writer = csv.writer(f)
             if not file_exists:
-                writer.writerow(["timestamp", "function", "duration_seconds", "memory_kb", "cpu_time_seconds"])
-            writer.writerow([time.strftime('%Y-%m-%d %H:%M:%S'), fname, f"{end - start:.4f}", f"{current / 1024:.2f}", f"{cpu_end - cpu_start:.4f}"])
+                writer.writerow(["timestamp", "function", "duration_seconds", "memory_kb", "total_cpu_time_seconds"])
+            writer.writerow([
+            time.strftime('%Y-%m-%d %H:%M:%S'),
+            fname,
+            f"{end_time - start_time:.4f}",
+            f"{current_mem / 1024:.2f}",
+            f"{total_cpu:.4f}"
+            ])
 
         return result
     return wrapper

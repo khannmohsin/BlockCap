@@ -23,7 +23,7 @@ class BlockchainInit:
 
         
     #---------------------Load Enode address---------------------------- 
-    #@track_performance
+    @track_performance
     def load_enode_address(self):
         """Reads the enode address from the .txt file"""
         if os.path.exists(self.enode_file):
@@ -36,7 +36,7 @@ class BlockchainInit:
             return None
 
     #---------------------Node Public and Private generation----------------------------
-    #@track_performance
+    @track_performance
     def generate_keys(self):
         """Generates a new Node keys (private key and public key)."""
         account = Account.create()
@@ -52,7 +52,7 @@ class BlockchainInit:
             pub_file.write(public_key.to_hex())
 
     #---------------------Start the blockchain node----------------------------
-    #@track_performance
+    @track_performance
     def start_blockchain_node(self, p2p_port, rpc_http_port, ip_address):
         enode_address = self.load_enode_address()
         with open(self.prefunded_account_file, "r") as f:

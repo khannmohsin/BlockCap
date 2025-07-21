@@ -13,7 +13,7 @@ class AcknowledgementSender:
         self.prefunded_keys_file = prefunded_keys_file
         self.enode_file = enode_file
 
-    #@track_performance
+    @track_performance
     def get_enode(self):
         """Fetches the full enode URL from the Besu blockchain."""
         payload = {
@@ -42,7 +42,7 @@ class AcknowledgementSender:
             return None
 
 
-    #@track_performance
+    @track_performance
     def send_acknowledgment(self, node_id):        
         enode_id = self.get_enode()
         if not enode_id:
