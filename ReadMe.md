@@ -5,9 +5,8 @@
 **DTEA** (Distributed Trust Enforcement Architecture) is a blockchain-enabled security framework designed for heterogeneous, decentralized IoT environments. It provides fine-grained access control, node registration, and role-aware consensus participation via smart contracts and capability-based tokens. The layered architecture supports localized trust enforcement, secure communication, and dynamic scalability across constrained and high-performance nodes.
 
 ---
-<iframe src="DTEA_ARchitecture.png" width="100%" height="600px">
-    This browser does not support PNGs. 
-</iframe>
+![Alt Text](DTEA_ARchitecture.png)
+
 
 ## Key Features
 
