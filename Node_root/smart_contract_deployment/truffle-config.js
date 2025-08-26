@@ -1,21 +1,30 @@
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 // Load private key and RPC URL
-const privateKey = "eee6029dd8a147487990659eeae1b7e3b41e797b3604c98d02bb4921887bbff5";
-const besuRpcUrl = "http://10.239.152.40:8545";
+const privateKey = "02ad40b4c1f8704b35eb5a73e9287551f995a6647cdd619d2c85439c6464e73b";
+const besuRpcUrl = "http://127.0.0.1:8545";
 
 module.exports = {
   networks: {
     besuWallet: {
       provider: () => new HDWalletProvider(privateKey, besuRpcUrl),
       network_id: "*",  // Accept any network ID
-      gas: 4700000, // Increase gas limit
+      gas:  29000000,  // Increase gas limit
       gasPrice: 0,  // Set Besu to allow 0 gas for private networks
+      confirmations: 0,  // Number of confirmations to wait between deployments
+      timeoutBlocks: 200,  // Number of blocks before a deployment times out
+      skipDryRun: true,  // Skip dry run before migrations
     },
   },
   compilers: {
     solc: {
-      version: "0.8.0", // Explicit Solidity version
+      version: "0.8.4", 
+      settings: {
+        optimizer: {
+          enabled: true,  // Enable the optimizer
+          runs: 20,  // Number of runs for the optimizer 
+        },
+      },
     },
   },
 };

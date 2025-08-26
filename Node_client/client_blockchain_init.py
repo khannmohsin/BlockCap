@@ -51,6 +51,58 @@ class BlockchainInit:
             public_key = priv_key.public_key
             pub_file.write(public_key.to_hex())
 
+    #---------------------Create etherium accounts with ETH balance----------------------------
+    def generate_account(self, count: int = 1):
+        """
+        Generates `count` new Ethereum accounts and saves them to
+        self.prefunded_account_file as:
+        {
+            "prefunded_accounts": [
+            {"private_key": "<hex>", "address": "0x..."},
+            ...
+            ]
+        }
+        If the file exists, new accounts are appended.
+        """
+        count = int(count)
+        new_entries = []
+
+        for _ in range(count):
+            acct = Account.create()
+            # eth-account returns a LocalAccount; its private key can be accessed as:
+            #  - acct._private_key (HexBytes) in some versions
+            #  - acct.key (bytes) in others
+            # We'll normalize to 0x-hex string safely:
+            pk_hex = getattr(acct, "_private_key", None)
+            if pk_hex is None:
+                pk_hex = getattr(acct, "key")  # bytes
+            pk_hex = pk_hex.hex() if hasattr(pk_hex, "hex") else str(pk_hex)
+            if not pk_hex.startswith("0x"):
+                pk_hex = pk_hex
+
+            new_entries.append({
+                "private_key": pk_hex,     # keep 0x prefix (safer for web3)
+                "address": acct.address
+            })
+
+        # Read existing file (if any) and append
+        existing = {"prefunded_accounts": []}
+        if os.path.exists(self.prefunded_account_file):
+            try:
+                with open(self.prefunded_account_file, "r") as f:
+                    existing = json.load(f) or existing
+                    if "prefunded_accounts" not in existing:
+                        existing["prefunded_accounts"] = []
+            except Exception:
+                existing = {"prefunded_accounts": []}
+
+        existing["prefunded_accounts"].extend(new_entries)
+
+        os.makedirs(os.path.dirname(self.prefunded_account_file), exist_ok=True)
+        with open(self.prefunded_account_file, "w") as f:
+            json.dump(existing, f, indent=2)
+            
+
     #---------------------Start the blockchain node----------------------------
     @track_performance
     def start_blockchain_node(self, p2p_port, rpc_http_port, ip_address):

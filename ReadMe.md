@@ -178,3 +178,49 @@ MIT License. See [LICENSE](./LICENSE).
 ## Acknowledgment
 This project is developed and evaluated as part of research on distributed trust and capability-based security in IoT infrastructures. Full paper, documentation, and results are available in the repository.
 
+
+
+
+./start_root_services.sh root-node-register ROOT1 "Root Node" Cloud true 
+
+./start_client_services.sh register FOG001 "Weather Station" Fog 127.0.0.1:5000
+./start_root_services.sh policy-next-id
+
+./start_root_services.sh policy-create Cloud Edge "GET,POST" "device:v1:temperature"
+./start_root_services.sh policy-create Fog   Edge "READ,UPDATE" "device:v1:firmware"
+
+./start_root_services.sh policy-update 1 "READ,WRITE" "device:v1:temperature"
+
+./start_root_services.sh policy-deprecate 1
+
+curl -X POST http://127.0.0.1:5000/access \
+  -H "Content-Type: application/json" \
+  -d '{
+    "from_signature": "0x552ff729647c57419731b64caa5642fdfcabe49ff75e7bf635ca3db52ca879a46a623825d4647f16314f74af91dfbc6227a7a5d829973cca8572d4f38185c50000",
+    "to_signature": "0x7fa336d24e25ea36c3ac7de5235676aa9a755a9cb9b3e49d186f0d9f1bc3d8fb596d45bccbe426ec123c6498876d9c23fce4ae1d13e286721e7f19527619c49801",
+    "method": "GET",
+    "resource_path": "/temperature",
+    "expiry_secs": 900,
+    "allow_delegation": false,
+    "delegation_depth": 0
+  }'
+
+  curl -X POST http://127.0.0.1:5000/access \
+  -H "Content-Type: application/json" \
+  -d '{
+    "from_signature": "0x552ff729647c57419731b64caa5642fdfcabe49ff75e7bf635ca3db52ca879a46a623825d4647f16314f74af91dfbc6227a7a5d829973cca8572d4f38185c50000",
+    "to_signature": "0x7fa336d24e25ea36c3ac7de5235676aa9a755a9cb9b3e49d186f0d9f1bc3d8fb596d45bccbe426ec123c6498876d9c23fce4ae1d13e286721e7f19527619c49801",
+    "method": "GET",
+    "resource_path": "/firmware",
+    "expiry_secs": 900
+  }'
+
+  curl -s "http://127.0.0.1:5000/alerts?from_signature=0x84235f88bdb9aceae4b3caec17b0500523c90b0c332e67908b60664c1159e41e03077367b9cf72126fba8f225ae54decebf4ed57e516e416b67083b987b1eb1b01&to_signature=0xb289a8543904153a9d1e3856c71934893b22bb9bb97af9dc2091ce3775469b5a39fb2de0a94c154f6caa0266f5c02aa8c4cc515119ae41967ddebf71cc48c2e101&resource_path=/alerts"
+
+  
+./start_root_services.sh policy-create Fog Cloud GET "api:GET:/alerts"
+
+node interact.js issueGrant \  
+  0x580d38c7c7b8c4e37935c25261fef225a0356c91dee7a00535a465dd08abb5d73d6425257c99ef2224405cbc23eaaec3ecf1a6c4383446265f6a36d3ff6faf6800 \
+  0x6f169349d702f9c1a21507127bd764b65f2e38d9ac9cf95be533c060ca03bccd2db03fedcbf93587d0d50f6745760eba58eb563def9387908f21f2b44537f17201 \
+  2 READ +900

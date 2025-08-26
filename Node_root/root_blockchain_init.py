@@ -59,7 +59,8 @@ class BlockchainInit:
         REQUEST_TIMEOUT_SECONDS = 4
 
         # GAS_LIMIT = "0x47b760"
-        GAS_LIMIT = "0x1fffffffffffff"
+        GAS_LIMIT = "0x1C9C380"  # 30,000,000 in hex
+        # GAS_LIMIT = "0x1fffffffffffff"
         DIFFICULTY = "0x1"
 
         prefunded_accounts = [self.generate_account() for _ in range(num_prefunded_accounts)]
@@ -280,30 +281,6 @@ class BlockchainInit:
             print(f"Unexpected error: {e}")
 
 if __name__ == "__main__":
-    # def is_port_in_use(port):
-    #     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    #         return s.connect_ex(('localhost', port)) == 0
-        
-    # def start_metrics_server(port):
-    #     """Start the Prometheus metrics server and keep it running."""
-    #     print(f"[Monitor] Starting Prometheus metrics server on port {port}...")
-    #     threading.Thread(target=start_http_server, args=(port,), daemon=True).start()
-
-    # if not is_port_in_use(9101):
-    #     print("Port 9101 is available. Starting metrics server...")
-    #     # Start the Prometheus metrics server on port 9101
-    #     start_metrics_server(9101)  # This will start the server in the main thread
-
-    #     # Wait for the metrics server port to be open (max 10 seconds)
-    #     for _ in range(20):
-    #         if is_port_in_use(9101):
-    #             print("Prometheus metrics server is now running on port 9101.")
-    #             break
-    #         time.sleep(0.5)
-    #     else:
-    #         print("Warning: Prometheus metrics server did not start within 10 seconds.")
-    # else:
-    #     print("Port 9101 already in use.")
 
     blockchain_init = BlockchainInit()
     

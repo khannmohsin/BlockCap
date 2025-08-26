@@ -1,618 +1,609 @@
-const { Web3 } = require("web3"); 
-const path = require('path');
-const rootPath = path.resolve(__dirname, '');
-const contractJson = require(path.join(rootPath, "data/NodeRegistry.json")); // Load ABI
-const fs = require('fs');
-const { get } = require("http");
-const { send, emit } = require("process");
-const rpcURL = "http://10.239.152.40:8545";
-const web3 = new Web3(rpcURL)
+// interact.js
+// Run: node interact.js help
+
+const { Web3 } = require("web3");
+const path = require("path");
+const fs = require("fs");
 const fetch = require("node-fetch");
-const networkId = Object.keys(contractJson.networks)[0];
-const contractAddress = contractJson.networks[networkId].address;
-const accountsData = JSON.parse(fs.readFileSync(path.join(rootPath, 'prefunded_keys.json')));
-const account = accountsData.prefunded_accounts[0].address; 
-const privateKey = accountsData.prefunded_accounts[0].private_key; 
+
+// ---------- FIXED SETTINGS ----------
+const rootPath = path.resolve(__dirname, "");
+const contractJson = require(path.join(rootPath, "data/NodeRegistry.json")); // Load ABI
+const rpcURL = process.env.BESU_RPC_URL || "http://127.0.0.1:8545";
+const web3 = new Web3(rpcURL);
+
+// Resolve deployed address from Truffle-style artifact
+const networks = contractJson.networks || {};
+const networkId = Object.keys(networks)[0];
+if (!networkId) {
+  console.error("No networks{} found in data/NodeRegistry.json");
+  process.exit(1);
+}
+const contractAddress = networks[networkId].address;
+if (!contractAddress) {
+  console.error("No contract address in data/NodeRegistry.json networks[]");
+  process.exit(1);
+}
+
+// Load prefunded keys (fixed source)
+const accountsData = JSON.parse(fs.readFileSync(path.join(rootPath, "prefunded_keys.json")));
+const PREFUNDED = accountsData.prefunded_accounts || [];
+const DEFAULT_FROM_IDX = Number(process.env.FROM_IDX || 0);
+// printf("Using FROM_IDX=%d, account=%s\n", DEFAULT_FROM_IDX, PREFUNDED[DEFAULT_FROM_IDX]?.address || "undefined");
+if (!PREFUNDED[DEFAULT_FROM_IDX]) {
+  console.error(`No prefunded account at index FROM_IDX=${DEFAULT_FROM_IDX}`);
+  process.exit(1);
+}
+
+
+function walletAt(idx) {
+  const w = PREFUNDED[idx];
+  if (!w) throw new Error(`No prefunded account at index ${idx}`);
+  return { address: w.address, privateKey: w.private_key };
+}
+let { address: account, privateKey } = walletAt(DEFAULT_FROM_IDX);
+
+// Contract instance
 const contract = new web3.eth.Contract(contractJson.abi, contractAddress);
 
-// ----------------------------------TRANSACTIONS----------------------------------------------------
-async function emitValidatorProposalToChain(validatorAddress) {
-    try {
-        const txData = contract.methods.proposeValidator(validatorAddress).encodeABI();
-        const nonce = await web3.eth.getTransactionCount(account, "pending");
-        
+// ---------- ENUMS / CONSTANTS ----------
+const ROLE = { Unknown:0, Cloud:1, Fog:2, Edge:3, Sensor:4, Actuator:5 };
+const OP   = { READ:1<<0, WRITE:1<<1, UPDATE:1<<2, REMOVE:1<<3 };
+const ZERO32 = "0x" + "00".repeat(32);
 
-        const tx = {
-            from: account,
-            to: contractAddress,
-            gas: 100000,
-            gasPrice: "0",
-            nonce: nonce,
-            data: txData
-        };
 
-        const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
-        const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+// ---------- TX HELPER ----------
 
-        console.log("Tx Sent. Hash:", receipt.transactionHash);
+// --- add near the other event/utils helpers ---
+async function msigApprovedEvents(fromBlock = 0) {
+  const evs = await contract.getPastEvents('MsigApproved', {
+    fromBlock: Number(fromBlock),
+    toBlock: 'latest'
+  });
 
-        const decodedEvent = receipt.logs
-            .map(log => {
-                try {
-                    return web3.eth.abi.decodeLog(
-                        contractJson.abi.find(e => e.name === "ValidatorProposed").inputs,
-                        log.data,
-                        log.topics.slice(1)
-                    );
-                } catch (e) {
-                    return null;
-                }
-            })
-            .find(e => e !== null);
-
-        if (decodedEvent) {
-            console.log(decodedEvent.validator);
-        } else {
-            console.log("No ValidatorProposed event found in logs.");
-        }
-
-    } catch (error) {
-        console.error("Error emitting validator proposal:", error);
-    }
+  console.log(JSON.stringify(
+    evs.map(e => ({
+      blockNumber: e.blockNumber,
+      tx: e.transactionHash,
+      approver: e.returnValues.approver,
+      approvals: Number(e.returnValues.approvals),
+      actionKey: e.returnValues.actionKey
+    })), 
+    jsonReplacer,  // <-- use replacer here
+    2
+  ));
 }
 
-async function registerNode(nodeId, nodeName, senderNodeTypeStr, publicKey, address, rpcURL, receiverNodeTypeStr, nodeSignature) {
-    try {
-        const txData = contract.methods.registerNode(
-            nodeId, nodeName, senderNodeTypeStr, publicKey, address, rpcURL, receiverNodeTypeStr, nodeSignature
-        ).encodeABI();
-
-        let latestNonce = await web3.eth.getTransactionCount(account, 'pending');
-        let nonce = Number(latestNonce) + 1;
-        console.log("Nonce:", nonce);
-
-        const tx = {
-            from: account,
-            to: contractAddress,
-            gas: 3000000,
-            gasPrice: '0',
-            nonce: latestNonce,
-            data: txData
-        };
-
-        const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
-        const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
-
-        console.log("Transaction Hash:", receipt.transactionHash);
-
-        for (const log of receipt.logs) {
-            if (log.address.toLowerCase() === contractAddress.toLowerCase()) {
-                const eventAbi = contractJson.abi.find(e =>
-                    e.type === 'event' && web3.eth.abi.encodeEventSignature(e) === log.topics[0]
-                );
-
-                if (eventAbi) {
-                    const decoded = web3.eth.abi.decodeLog(eventAbi.inputs, log.data, log.topics.slice(1));
-                    // console.log(` Event: ${eventAbi.name}`);
-                    // console.log(decoded);
-
-                    if (eventAbi.name === "NodeRegistered") {
-                        console.log(`Node Signature: ${decoded.nodeSignature}`);
-                    }
-                }
-            }
-        }
-
-    } catch (error) {
-        console.error("Error Registering Node:", error);
-    }
+async function msigClearedEvents(fromBlock = 0) {
+  const evs = await contract.getPastEvents('MsigCleared', { fromBlock: Number(fromBlock), toBlock: 'latest' });
+  console.log(JSON.stringify(evs.map(e => ({
+    blockNumber: e.blockNumber,
+    tx: e.transactionHash,
+    actionKey: e.returnValues.actionKey
+  })), null, 2));
 }
 
-async function issueCapabilityToken(fromNodeSignature, toNodeSignature) {
-    try {
-        const txData = contract.methods.issueToken(fromNodeSignature, toNodeSignature).encodeABI();
-        const nonce = await web3.eth.getTransactionCount(account, 'pending');
-        const tx = {
-            from: account,
-            to: contractAddress,
-            gas: 300000,
-            gasPrice: '0',
-            nonce,
-            data: txData
-        };
-
-        const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
-        const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
-
-        console.log("Token issued. Tx Hash:", receipt.transactionHash);
-
-        const event = receipt.logs.find(log => log.address.toLowerCase() === contractAddress.toLowerCase());
-        if (event) {
-            const decoded = web3.eth.abi.decodeLog(
-                contractJson.abi.find(e => e.name === "TokenIssued").inputs,
-                event.data,
-                event.topics.slice(1)
-            );
-            console.log("TokenIssued Event:");
-            console.log("-> From Node Signature:", decoded.fromNodeSignature);
-            console.log("-> fromType:", decoded.fromType);
-            console.log("-> From Signature:", decoded.fromNodeSignature);
-            console.log("-> To Signature:", decoded.toNodeSignature);
-            console.log("-> Policy:", decoded.policy);
-            console.log("-> Issued At:", new Date(Number(decoded.issuedAt) * 1000).toISOString());
-        }
-
-    } catch (error) {
-        console.error("Error issuing token:", error.message);
-    }
+async function sendTx(method, gas = 3_000_000, value = "0") {
+  const data = method.encodeABI();
+  const nonce = await web3.eth.getTransactionCount(account, "pending");
+  const tx = {
+    from: account,
+    to: contractAddress,
+    data,
+    gas,
+    gasPrice: "0",
+    nonce,
+    value
+  };
+  const signed = await web3.eth.accounts.signTransaction(tx, privateKey);
+  return web3.eth.sendSignedTransaction(signed.rawTransaction);
 }
 
-async function revokeCapabilityToken(fromNodeSignature, toNodeSignature) {
-    try {
-        const txData = contract.methods.revokeToken(fromNodeSignature, toNodeSignature).encodeABI();
-        const latestNonce = await web3.eth.getTransactionCount(account, 'pending');
-
-        const tx = {
-            from: account,
-            to: contractAddress,
-            gas: 200000,
-            gasPrice: '0',
-            nonce: latestNonce,
-            data: txData
-        };
-
-        const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
-        const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
-
-        console.log("Token revoked. Tx Hash:", receipt.transactionHash);
-
-        const log = receipt.logs.find(log => log.address.toLowerCase() === contractAddress.toLowerCase());
-        if (log) {
-            const decoded = web3.eth.abi.decodeLog(
-                contractJson.abi.find(e => e.name === "TokenRevoked").inputs,
-                log.data,
-                log.topics.slice(1)
-            );
-            console.log("TokenRevoked Event:");
-            console.log("-> From Signature:", decoded.fromNodeSignature);
-            console.log("-> To Signature:", decoded.toNodeSignature);
-        }
-    } catch (error) {
-        console.error("Error revoking token:", error.message);
-    }
+function jsonReplacer(key, value) {
+  return typeof value === 'bigint' ? value.toString() : value;
 }
 
-// ----------------------------------NODE RELATED FUNCTIONS----------------------------------------------------------------
+// ---------- SMALL UTILS ----------
+function parseOps(csvOrMask) {
+  if (csvOrMask === undefined) throw new Error("opsCsvOrMask is required");
+  if (/^\d+$/.test(csvOrMask)) return parseInt(csvOrMask, 10);
+  const toOne = (s) => s.replace(/\s/g, "").toUpperCase();
+  const parts = csvOrMask.split(/[|,]/).map(s => toOne(s)).filter(Boolean);
+  let mask = 0;
+  for (const p of parts) {
+    if (!(p in OP)) throw new Error(`Unknown op: ${p}`);
+    mask |= OP[p];
+  }
+  return mask;
+}
 
+function toBytes32(hexOrStr) {
+  if (!hexOrStr) return ZERO32;
+  if (hexOrStr.startsWith("0x")) {
+    const clean = hexOrStr.slice(2);
+    if (clean.length > 64) throw new Error("bytes32 too long");
+    return "0x" + clean.padStart(64, "0");
+  }
+  return web3.utils.keccak256(hexOrStr);
+}
+
+function tsNowPlus(seconds) {
+  const now = Math.floor(Date.now()/1000);
+  return now + Number(seconds || 0);
+}
+
+async function nextPolicyId() {
+  const id = await contract.methods.nextPolicyId().call();
+  console.log(Number(id));
+}
+
+// =========================================================
+//                       ADMIN / POLICY
+// =========================================================
+
+async function policyAdmin() {
+  const admin = await contract.methods.policyAdmin().call();
+  console.log(admin);
+}
+
+async function setPolicyAdmin(newAdmin) {
+  const rc = await sendTx(contract.methods.setPolicyAdmin(newAdmin));
+  console.log("✅ setPolicyAdmin:", rc.transactionHash);
+}
+
+async function createPolicy(fromRoleName, toRoleName, opsCsvOrMask, ctxSchemaStrOrHex) {
+  const fromRole = ROLE[fromRoleName] ?? Number(fromRoleName);
+  const toRole   = ROLE[toRoleName]   ?? Number(toRoleName);
+  const ops      = parseOps(opsCsvOrMask);
+  const schema   = toBytes32(ctxSchemaStrOrHex || ZERO32);
+  console.log(`Creating policy: ${fromRoleName}(${fromRole}) -> ${toRoleName}(${toRole}), ops=${ops}, ctxSchema=${schema}`);
+  const rc = await sendTx(contract.methods.createPolicy(fromRole, toRole, ops, schema));
+  console.log("✅ createPolicy:", rc.transactionHash);
+}
+
+async function updatePolicy(policyId, opsCsvOrMask, ctxSchemaStrOrHex) {
+  const ops    = parseOps(opsCsvOrMask);
+  const schema = toBytes32(ctxSchemaStrOrHex || ZERO32);
+  const rc = await sendTx(contract.methods.updatePolicy(Number(policyId), ops, schema));
+  console.log("✅ updatePolicy:", rc.transactionHash);
+}
+
+async function deprecatePolicy(policyId) {
+  const rc = await sendTx(contract.methods.deprecatePolicy(Number(policyId)));
+  console.log("✅ deprecatePolicy:", rc.transactionHash);
+}
+
+async function getPolicy(policyId) {
+  const p = await contract.methods.getPolicy(Number(policyId)).call();
+  console.log(JSON.stringify(p, jsonReplacer, 2));
+}
+
+// =========================================================
+//                       MULTISIG (NEW)
+// =========================================================
+async function msigMode(requiredBool) {
+  const req = (String(requiredBool).toLowerCase() === "true" || requiredBool === "1");
+  const rc = await sendTx(contract.methods.setMsigMode(req));
+  console.log("✅ setMsigMode:", req, rc.transactionHash);
+}
+
+async function msigAdd(approverAddr) {
+  const rc = await sendTx(contract.methods.addMsigApprover(approverAddr));
+  console.log("✅ addMsigApprover:", approverAddr, rc.transactionHash);
+}
+
+async function msigRemove(approverAddr) {
+  const rc = await sendTx(contract.methods.removeMsigApprover(approverAddr));
+  console.log("✅ removeMsigApprover:", approverAddr, rc.transactionHash);
+}
+
+async function msigThreshold(k) {
+  const rc = await sendTx(contract.methods.setMsigThreshold(Number(k)));
+  console.log("✅ setMsigThreshold:", k, rc.transactionHash);
+}
+
+async function msigInfo() {
+  const required  = await contract.methods.msigRequired().call();
+  const count     = await contract.methods.msigApproverCount().call();
+  const threshold = await contract.methods.msigThreshold().call();
+  console.log(JSON.stringify({
+    msigRequired: required,
+    msigApproverCount: Number(count),
+    msigThreshold: Number(threshold),
+    defaultFrom: { index: DEFAULT_FROM_IDX, account }
+  }, null, 2));
+}
+
+async function msigIsApprover(addr) {
+  const ok = await contract.methods.msigApprover(addr).call();
+  console.log(ok);
+}
+
+async function approveCreatePolicy(fromRoleName, toRoleName, opsCsvOrMask, ctxSchemaStrOrHex) {
+  const fromRole = ROLE[fromRoleName] ?? Number(fromRoleName);
+  const toRole   = ROLE[toRoleName]   ?? Number(toRoleName);
+  const ops      = parseOps(opsCsvOrMask);
+  const schema   = toBytes32(ctxSchemaStrOrHex || ZERO32);
+  const rc = await sendTx(contract.methods.approveCreatePolicy(fromRole, toRole, ops, schema));
+  console.log("✅ approveCreatePolicy:", rc.transactionHash);
+}
+
+async function _findPolicyId(fromRoleName, toRoleName, opsCsvOrMask, ctxSchemaStr) {
+  const fromRole = ROLE[fromRoleName] ?? Number(fromRoleName);
+  const toRole   = ROLE[toRoleName]   ?? Number(toRoleName);
+  const opsMask  = parseOps(opsCsvOrMask);
+  const ctxHash  = web3.utils.keccak256(ctxSchemaStr);
+
+  const nextId = Number(await contract.methods.nextPolicyId().call());
+  if (!nextId || nextId <= 1) return 0;
+
+  for (let id = 1; id < nextId; id++) {
+    const p = await contract.methods.getPolicy(id).call();
+    const versionOk     = Number(p.version) > 0;
+    const notDeprecated = !p.isDeprecated;
+    const rolesOk       = Number(p.fromRole) === Number(fromRole) &&
+                          Number(p.toRole)   === Number(toRole);
+    const opsOk         = Number(p.opsAllowed) === Number(opsMask);
+    const ctxOk         = String(p.ctxSchema).toLowerCase() === String(ctxHash).toLowerCase();
+    if (versionOk && notDeprecated && rolesOk && opsOk && ctxOk) {
+      return id;                 // <--- RETURN (no console.log)
+    }
+  }
+  return 0;                      // <--- RETURN (no console.log)
+}
+
+
+// =========================================================
+/*                    NODES (PACKED)                       */
+// =========================================================
+/**
+ * Calls registerNodePacked(bytes) by ABI-encoding:
+ * (string nodeId, string nodeName, string nodeTypeStr, string publicKey,
+ *  address registeredByAddr, string rpcURL, string registeredByNodeTypeStr, string nodeSignature)
+ */
+async function registerNode(nodeId, nodeName, nodeTypeStr, publicKey, registeredByAddr, rpcURL, registeredByNodeTypeStr, nodeSignature) {
+  const payload = web3.eth.abi.encodeParameters(
+    ["string","string","string","string","address","string","string","string"],
+    [ nodeId,  nodeName,  nodeTypeStr,  publicKey,  registeredByAddr,  rpcURL,  registeredByNodeTypeStr,  nodeSignature ]
+  );
+  const rc = await sendTx(contract.methods.registerNodePacked(payload));
+  console.log("✅ registerNodePacked:", rc.transactionHash);
+}
 
 async function isNodeRegistered(nodeSignature) {
-    try {
-        const result = await contract.methods.isNodeRegistered(nodeSignature).call();
-        console.log(result);
-        return result;
-    } catch (error) {
-        console.error("Error Checking Node Registration (nodeSignature):", error);
-        return false;
-    }
+  const ok = await contract.methods.isNodeRegistered(nodeSignature).call();
+  console.log(ok);
 }
 
-async function getNodeDetails(nodeSignature) {
-    try {
-        const result = await contract.methods.getNodeDetailsBySignature(nodeSignature).call();
-        const details = {
-            nodeId: result[0],
-            nodeName: result[1],
-            nodeType: result[2].toString(),
-            publicKey: result[3],
-            isRegistered: result[4],
-            registeredBy: result[5],
-            nodeSignature: result[6],
-            registeredByNodeType: result[7].toString(),
-        };
-        console.log(JSON.stringify(details));
-    } catch (error) {
-        console.log(JSON.stringify({
-            error: "Error fetching node details",
-            message: error.message
-        }));
-    }
+async function getNodeDetailsBySignature(nodeSignature) {
+  const r = await contract.methods.getNodeDetailsBySignature(nodeSignature).call();
+  const details = {
+    nodeId: r[0], nodeName: r[1], nodeType: Number(r[2]),
+    publicKey: r[3], isRegistered: r[4], registeredBy: r[5],
+    nodeSignature: r[6], registeredByNodeType: Number(r[7]),
+  };
+  console.log(JSON.stringify(details, null, 2));
 }
 
-async function getNodeDetailsByAddress(nodeAddress) {
-    try {
-        const details = await contract.methods.getNodeDetailsByAddress(nodeAddress).call();
-
-        console.log("Node Details:");
-        console.log("-> Node ID:", details[0]);
-        console.log("-> Node Name:", details[1]);
-        console.log("-> Node Type (Enum Index):", details[2]); 
-        console.log("-> Public Key:", details[3]);
-        console.log("-> Is Registered:", details[4]);
-        console.log("-> Registered By (address):", details[5]);
-        console.log("-> Node Signature:", details[6]);
-        console.log("-> Registered By Node Type (Enum Index):", details[7]);
-    } catch (error) {
-        console.error("Error fetching node details by address:", error.message);
-    }
+async function getNodeDetailsByAddress(addr) {
+  const r = await contract.methods.getNodeDetailsByAddress(addr).call();
+  const details = {
+    nodeId: r[0], nodeName: r[1], nodeType: Number(r[2]),
+    publicKey: r[3], isRegistered: r[4], registeredBy: r[5],
+    nodeSignature: r[6], registeredByNodeType: Number(r[7]),
+  };
+  console.log(JSON.stringify(details, null, 2));
 }
 
-// ----------------------------------TOKEN RELATED FUNCTIONS----------------------------------------------------------------
-
-// async function callTokenCheck(fromNodeSignature) {
-//     try {
-//         const txData = contract.methods.issueToken(fromNodeSignature).encodeABI();
-//         const latestNonce = await web3.eth.getTransactionCount(account, "pending");
-//         let nonce = Number(latestNonce) + 1; // Convert BigInt to Number and increment
-//         console.log("Nonce:", nonce);
-//         const tx = {
-//             from: account,
-//             to: contractAddress,
-//             data: txData,
-//             gas: 200000,
-//             gasPrice: "0",
-//             nonce
-//         };
-
-//         const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
-//         const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
-
-//         console.log("Tx Sent. Hash:", receipt.transactionHash);
-
-//         const eventAbi = contractJson.abi.find(e => e.name === "TokenChecked");
-//         const eventLog = receipt.logs.find(log => log.topics[0] === web3.eth.abi.encodeEventSignature(eventAbi));
-
-//         if (eventLog) {
-//             const decoded = web3.eth.abi.decodeLog(
-//                 eventAbi.inputs,
-//                 eventLog.data,
-//                 eventLog.topics.slice(1)
-//             );
-
-//             console.log("TokenChecked Event:");
-//             console.log("-> From Node Signature:", decoded.fromNodeSignature);
-//             console.log("-> To Node ID:", decoded.toNodeSignature); // `toNodeId` passed as second arg in event
-//         } else {
-//             console.log("TokenChecked event not found in logs.");
-//         }
-
-//     } catch (err) {
-//         console.error("Error calling issueToken:", err.message);
-//     }
-// }
-
-
-async function getCapabilityToken(fromNodeSignature, toNodeSignature) {
-    try {
-        const token = await contract.methods.getToken(fromNodeSignature, toNodeSignature).call();
-
-        console.log("Capability Token Info:");
-        console.log("Policy:", token.policy);
-        console.log("-> Issued At (Unix):", token.issuedAt.toString());
-        console.log("-> Issued At (UTC):", new Date(Number(token.issuedAt) * 1000).toISOString());
-        console.log("-> Is Issued:", token.isIssued);
-        console.log("-> Is Revoked:", token.isRevoked);
-    } catch (error) {
-        console.error("Error fetching token:", error.message);
-    }
+async function proposeValidator(validatorAddr) {
+  const rc = await sendTx(contract.methods.proposeValidator(validatorAddr));
+  console.log("✅ proposeValidator:", rc.transactionHash);
 }
-
-async function checkCapabilityToken(fromNodeSignature, toNodeSignature) {
-    try {
-        const isValid = await contract.methods.checkToken(fromNodeSignature, toNodeSignature).call();
-        console.log(isValid); 
-    } catch (error) {
-        console.error("Error checking token:", error.message);
-    }
-}
-
-    
-async function checkTokenExpiry(fromNodeSignature, toNodeSignature, validityPeriodInSeconds) {
-    try {
-        const isExpired = await contract.methods
-            .isTokenExpired(fromNodeSignature, toNodeSignature, validityPeriodInSeconds)
-            .call();
-
-        // console.log(`Token Expiry Check`);
-        // console.log(`→ From: ${fromNodeSignature}`);
-        // console.log(`→ To: ${toNodeSignature}`);
-        // console.log(`→ Validity Period: ${validityPeriodInSeconds} seconds`);
-        console.log(`${isExpired}`);
-    } catch (error) {
-        console.error("Error checking token expiry:", error.message);
-    }
-}
-
-// ----------------------------------VALIDATOR RELATED FUNCTIONS----------------------------------------------------------------
 
 async function isValidator(nodeSignature) {
-    try {
-        const result = await contract.methods.isValidator(nodeSignature).call();
-        console.log(result);
-        return result;
-    } catch (error) {
-        console.log("false");
-        return false;
-    }
+  try {
+    const ok = await contract.methods.isValidator(nodeSignature).call();
+    console.log(ok);
+  } catch {
+    console.log(false);
+  }
 }
 
-async function watchValidatorProposals() {
+// =========================================================
+//                           GRANTS
+// =========================================================
 
-    try {
-        const pastEvents = await contract.getPastEvents('ValidatorProposed', {
-            fromBlock: 0,
-            toBlock: 'latest'
-        });
 
-        for (const event of pastEvents) {
-            console.log(event.returnValues.validator);
-        }
+async function issueGrant(fromNodeSig, toNodeSig, policyId, opsCsvOrMask, expiresAtTs) {
+  const ops = parseOps(opsCsvOrMask);
+  const exp = /^\d+$/.test(expiresAtTs) ? Number(expiresAtTs) : tsNowPlus(Number(expiresAtTs || 0));
+  const rc = await sendTx(contract.methods.issueGrant(fromNodeSig, toNodeSig, Number(policyId), ops, exp));
+  console.log("✅ issueGrant:", rc.transactionHash);
+}
 
-    } catch (err) {
-        console.error("Error during event handling:", err);
-    }
+async function issueGrantDelegable(fromNodeSig, toNodeSig, policyId, opsCsvOrMask, expiresAtTs, delegationAllowed, delegationDepth) {
+  const ops = parseOps(opsCsvOrMask);
+  const exp = /^\d+$/.test(expiresAtTs) ? Number(expiresAtTs) : tsNowPlus(Number(expiresAtTs || 0));
+  const allow = (String(delegationAllowed).toLowerCase() === "true" || delegationAllowed === "1");
+  const depth = Number(delegationDepth || 0);
+  const rc = await sendTx(
+    contract.methods.issueGrantDelegable(fromNodeSig, toNodeSig, Number(policyId), ops, exp, allow, depth)
+  );
+  console.log("✅ issueGrantDelegable:", rc.transactionHash);
+}
+
+async function revokeGrant(fromNodeSig, toNodeSig, policyId) {
+  const rc = await sendTx(contract.methods.revokeGrant(fromNodeSig, toNodeSig, Number(policyId)));
+  console.log("✅ revokeGrant:", rc.transactionHash);
+}
+
+async function findPolicyId(fromRoleName, toRoleName, opsCsvOrMask, ctxSchemaStr) {
+  const ops = parseOps(opsCsvOrMask);                  // you already have parseOps
+  const ctxHash = web3.utils.keccak256(ctxSchemaStr);  // bytes32(ctx)
+
+  // Adjust the method name/signature if your contract differs:
+  // e.g., findPolicyId(string fromRole, string toRole, uint8 ops, bytes32 ctx)
+  const id = await contract.methods.findPolicyId(fromRoleName, toRoleName, ops, ctxHash).call();
+  console.log(Number(id)); // stdout plain integer for Python to parse
+}
+
+async function getGrant(fromNodeSig, toNodeSig, policyId) {
+  const g = await contract.methods.getGrant(fromNodeSig, toNodeSig, Number(policyId)).call();
+  const grant = {
+    policyId: Number(g[0]),
+    opsSubset: Number(g[1]),
+    issuedAt: Number(g[2]),
+    expiresAt: Number(g[3]),
+    isIssued: g[4],
+    isRevoked: g[5],
+  };
+  console.log(JSON.stringify(grant, null, 2));
+}
+
+// NEW: extended view including delegation flags
+async function getGrantEx(fromNodeSig, toNodeSig, policyId) {
+  const g = await contract.methods.getGrantEx(fromNodeSig, toNodeSig, Number(policyId)).call();
+  const grant = {
+    policyId: Number(g[0]),
+    opsSubset: Number(g[1]),
+    issuedAt: Number(g[2]),
+    expiresAt: Number(g[3]),
+    isIssued: g[4],
+    isRevoked: g[5],
+    delegationAllowed: g[6],
+    delegationDepth: Number(g[7]),
+  };
+  console.log(JSON.stringify(grant, null, 2));
+}
+
+async function checkGrant(fromNodeSig, toNodeSig, policyId, opCsvOrMask) {
+  const opBit = parseOps(opCsvOrMask);
+  const ok = await contract.methods.checkGrant(fromNodeSig, toNodeSig, Number(policyId), opBit).call();
+  console.log(ok);
+}
+
+async function isGrantExpired(fromNodeSig, toNodeSig, policyId) {
+  const ok = await contract.methods.isGrantExpired(fromNodeSig, toNodeSig, Number(policyId)).call();
+  console.log(ok);
+}
+
+async function delegateGrant(currentFromSig, toSig, newFromSig, policyId, opsCsvOrMask, expiresAtTs) {
+  const ops = parseOps(opsCsvOrMask);
+  const exp = /^\d+$/.test(expiresAtTs) ? Number(expiresAtTs) : tsNowPlus(Number(expiresAtTs || 0));
+  const rc = await sendTx(
+    contract.methods.delegateGrant(currentFromSig, toSig, newFromSig, Number(policyId), ops, exp)
+  );
+  console.log("✅ delegateGrant:", rc.transactionHash);
+}
+
+// =========================================================
+//                     BESU UTILS / EVENTS
+// =========================================================
+
+// Listen for recent ValidatorProposed events and print candidate addresses.
+// Orchestrator regex-scans stdout for 0x...40 addresses.
+async function listenForValidatorProposals(fromBlockHint) {
+  // v4 returns BigInt → cast to Number before doing math
+  const latest = Number(await web3.eth.getBlockNumber());
+  const from   = Math.max(0, Number(fromBlockHint ?? (latest - 64)));
+
+  const evs = await contract.getPastEvents('ValidatorProposed', {
+    fromBlock: from,
+    toBlock: 'latest'
+  });
+
+  // event ValidatorProposed(address indexed proposedBy, address indexed validator);
+  const addrs = [...new Set(evs.map(e =>
+    e.returnValues.validator || e.returnValues["1"]
+  ).filter(Boolean))];
+
+  console.log(addrs.join("\n"));
+}
+
+
+async function qbft_getValidatorsByBlockNumber(url = rpcURL) {
+  const payload = { jsonrpc:"2.0", method:"qbft_getValidatorsByBlockNumber", params:["latest"], id:1 };
+  const res = await fetch(url, { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify(payload) });
+  const data = await res.json();
+  console.log(data.result || data);
 }
 
 async function proposeValidatorVote(validatorAddress, add) {
-    try {
-        const payload = {
-            jsonrpc: "2.0",
-            method: "qbft_proposeValidatorVote",
-            params: [validatorAddress, add],
-            id: 1
-        };
-
-        const response = await fetch(rpcURL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        });
-
-        const data = await response.json();
-        console.log("Vote submitted:", data);
-    } catch (error) {
-        console.error("Error proposing validator vote:", error);
-    }
+  const payload = {
+    jsonrpc: "2.0",
+    method: "qbft_proposeValidatorVote",
+    params: [validatorAddress, add],  // add = true to add, false to remove
+    id: 1
+  };
+  const res = await fetch(rpcURL, {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify(payload)
+  });
+  console.log("Vote submitted:", await res.json());
 }
 
-async function getValidatorsByBlockNumber(rpcUrl) {
-    try {
-        const payload = {
-            jsonrpc: "2.0",
-            method: "qbft_getValidatorsByBlockNumber",
-            params: ["latest"],
-            id: 1
-        };
-
-        const response = await fetch(rpcUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        });
-
-        const data = await response.json();
-
-        if (data.result) {
-            console.log(data.result);
-            return data.result;
-        } else {
-            console.error("Error retrieving validators:", data);
-            return [];
-        }
-    } catch (error) {
-        console.error("Failed to get validators:", error);
-        return [];
-    }
+async function net_peerCount(url = rpcURL) {
+  const payload = { jsonrpc:"2.0", method:"net_peerCount", params:[], id:1 };
+  const res = await fetch(url, { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify(payload) });
+  const data = await res.json();
+  const n = data.result ? parseInt(data.result, 16) : 0;
+  console.log(n);
 }
 
-
-// ----------------------------------GENERAL FUNCTIONS----------------------------------------------------------------
-
-async function getAllTransactions() {
-    let latestBlock = await web3.eth.getBlockNumber(); // Get latest block number
-    console.log("🔹 Latest Block:", latestBlock);
-
-    for (let i = 0; i <= latestBlock; i++) {
-        let block = await web3.eth.getBlock(i, true);
-        if (block.transactions.length > 0) {
-            console.log(`Block ${i} contains ${block.transactions.length} transactions:`);
-
-            block.transactions.forEach(tx => {
-                console.log(`-> Tx Hash: ${tx.hash}`);
-                console.log(`-> From: ${tx.from}`);
-                console.log(`-> To: ${tx.to}`);
-                console.log(`-> Value: ${web3.utils.fromWei(tx.value, 'ether')} ETH`);
-                console.log(`-> Gas Used: ${tx.gas}`);
-                console.log(`-> Nonce: ${tx.nonce}`);
-            });
-        }
-    }
+async function checkIfDeployed(addr = contractAddress) {
+  const code = await web3.eth.getCode(addr);
+  console.log(code !== "0x" && code !== "0x0");
 }
 
-async function checkIfDeployed(contractAddress) {
-    try {
-        const code = await web3.eth.getCode(contractAddress);
-        const isDeployed = code !== '0x' && code !== '0x0';
-        console.log(isDeployed);
-        return isDeployed;
-    } catch (error) {
-        console.log("false");
-        return false;
-    }
+async function whoami() {
+  const idx = Number(process.env.FROM_IDX || 0);
+  const { address: from } = walletAt(idx);  // from prefunded_keys.json
+  const bal = await web3.eth.getBalance(from);
+  console.log(JSON.stringify({
+    fromIndex: idx,
+    from,
+    balanceWei: bal.toString()   // convert BigInt → string
+  }, null, 2));
 }
 
-async function getPeerCount(rpcURL) {
-    const payload = {
-        jsonrpc: "2.0",
-        method: "net_peerCount",
-        params: [],
-        id: 1
-    };
+// =========================================================
+//                           CLI
+// =========================================================
+async function main() {
+  const [cmd, ...args] = process.argv.slice(2);
 
-    try {
-        const response = await fetch(rpcURL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        });
+  try {
+    switch (cmd) {
+      case "help":
+        console.log(`
+RPC: ${rpcURL}
+Contract: ${contractAddress}
+From (PREFUNDED[FROM_IDX]): ${account}  (FROM_IDX=${DEFAULT_FROM_IDX})
 
-        const data = await response.json();
-        if (data.result) {
-            const peerCount = parseInt(data.result, 16); 
-            console.log(`${peerCount}`);
-            return peerCount;
-        } else {
-            console.error("Error in response:", data);
-            return 0;
-        }
-    } catch (err) {
-        console.error("Failed to fetch peer count:", err.message);
-        return 0;
+Set signer per command via env var:
+  FROM_IDX=2 node interact.js <command> ...
+
+Roles: Cloud,Fog,Edge,Sensor,Actuator
+Ops: READ,WRITE,UPDATE,REMOVE (or numeric mask, or "READ|REMOVE")
+
+Admin/Policy:
+  node interact.js setPolicyAdmin <newAdmin>
+  node interact.js createPolicy <fromRole> <toRole> <opsCsv|mask> [ctxSchemaStrOrHex]
+  node interact.js updatePolicy <policyId> <opsCsv|mask> [ctxSchemaStrOrHex]
+  node interact.js deprecatePolicy <policyId>
+  node interact.js getPolicy <policyId>
+  node interact.js ensurePolicy <fromRole> <toRole> <opsCsv|mask> [ctxSchemaStrOrHex]
+
+
+Multisig:
+  node interact.js msigMode <true|false>
+  node interact.js msigAdd <approverAddr>
+  node interact.js msigRemove <approverAddr>
+  node interact.js msigThreshold <k>
+  node interact.js msigInfo
+  node interact.js msigIsApprover <addr>
+  node interact.js approveCreatePolicy <fromRole> <toRole> <opsCsv|mask> [ctxSchemaStrOrHex]
+
+Nodes (packed register):
+  node interact.js registerNode <nodeId> <nodeName> <nodeTypeStr> <publicKey> <registeredByAddr> <rpcURL> <registeredByNodeTypeStr> <nodeSignature>
+  node interact.js isNodeRegistered <nodeSignature>
+  node interact.js getNodeBySig <nodeSignature>
+  node interact.js getNodeByAddr <address>
+  node interact.js proposeValidator <validatorAddr>
+  node interact.js isValidator <nodeSignature>
+
+Grants:
+  node interact.js issueGrant <fromSig> <toSig> <policyId> <opsCsv|mask> <expiresAtTs or +seconds>
+  node interact.js issueGrantDelegable <fromSig> <toSig> <policyId> <opsCsv|mask> <expiresAtTs or +seconds> <delegationAllowed:true|false> <delegationDepth>
+  node interact.js delegateGrant <currentFromSig> <toSig> <newFromSig> <policyId> <opsCsv|mask> <expiresAtTs or +seconds>
+  node interact.js revokeGrant <fromSig> <toSig> <policyId>
+  node interact.js getGrant <fromSig> <toSig> <policyId>
+  node interact.js getGrantEx <fromSig> <toSig> <policyId>
+  node interact.js checkGrant <fromSig> <toSig> <policyId> <opCsv|mask>
+  node interact.js isGrantExpired <fromSig> <toSig> <policyId>
+
+Besu/Utils:
+  node interact.js qbft_getValidators
+  node interact.js peerCount
+  node interact.js checkIfDeployed
+  node interact.js nextPolicyId
+  node interact.js whoami
+`); break;
+      case "nextPolicyId": await nextPolicyId(); break;
+      // Admin/Policy
+      case "policyAdmin":   await policyAdmin(); break;
+      case "setPolicyAdmin": await setPolicyAdmin(args[0]); break;
+      case "createPolicy":   await createPolicy(args[0], args[1], args[2], args[3]); break;
+      case "updatePolicy":   await updatePolicy(args[0], args[1], args[2]); break;
+      case "deprecatePolicy":await deprecatePolicy(args[0]); break;
+      case "getPolicy":      await getPolicy(args[0]); break;
+      case "ensurePolicy": await ensurePolicy(args[0], args[1], args[2], args[3]); break;
+
+      // Multisig
+      case "msigMode":       await msigMode(args[0]); break;
+      case "msigAdd":        await msigAdd(args[0]); break;
+      case "msigRemove":     await msigRemove(args[0]); break;
+      case "msigThreshold":  await msigThreshold(args[0]); break;
+      case "msigInfo":       await msigInfo(); break;
+      case "msigIsApprover": await msigIsApprover(args[0]); break;
+      case "approveCreatePolicy": await approveCreatePolicy(args[0], args[1], args[2], args[3]); break;
+
+      // Nodes (packed)
+      case "registerNode":     await registerNode(...args); break;
+      case "isNodeRegistered": await isNodeRegistered(args[0]); break;
+      case "getNodeBySig":     await getNodeDetailsBySignature(args[0]); break;
+      case "getNodeByAddr":    await getNodeDetailsByAddress(args[0]); break;
+      case "proposeValidator": await proposeValidator(args[0]); break;
+      case "proposeValidatorVote": await proposeValidatorVote(args[0], args[1]); break;
+      case "isValidator":      await isValidator(args[0]); break;
+
+      // Grants
+      case "issueGrant":     await issueGrant(args[0], args[1], args[2], args[3], args[4]); break;
+      case "revokeGrant":    await revokeGrant(args[0], args[1], args[2]); break;                 // from, to, policyId
+      case "getGrant":       await getGrant(args[0], args[1], args[2]); break;                   // from, to, policyId
+      case "getGrantEx":     await getGrantEx(args[0], args[1], args[2]); break;                 // from, to, policyId
+      case "checkGrant":     await checkGrant(args[0], args[1], args[2], args[3]); break;        // from, to, policyId, op
+      case "isGrantExpired": await isGrantExpired(args[0], args[1], args[2]); break;             // from, to, policyId
+      case "delegateGrant":  await delegateGrant(args[0], args[1], args[2], args[3], args[4], args[5]); break; // currFrom, to, newFrom, policyId, ops, exp
+      case "issueGrantDelegable": await issueGrantDelegable(args[0], args[1], args[2], args[3], args[4], args[5], args[6]); break;
+
+      case "findPolicyId": {const id = await _findPolicyId(args[0], args[1], args[2], args[3]); console.log(Number(id || 0)); break;}
+      case "msigApprovedEvents": await msigApprovedEvents(args[0]); break;
+      case "msigClearedEvents":  await msigClearedEvents(args[0]); break;
+      // Besu/Utils
+      case "listenForValidatorProposals": await listenForValidatorProposals(args[0]); break;
+      case "qbft_getValidators": await qbft_getValidatorsByBlockNumber(); break;
+      case "peerCount":          await net_peerCount(); break;
+      case "checkIfDeployed":    await checkIfDeployed(); break;
+      case "whoami":             await whoami(); break;
+      case "nextPolicyId": {const np = await contract.methods.nextPolicyId().call();console.log(np.toString());break;}
+
+      default:
+        console.log("Unknown command. Run: node interact.js help");
+        break;
     }
+  } catch (e) {
+    // Make CLI commands fail properly so bash can assert reverts.
+    const msg = e?.reason || e?.message || e;
+    console.error("❌ Error:", msg);
+    process.exitCode = 1;   // <-- mark failure for the shell
+  }
 }
+
+if (require.main === module) main();
 
 module.exports = {
-    registerNode,
-    isNodeRegistered,
-    getNodeDetails,
-    checkIfDeployed,
-    proposeValidatorVote,
-    isValidator,
-    getAllTransactions,
-    issueCapabilityToken,
-    revokeCapabilityToken,
-    getCapabilityToken,
-    checkTokenExpiry,
-    watchValidatorProposals,
-    emitValidatorProposalToChain,
-    getPeerCount,
-    checkCapabilityToken
-
+  ROLE, OP,
+  // Admin/Policy
+  policyAdmin, setPolicyAdmin, createPolicy, updatePolicy, deprecatePolicy, getPolicy,
+  // Multisig
+  msigMode, msigAdd, msigRemove, msigThreshold, msigInfo, msigIsApprover, approveCreatePolicy,
+  // Nodes
+  registerNode, isNodeRegistered, getNodeDetailsBySignature, getNodeDetailsByAddress,
+  proposeValidator, isValidator, proposeValidatorVote,
+  // Grants
+  issueGrant, issueGrantDelegable, delegateGrant, revokeGrant, getGrant, getGrantEx, checkGrant, isGrantExpired, 
+  // Utils
+  qbft_getValidatorsByBlockNumber, net_peerCount, checkIfDeployed, nextPolicyId, whoami, listenForValidatorProposals
 };
-
-if (require.main === module) {
-    
-    const args = process.argv.slice(2);
-    const command = args[0];
-
-    (async () => {
-
-        if (command === "listenForValidatorProposals") {
-            watchValidatorProposals();
-        }
-
-        if (command === "issueCapabilityToken") {
-            const fromNodeSignature = args[1];
-            const toNodeSignature = args[2];
-            await issueCapabilityToken(fromNodeSignature, toNodeSignature);
-        }
-
-        if (command === "checkCapabilityToken") {
-            const fromNodeSignature = args[1];
-            const toNodeSignature = args[2];
-            await checkCapabilityToken(fromNodeSignature, toNodeSignature);
-        }
-        if (command === "revokeCapabilityToken") {
-            const fromNodeSignature = args[1];
-            const toNodeSignature = args[2];
-            await revokeCapabilityToken(fromNodeSignature, toNodeSignature);
-        }
-        if (command === "getCapabilityToken") {
-            const fromNodeSignature = args[1];
-            const toNodeSignature = args[2];
-            await getCapabilityToken(fromNodeSignature, toNodeSignature);
-        }
-        if (command === "checkTokenExpiry") {
-            const fromNodeSignature = args[1];
-            const toNodeSignature = args[2];
-            const validityPeriodInSeconds = args[3];
-            await checkTokenExpiry(fromNodeSignature, toNodeSignature, validityPeriodInSeconds);
-        }
-        if (command === "getAllTransactions") {
-            await getAllTransactions();
-        }
-
-        if (command === "getPeerCount") {
-            const peerCount = await getPeerCount(rpcURL);
-        }
-
-        if (command === "isNodeRegistered") {
-            const nodeSignature = args[1]; // Now expects address, not nodeId
-            const result = await isNodeRegistered(nodeSignature);
-        }
-
-        if (command === "getNodeDetails") {
-            const nodeSignature = args[1];
-            await getNodeDetails(nodeSignature);
-        }
-
-        if (command === "checkIfDeployed") {
-            await checkIfDeployed(contractAddress);
-        }
-
-        if (command === "isValidator") {
-            const nodeSignature = args[1];
-            await isValidator(nodeSignature);
-        }
-        
-        if (command === "getValidatorsByBlockNumber") {
-            await getValidatorsByBlockNumber(rpcURL);
-        }
-        if (command === "emitValidatorProposalToChain") {
-            const validatorAddress = args[1];
-            if (!validatorAddress.startsWith("0x")) {
-                console.error("Validator address must start with '0x'!");
-                process.exit(1);
-            }
-            await emitValidatorProposalToChain(validatorAddress);
-        }
-
-        if (command === "proposeValidatorVote") { 
-            const validatorAddress = args[1];
-            if (!validatorAddress.startsWith("0x")) {
-                console.error("Validator address must start with '0x'!");
-                process.exit(1);
-            }
-            const voteArg = args[2];
-            if (voteArg !== "true" && voteArg !== "false") {
-                console.error("Invalid vote argument! Use 'true' to add or 'false' to remove a validator.");
-                process.exit(1);
-            }
-            await proposeValidatorVote(validatorAddress, voteArg);
-        }
-
-        if (command === "registerNode") {
-            const [
-                nodeId,
-                nodeName,
-                senderNodeTypeStr,
-                publicKey,
-                address,
-                rpcURL,
-                receiverNodeTypeStr,
-                nodeSignature
-            ] = args.slice(1);
-
-            await registerNode(
-                nodeId,
-                nodeName,
-                senderNodeTypeStr,
-                publicKey,
-                address,
-                rpcURL,
-                receiverNodeTypeStr,
-                nodeSignature
-            );
-        }
-    })();
-}
-
-// registerNode(
-//     "CL-001",
-//     "Cloud_Node",
-//     "Cloud",
-//     "0xf5eb61ca22b851ac62a70f60104f829100c5ef9e25f2cdc1c2a142c76e7200199b7f55fc98187841b2c14492e58b74a591f15f038eecc86a866cc8fb67bd2bd3",
-//     "0x7ddba9f4032c56847d4858de57d0635af6c8c813",
-//     "http://127.0.0.1:8445",
-//     "Cloud",
-//     "0xc9634487b2cd6d1f938b9a6c26487f7ee66c8e44f04c561c41f36dbb06fa21bc6be3df8323270a2d3c8d45eb589b9199ca7756922c6f7c70bd65f8bc877f3ea700"
-// );

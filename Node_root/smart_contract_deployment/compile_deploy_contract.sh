@@ -13,7 +13,7 @@ rm -f "$TRUFFLE_CONFIG" "$DEPLOY_SCRIPT"  # Remove old files if they exist
 
 # Private key and RPC URL (Update these before running the script) of the ETH account
 PRIVATE_KEY="$1"  # Accept private key as an argument to the script
-BESU_RPC_URL="http://10.239.152.40:8545"
+BESU_RPC_URL="http://127.0.0.1:8545"
 
 echo ""
 # Step 1: Generate `truffle-config.js` dynamically
@@ -30,13 +30,22 @@ module.exports = {
     besuWallet: {
       provider: () => new HDWalletProvider(privateKey, besuRpcUrl),
       network_id: "*",  // Accept any network ID
-      gas: 4700000, // Increase gas limit
+      gas:  29000000,  // Increase gas limit
       gasPrice: 0,  // Set Besu to allow 0 gas for private networks
+      confirmations: 0,  // Number of confirmations to wait between deployments
+      timeoutBlocks: 200,  // Number of blocks before a deployment times out
+      skipDryRun: true,  // Skip dry run before migrations
     },
   },
   compilers: {
     solc: {
-      version: "0.8.0", // Explicit Solidity version
+      version: "0.8.4", 
+      settings: {
+        optimizer: {
+          enabled: true,  // Enable the optimizer
+          runs: 20,  // Number of runs for the optimizer 
+        },
+      },
     },
   },
 };

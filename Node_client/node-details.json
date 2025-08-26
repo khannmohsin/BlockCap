@@ -1,10 +1,11 @@
 {
-    "node_id": "FG-001",
-    "node_name": "Foggy001",
-    "node_type": "Fog",
-    "public_key": "0x06790fc69b007cfe05362b2cf0d2c7a10ac60f603af651065865c01007d01ffc7adc22ef4691881cb4275a55857080adde1930b00f4df7487d2b39dce2e2dd17",
-    "address": "0x3b37195c4fb3f530607e2e54cbc05cf90fecaab7",
-    "node_url": "http://127.0.0.1:5001",
-    "rpcURL": "http://127.0.0.1:8546",
-    "signature": "0xa3caec1605c8e52d422953f3491c84fe716db4f4ad986845d727c4d37c7895c5392e1f3b92c409124351846c580789f0e582200e64b2864d5079821866b718f500"
+  "node_id": "FOG001",
+  "node_name": "Weather Station",
+  "node_type": "Fog",
+  "public_key": "0x0893d7172f3fc7db05e8998bb76c5d71862c5669387193a94c22165be86cbb487d8a7a89fc2a9226b487e95a6e4440bafe5901be303b9e0bd8f8efb90e216673",
+  "address": "0x0132774516a575eaeb9a0061e35718b8ca866984",
+  "rpcURL": "http://127.0.0.1:8546",
+  "node_url": "http://127.0.0.1:5001",
+  "signature": "0xd61892f58cc4f48861214d1361e04bd971357882d82e879a5c1b5dd8e6d44ebf11fd2bf587a0587d67dabc2ee575c7f03fc7b7128a823d805bf5e74776a36d0c01",
+  "wants_validator": true
 }
