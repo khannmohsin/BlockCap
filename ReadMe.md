@@ -1,8 +1,8 @@
-# DTEA: Distributed Trust Enforcement Architecture for Distributed IoT Infrastructure
+# BlockCap: Capability Tokens for Blockchain-Based Authorization in Resource-Constrained IoT Environments
 
 ## Overview
 
-**DTEA** (Distributed Trust Enforcement Architecture) is a blockchain-enabled security framework designed for heterogeneous, decentralized IoT environments. It provides fine-grained access control, node registration, and role-aware consensus participation via smart contracts and capability-based tokens. The layered architecture supports localized trust enforcement, secure communication, and dynamic scalability across constrained and high-performance nodes.
+**BlockCap** is a blockchain-enabled security framework designed for heterogeneous, decentralized IoT environments. It provides fine-grained access control, node registration, and role-aware consensus participation via smart contracts and capability-based tokens. The layered architecture supports localized trust enforcement, secure communication, and dynamic scalability across constrained and high-performance nodes.
 
 ---
 ![Alt Text](DTEA_ARchitecture.png)
