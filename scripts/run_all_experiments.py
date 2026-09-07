@@ -833,21 +833,6 @@ def main() -> None:
             print(f"done in {elapsed:.1f}s  rps={rps}  errors={errs}  {status}", flush=True)
         load_results[str(concurrency)] = result
 
-    # Inject externally-measured propagation rows into internal_latency_summary so
-    # they appear in token_lifecycle_latency alongside the node-reported metrics.
-    for tier, prop_ms_list in propagation_latency_by_tier.items():
-        mean_ms = round(sum(prop_ms_list) / len(prop_ms_list), 3)
-        stddev_ms = round(
-            statistics.pstdev(prop_ms_list) if len(prop_ms_list) > 1 else 0.0, 3
-        )
-        internal_latency_summary.setdefault(tier, {})["revokeTokenPropagation|warm"] = {
-            "operation": "revokeTokenPropagation",
-            "condition": "warm",
-            "mean_ms": mean_ms,
-            "stddev_ms": stddev_ms,
-            "count": len(prop_ms_list),
-        }
-
     print(f"\n\033[1m── Gas comparison ──\033[0m")
     print(f"  building ... ", end="", flush=True)
     gas_summary = read_json(RESULTS_DIR / "gas_summary.json")

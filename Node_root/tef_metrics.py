@@ -88,6 +88,16 @@ class LatencyRecorder:
             return output_path
         self._last_write = now
         data = self.summary()
+        invalid_rows = [
+            key
+            for key, row in data.items()
+            if row["count"] > 1 and row["min_ms"] == 0 and row["max_ms"] == 0
+        ]
+        if invalid_rows:
+            raise ValueError(
+                "Latency summary contains impossible all-zero rows with multiple samples: "
+                + ", ".join(sorted(invalid_rows))
+            )
         output_path.parent.mkdir(parents=True, exist_ok=True)
         tmp_path = output_path.with_suffix(".json.tmp")
         tmp_path.write_text(json.dumps(data, indent=2, sort_keys=True))

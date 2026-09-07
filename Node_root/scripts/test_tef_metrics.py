@@ -3,6 +3,8 @@ import sys
 import time
 from pathlib import Path
 
+import pytest
+
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -75,6 +77,15 @@ def test_latency_recorder_summarizes_and_writes_json(tmp_path):
     second_path = recorder.write_summary()
     assert second_path == output_path
     assert json.loads(output_path.read_text()) == {"sentinel": True}
+
+
+def test_latency_recorder_rejects_multiple_all_zero_samples(tmp_path):
+    recorder = LatencyRecorder(tmp_path)
+    recorder.record("revokeTokenPropagation", "single", "warm", 0.0)
+    recorder.record("revokeTokenPropagation", "single", "warm", 0.0)
+
+    with pytest.raises(ValueError, match="all-zero rows"):
+        recorder.write_summary()
 
 
 def test_token_bucket_rate_limiter_enforces_retry_and_refill():
