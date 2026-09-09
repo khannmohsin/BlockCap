@@ -410,7 +410,15 @@ class Orchestrator:
             self._accounts = []
 
     def _should_use_js(self) -> bool:
-        """Returns True if the JS bridge should be used instead of web3.py."""
+        """Returns True if the JS bridge should be used instead of web3.py.
+
+        Instrumentation note: latency measurements must always exercise the
+        direct web3.py path so a subprocess spawn never contaminates a timed
+        interval. FORCE_WEB3_PY (set by the measurement harness) short-circuits
+        this to False regardless of REAL_INTERACT/USE_JS_BRIDGE.
+        """
+        if os.getenv("FORCE_WEB3_PY"):
+            return False
         if not os.getenv("REAL_INTERACT"):
             return True
         return bool(os.getenv("USE_JS_BRIDGE")) or self._contract is None or self._w3 is None or not self._accounts
@@ -540,14 +548,16 @@ class Orchestrator:
         return max(0.0, time.monotonic() - start)
 
     def _latency_condition(self, operation: str, node_tier: str) -> str:
+        """
+        Use explicit X-Latency-Condition only. Do not fall back to concurrency/cold/warm heuristics.
+
+        Callers that bypass the HTTP layer (direct orchestrator method calls, e.g. unit
+        tests or non-experiment tooling) never set condition_override. Those samples are
+        still recorded, but tagged "unlabeled" rather than raising or being silently
+        mislabeled as cold/warm, since we cannot know their true condition.
+        """
         override = getattr(self._request_ctx, "condition_override", None)
-        if override:
-            return override
-        if int(getattr(self._request_ctx, "concurrency", 1) or 1) > 1:
-            return "concurrent"
-        if not self.latency_recorder.has_samples(operation, node_tier):
-            return "cold"
-        return "warm"
+        return override or "unlabeled"
 
     def record_operation_latency(self, operation: str, *, elapsed: Optional[float]=None, node_tier: Optional[str]=None) -> None:
         tier = (node_tier or getattr(self._request_ctx, "node_tier", None) or self.local_node_tier or "unknown").strip().lower()
@@ -555,7 +565,38 @@ class Orchestrator:
         if duration is None:
             return
         condition = self._latency_condition(operation, tier)
-        self.latency_recorder.record(operation, tier, condition, duration)
+        # Mark on-chain-only operations with a boundary so downstream tools can distinguish
+        on_chain_ops = {
+            "registerNode",
+            "issueToken",
+            "issueTokenDelegable",
+            "delegateToken",
+            "revokeToken",
+            "revokeTokenPropagation",
+            "expiryCheck",
+            "checkGrant",
+            "ensurePolicy",
+            "createPolicy",
+            "updatePolicy",
+            "deprecatePolicy",
+        }
+        boundary = "on-chain" if operation in on_chain_ops else None
+        self.latency_recorder.record(operation, tier, condition, duration, boundary=boundary)
+        self.emit_event(
+            component="latency",
+            flow_type="latency",
+            flow_id=self.current_flow_id() or self._new_flow_id("latency"),
+            stage="sample_recorded",
+            status="ok",
+            message="Latency sample recorded",
+            duration_ms=duration * 1000,
+            details={
+                "operation": operation,
+                "condition": condition,
+                "node_tier": tier,
+                "boundary": boundary,
+            },
+        )
         self.latency_recorder.write_summary()
 
     def latency_summary(self) -> Dict[str, Any]:
@@ -1346,6 +1387,7 @@ class Orchestrator:
             ["string", "string", "string", "string", "address", "string", "string", "string"],
             [node_id, node_name, node_type_str, public_key, safe_addr, rpcURL, registered_by_node_type_str, node_signature],
         )
+        chain_start = time.monotonic()
         tx_hash = self._w3_submit(
             self._contract.functions.registerNodePacked(packed),
             from_idx=from_idx,
@@ -1353,7 +1395,7 @@ class Orchestrator:
         )
         tx_out = f"✅ registerNodePacked: {tx_hash}"
         print(f"[register_node] web3 result: {tx_out}")
-        self.record_operation_latency("registerNode")
+        self.record_operation_latency("registerNode", elapsed=time.monotonic() - chain_start)
         self.emit_event(
             component="blockchain",
             stage="registration_submit",
@@ -1505,6 +1547,8 @@ class Orchestrator:
             to_role_num = ROLE.get(to_role, 0)
             ops = _ops_mask(ops_csv)
             schema = _to_bytes32(ctx_schema or "")
+            chain_start = time.monotonic()
+            chain_start = time.monotonic()
             receipt = self._w3_send(
                 self._contract.functions.createPolicy(from_role_num, to_role_num, ops, schema),
                 from_idx=from_idx, gas=3_000_000, gas_label="createPolicy"
@@ -1705,7 +1749,7 @@ class Orchestrator:
             r = self._js("issueGrant", from_sig, to_sig, policy_id, ops_csv, expires_at, env=env)
             print(f"[issue_grant] result: ok={r.ok}, stdout={r.stdout!r}, stderr={r.stderr!r}, code={r.code}")
             if not r.ok: raise RuntimeError(r.stderr or r.stdout)
-            self.record_operation_latency("issueToken")
+            self.record_operation_latency("issueToken", elapsed=time.monotonic() - chain_start)
             self.emit_event(
                 component="blockchain",
                 stage="issue_grant_submit",
@@ -1718,6 +1762,7 @@ class Orchestrator:
             )
             return r.stdout
         ops = _ops_mask(ops_csv)
+        chain_start = time.monotonic()
         receipt = self._w3_send(
             self._contract.functions.issueGrant(from_sig, to_sig, int(policy_id), ops, int(expires_at)),
             from_idx=from_idx, gas=3_000_000, gas_label="issueToken"
@@ -1756,7 +1801,7 @@ class Orchestrator:
         if self._should_use_js():
             r = self._js("issueGrantDelegable", from_sig, to_sig, policy_id, ops_csv, expires_at, allow, delegation_depth, env=env)
             if not r.ok: raise RuntimeError(r.stderr or r.stdout)
-            self.record_operation_latency("issueTokenDelegable")
+            self.record_operation_latency("issueTokenDelegable", elapsed=time.monotonic() - chain_start)
             self.emit_event(
                 component="blockchain",
                 stage="issue_delegable_grant_submit",
@@ -1770,6 +1815,7 @@ class Orchestrator:
             return r.stdout
         ops = _ops_mask(ops_csv)
         allow_bool = delegation_allowed if isinstance(delegation_allowed, bool) else (str(allow).lower() in ("true", "1"))
+        chain_start = time.monotonic()
         receipt = self._w3_send(
             self._contract.functions.issueGrantDelegable(
                 from_sig, to_sig, int(policy_id), ops, int(expires_at), allow_bool, int(delegation_depth)
@@ -1814,7 +1860,7 @@ class Orchestrator:
             else:
                 r = self._js("delegateGrant", current_from_sig, to_sig, new_from_sig, ops_csv, expires_at, env=env)
             if not r.ok: raise RuntimeError(r.stderr or r.stdout)
-            self.record_operation_latency("delegateToken")
+            self.record_operation_latency("delegateToken", elapsed=time.monotonic() - chain_start)
             self.emit_event(
                 component="blockchain",
                 stage="delegation_submit",
@@ -1870,7 +1916,7 @@ class Orchestrator:
             r = self._js("revokeGrant", from_sig, to_sig, policy_id, env=env)
             if not r.ok:
                 raise RuntimeError(r.stderr or r.stdout)
-            self.record_operation_latency("revokeToken")
+            self.record_operation_latency("revokeToken", elapsed=time.monotonic() - chain_start)
             tx_hash = self._extract_tx_hash(r.stdout)
             self.emit_event(
                 component="blockchain",
@@ -2091,9 +2137,21 @@ class Orchestrator:
             to_signature=to_sig,
             details={"ops": op_csv},
         )
+
+        # Resolve policy id: prefer provided, else check cache, else attempt resolution
+        pid = self._cached_grant_policy_id(from_sig, to_sig)
+        if pid is None:
+            pid = self._resolve_grant_policy_id(from_sig, to_sig)
+        if pid is None and policy_id is not None:
+            pid = int(policy_id)
+        if pid is not None:
+            self._remember_grant_policy_id(from_sig, to_sig, int(pid))
+
         if self._should_use_js():
             if os.getenv("REAL_INTERACT"):
-                r = self._js("checkGrant", from_sig, to_sig, policy_id, op_csv)
+                if pid is None:
+                    raise RuntimeError("grant_policy_id_unknown")
+                r = self._js("checkGrant", from_sig, to_sig, pid, op_csv)
             else:
                 r = self._js("checkGrant", from_sig, to_sig, op_csv)
             if not r.ok:
@@ -2101,19 +2159,26 @@ class Orchestrator:
             self.record_operation_latency("checkGrant", elapsed=time.monotonic() - start)
             granted = _parse_bool(r.stdout) is True
         else:
+            if pid is None:
+                # Try one more time to resolve before failing
+                pid = self._resolve_grant_policy_id(from_sig, to_sig)
+                if pid is None:
+                    raise RuntimeError("grant_policy_id_unknown")
             try:
                 granted = bool(self._w3_call(
-                    self._contract.functions.checkGrant(from_sig, to_sig, int(policy_id), _ops_mask(op_csv))
+                    self._contract.functions.checkGrant(from_sig, to_sig, int(pid), _ops_mask(op_csv))
                 ))
+                self._remember_grant_policy_id(from_sig, to_sig, int(pid))
                 self.record_operation_latency("checkGrant", elapsed=time.monotonic() - start)
             except Exception as exc:
                 raise RuntimeError(str(exc)) from exc
+
         self.emit_event(
             component="blockchain",
             stage="grant_check",
             status="ok",
             message="Grant check completed",
-            policy_id=policy_id,
+            policy_id=pid,
             from_signature=from_sig,
             to_signature=to_sig,
             duration_ms=(time.monotonic() - start) * 1000,

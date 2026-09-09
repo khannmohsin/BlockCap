@@ -24,7 +24,7 @@ PLOTS_DIR = RESULTS_DIR / "plots"
 TABLES_DIR = RESULTS_DIR / "tables"
 
 # Tiers that have a blockchain client — endpoint is excluded from aggregation
-BLOCKCHAIN_TIERS = ["cloud", "fog", "edge"]
+BLOCKCHAIN_TIERS = ["single"]
 
 CONDITION_COLORS = {"cold": "#d56f3e", "warm": "#3f7d58", "concurrent": "#3f7d58"}
 PUBLICATION_DPI = 300          # print-quality for paper
@@ -874,12 +874,13 @@ def render_figure7_lifecycle_matrix(plot_dir: Path, rows: list[dict[str, Any]]) 
     ax.set_xticklabels(col_labels, fontsize=6)
     ax.set_yticks(list(range(len(ops))))
     ax.set_yticklabels(row_labels_display, fontsize=6)
-    ax.set_title("Token Lifecycle Latency Matrix\n(Cloud + Fog + Edge aggregated, Endpoint excluded)")
+    ax.set_title("Token Lifecycle Latency Matrix\n(Single-process measurements)")
 
+    positive_values = [v for row in matrix for v in row if v > 0]
+    max_positive = max(positive_values, default=0.0)
     for i, row_vals in enumerate(cell_labels):
         for j, label in enumerate(row_vals):
-            color = "white" if (matrix[i][j] or 0) > (max(
-                v for row in matrix for v in row if v > 0) * 0.6) else "black"
+            color = "white" if max_positive and matrix[i][j] > max_positive * 0.6 else "black"
             ax.text(j, i, label, ha="center", va="center", color=color, fontsize=5.5, fontweight="bold")
 
     cbar = fig.colorbar(im, ax=ax, fraction=0.03, pad=0.02)

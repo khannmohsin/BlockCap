@@ -4887,6 +4887,20 @@ def make_app(repo_root: str | None = None, node_role: str | None = None) -> Flas
         except Exception as e:
             return err("latency_metrics_failed", 500, detail=str(e))
 
+    @app.get("/metrics/latency/reconcile")
+    def latency_metrics_reconcile():
+        """End-of-run check: raw event log (latency_samples.jsonl) sample
+        counts must match the in-memory summary counts exactly. Call this
+        once, after all measurement calls for the run are complete — not
+        during the run, since counts will legitimately disagree while
+        samples are still being collected. Raises loudly (500) on any
+        mismatch; never auto-corrects."""
+        try:
+            orch.latency_recorder.reconcile_with_raw_log()
+            return ok({"reconciled": True})
+        except RuntimeError as e:
+            return err("latency_reconciliation_failed", 500, detail=str(e))
+
     @app.get("/events/recent")
     def recent_events():
         limit = max(1, min(_int_arg("limit", 100), 500))

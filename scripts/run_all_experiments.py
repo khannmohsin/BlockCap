@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import json
+import os
 import statistics
 import subprocess
 import sys
@@ -59,9 +60,17 @@ def read_json(path: Path) -> Any:
     return json.loads(path.read_text())
 
 
-def timed_request(method: str, url: str, *, json_body: dict[str, Any] | None = None, params: dict[str, Any] | None = None) -> dict[str, Any]:
+def timed_request(
+    method: str,
+    url: str,
+    *,
+    json_body: dict[str, Any] | None = None,
+    params: dict[str, Any] | None = None,
+    condition: str | None = None,
+) -> dict[str, Any]:
     started = time.perf_counter()
-    response = requests.request(method, url, json=json_body, params=params, timeout=30)
+    headers = {"X-Latency-Condition": condition} if condition else None
+    response = requests.request(method, url, json=json_body, params=params, headers=headers, timeout=30)
     elapsed = time.perf_counter() - started
     payload = None
     try:
@@ -417,6 +426,19 @@ def fetch_latency_summary(host: str) -> dict[str, Any]:
     return payload.get("summary", {})
 
 
+def reconcile_latency_log(host: str) -> None:
+    """Call the host's end-of-run reconciliation endpoint. Raises on any
+    failure (network error, non-200, or a reported mismatch) so callers can
+    surface it loudly rather than silently accept unverified summary counts."""
+    response = requests.get(host.rstrip("/") + "/metrics/latency/reconcile", timeout=30)
+    if response.status_code != 200:
+        try:
+            detail = response.json().get("error", {}).get("detail", response.text)
+        except Exception:
+            detail = response.text
+        raise RuntimeError(detail)
+
+
 def extract_lifecycle_rows(summary_by_tier: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for tier, summary in summary_by_tier.items():
@@ -563,8 +585,8 @@ def tier_experiment(
         seed_to_sig = delegate_target_sig or target_sig
         resource_path = f"/experiments/{tier}/{idx}/{int(time.time() * 1000)}"
         clear_grant_cache(host)
-        cold = timed_request("POST", host.rstrip("/") + "/access", json_body=access_body(requester_sig, target_sig, resource_path))
-        warm = timed_request("POST", host.rstrip("/") + "/access", json_body=access_body(requester_sig, target_sig, resource_path))
+        cold = timed_request("POST", host.rstrip("/") + "/access", json_body=access_body(requester_sig, target_sig, resource_path), condition="cold")
+        warm = timed_request("POST", host.rstrip("/") + "/access", json_body=access_body(requester_sig, target_sig, resource_path), condition="warm")
         grant_view = timed_request(
             "GET",
             host.rstrip("/") + "/grant",
@@ -582,6 +604,7 @@ def tier_experiment(
             "POST",
             host.rstrip("/") + "/access",
             json_body=access_body(seed_from_sig, seed_to_sig, delegable_resource, allow_delegation=True, delegation_depth=2),
+            condition="cold",
         )
         seed_grant = timed_request(
             "GET",
@@ -592,6 +615,7 @@ def tier_experiment(
                 "method": "GET",
                 "resource_path": delegable_resource,
             },
+            condition="warm",
         )
         seed_policy_id = extract_policy_id(seed.get("payload")) or extract_policy_id(seed_grant.get("payload")) or policy_id
         if delegate_enabled:
@@ -606,6 +630,7 @@ def tier_experiment(
                     "ops_csv": "READ",
                     "child_expiry_secs": 600,
                 },
+                condition="warm",
             )
         else:
             delegate = {
@@ -622,6 +647,7 @@ def tier_experiment(
                 "to_signature": seed_to_sig,
                 "policy_id": seed_policy_id,
             },
+            condition="warm",
         )
         revoke = timed_request(
             "POST",
@@ -631,6 +657,7 @@ def tier_experiment(
                 "to_signature": seed_to_sig,
                 "policy_id": seed_policy_id,
             },
+            condition="warm",
         )
 
         # Revoke the cold/warm grant so the next iteration starts truly cold on-chain.
@@ -639,6 +666,7 @@ def tier_experiment(
                 requests.post(
                     host.rstrip("/") + "/revoke-grant",
                     json={"from_signature": requester_sig, "to_signature": target_sig, "policy_id": policy_id},
+                    headers={"X-Latency-Condition": "cold"},
                     timeout=15,
                 )
             except Exception:
@@ -745,6 +773,7 @@ def summarize_table(latency_rows: list[dict[str, Any]]) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run the BlockCap experiment bundle")
     parser.add_argument("--cloud-host")
+    parser.add_argument("--single-host")
     parser.add_argument("--fog-host")
     parser.add_argument("--edge-host")
     parser.add_argument("--endpoint-host")
@@ -754,9 +783,11 @@ def main() -> None:
 
     scenario = load_scenario(args.scenario_file)
     tier_hosts = tier_hosts_from_args(args, scenario)
-    if not {"cloud", "fog", "edge"} <= set(tier_hosts):
+    if args.single_host:
+        tier_hosts = {"single": args.single_host.rstrip("/")}
+    elif not {"cloud", "fog", "edge"} <= set(tier_hosts):
         raise SystemExit("cloud, fog, and edge hosts are required (directly or via --scenario-file)")
-    if scenario and "endpoint" not in tier_hosts:
+    if scenario and "endpoint" not in tier_hosts and not args.single_host:
         raise SystemExit("scenario file does not expose an endpoint host")
 
     tiers = list(tier_hosts.keys())
@@ -773,7 +804,29 @@ def main() -> None:
     # Per-tier propagation latency samples (ms), collected by polling /grant after revoke.
     propagation_latency_by_tier: dict[str, list[float]] = {}
 
-    if scenario:
+    if args.single_host:
+        fixtures_dir = Path(os.environ.get("BLOCKCAP_REGISTRATION_FIXTURES", "/tmp/blockcap-registration-fixtures"))
+        fixtures = [
+            json.loads(path.read_text())
+            for path in sorted(fixtures_dir.glob("*.json"))
+            if path.name != "manifest.json" and path.name.startswith("EXPERIMENT-")
+        ]
+        if len(fixtures) < 3:
+            raise SystemExit("single-host mode requires at least three registration fixtures")
+        for idx, fixture in enumerate(fixtures[:args.runs]):
+            target_sig = fixtures[idx % len(fixtures)]["signature"]
+            requester_sig = fixtures[(idx + 1) % len(fixtures)]["signature"]
+            delegatee_sig = fixtures[(idx + 2) % len(fixtures)]["signature"]
+            rt_rows, life_rows, prop_samples = tier_experiment(
+                tier_hosts["single"], "single", target_sig, requester_sig, delegatee_sig,
+                1, delegate_parent_sig=requester_sig, delegate_target_sig=target_sig,
+            )
+            roundtrip_rows.extend(rt_rows)
+            http_lifecycle_rows.extend(life_rows)
+            internal_latency_summary["single"] = fetch_latency_summary(tier_hosts["single"])
+            if prop_samples:
+                propagation_latency_by_tier.setdefault("single", []).extend(prop_samples)
+    elif scenario:
         for tier, host in tier_hosts.items():
             case = resolve_experiment_case(scenario, tier)
             target_sig = case.get("target_sig")
@@ -819,8 +872,11 @@ def main() -> None:
         load_body = {"method": "GET", "resource_path": "/temperature", "from_signature": "sig-a", "to_signature": "sig-b"}
 
     load_results = {}
-    print(f"\n\033[1m── Load tests (fog) ──\033[0m")
-    for concurrency in (10, 50, 100):
+    if args.single_host:
+        load_results = {}
+    else:
+      print(f"\n\033[1m── Load tests (fog) ──\033[0m")
+    for concurrency in (() if args.single_host else (10, 50, 100)):
         print(f"  concurrency={concurrency:3d} ... ", end="", flush=True)
         t0 = time.perf_counter()
         result = run_load_test(tier_hosts["fog"], concurrency, load_body)
@@ -850,6 +906,24 @@ def main() -> None:
     print("\033[32mdone\033[0m", flush=True)
     topology_registration_rows = collect_topology_registration_rows(scenario)
     validator_promotion_rows = collect_validator_promotion_rows(scenario)
+
+    # End-of-run reconciliation: raw event log (latency_samples.jsonl) sample
+    # counts must match in-memory summary counts exactly, for every host
+    # queried during this run. Fails loudly (raises) on mismatch; never
+    # auto-corrects — see Node_root/tef_metrics.py LatencyRecorder.reconcile_with_raw_log.
+    reconciliation_errors: dict[str, str] = {}
+    for tier, host in tier_hosts.items():
+        try:
+            reconcile_latency_log(host)
+        except Exception as exc:  # noqa: BLE001 - report all reconciliation failures verbatim
+            reconciliation_errors[tier] = str(exc)
+    if reconciliation_errors:
+        raise SystemExit(
+            "Latency reconciliation FAILED for one or more hosts; refusing to write "
+            "experimental_results.json with unverified summary counts:\n"
+            + "\n".join(f"  {tier}: {msg}" for tier, msg in reconciliation_errors.items())
+        )
+
     result = {
         "experimental_setup": experimental_setup(scenario),
         "end_to_end_latency": summarize_roundtrip(roundtrip_rows),
@@ -867,6 +941,12 @@ def main() -> None:
             "latency_model": "Warm read-path latencies represent cache or read-only behavior; cold write-path latencies include synchronous QBFT-backed transaction confirmation and are not directly comparable to warm-read latencies.",
             "load_tests": "Load-test success latency is reported separately from 429 throttling so overload behavior does not distort successful-request latency.",
             "registration": "Topology registration latency is tracked separately from internal registerNode summaries; endpoint registration is reported separately because its bootstrap path differs from fog and edge.",
+        },
+        "run_metadata": {
+            "single_process": bool(args.single_host),
+            "warmup_calls_discarded": 0,
+            "real_interact": bool(os.getenv("REAL_INTERACT")),
+            "timer_boundary": "on-chain",
         },
     }
 

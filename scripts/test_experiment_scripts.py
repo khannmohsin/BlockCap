@@ -155,6 +155,7 @@ def test_run_all_experiments_main_writes_aggregate(monkeypatch, tmp_path):
             "count": 1,
         }
     })
+    monkeypatch.setattr(experiments, "reconcile_latency_log", lambda _host: None)
     monkeypatch.setattr(experiments, "build_comparison_table", lambda: {
         "baseline_complete": False,
         "table": [{"operation": "issue", "system": "BlockCap", "gas_cost": 100}],
@@ -227,7 +228,7 @@ def test_tier_experiment_skips_delegate_when_disabled(monkeypatch):
 
     calls: list[tuple[str, str]] = []
 
-    def fake_timed_request(method, url, *, json_body=None, params=None):
+    def fake_timed_request(method, url, *, json_body=None, params=None, condition=None):
         calls.append((method, url))
         if url.endswith("/grant"):
             return {"status_code": 200, "latency_ms": 1.0, "ok": True, "payload": {"grant": {"policyId": 4}}}

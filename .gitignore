@@ -1,5 +1,6 @@
 node_modules/
 results/
+registration_fixtures/
 runtime/generated/
 runtime/*/data_stale_*/
 

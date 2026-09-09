@@ -785,6 +785,7 @@ def post_registration(api_url: str, payload: dict[str, Any], timeout_seconds: fl
     response = requests.post(
         api_url.rstrip("/") + "/register-node",
         json=payload,
+        headers={"X-Latency-Condition": "cold"},
         timeout=timeout_seconds,
     )
     if response.status_code not in {200, 409}:

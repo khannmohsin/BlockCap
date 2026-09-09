@@ -48,13 +48,145 @@ class LatencyRecorder:
         self._results_dir = Path(results_dir)
         self._results_dir.mkdir(parents=True, exist_ok=True)
         self._samples: dict[LatencyKey, list[float]] = {}
+        self._boundaries: dict[LatencyKey, set[str | None]] = {}
         self._lock = threading.RLock()
         self._last_write = 0.0
 
-    def record(self, operation: str, node_tier: str, condition: str, latency_seconds: float) -> None:
+        # Raw samples persistence queue + writer thread
+        self._raw_samples_path = self._results_dir / "latency_samples.jsonl"
+        self._raw_write_queue: queue.Queue = queue.Queue()
+        self._raw_writer_error: BaseException | None = None
+        self._raw_writer_thread = threading.Thread(
+            target=self._raw_writer_loop, daemon=True, name="latency-raw-writer"
+        )
+        self._raw_writer_thread.start()
+
+        # run metadata (REAL_INTERACT and git branch)
+        self._write_run_metadata()
+
+    def _raw_writer_loop(self) -> None:
+        while True:
+            item = self._raw_write_queue.get()
+            try:
+                if item is None:
+                    return
+                with self._raw_samples_path.open("a", encoding="utf-8") as f:
+                    f.write(json.dumps(item, sort_keys=True) + "\n")
+            except BaseException as exc:
+                self._raw_writer_error = exc
+            finally:
+                self._raw_write_queue.task_done()
+
+    def _write_run_metadata(self) -> None:
+        meta = {
+            "real_interact": bool(os.getenv("REAL_INTERACT")),
+            "force_web3_py": bool(os.getenv("FORCE_WEB3_PY")),
+            "use_js_bridge_env": bool(os.getenv("USE_JS_BRIDGE")),
+            # Resolved execution branch given the env vars observed at recorder
+            # startup. FORCE_WEB3_PY takes precedence; otherwise the JS bridge
+            # is used unless REAL_INTERACT is set (see Orchestrator._should_use_js).
+            "resolved_execution_branch": (
+                "web3_py"
+                if os.getenv("FORCE_WEB3_PY")
+                else ("js_bridge" if not os.getenv("REAL_INTERACT") else "depends_on_runtime_state")
+            ),
+        }
+        branch = ""
+        commit = ""
+        try:
+            repo_root = find_repo_root(str(self._results_dir))
+            if (repo_root / ".git").exists():
+                import subprocess
+
+                pr = subprocess.run(
+                    ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+                    cwd=str(repo_root),
+                    capture_output=True,
+                    text=True,
+                )
+                if pr.returncode == 0:
+                    branch = pr.stdout.strip()
+                cr = subprocess.run(
+                    ["git", "rev-parse", "HEAD"],
+                    cwd=str(repo_root),
+                    capture_output=True,
+                    text=True,
+                )
+                if cr.returncode == 0:
+                    commit = cr.stdout.strip()
+        except Exception:
+            # Best-effort metadata only; never let git/subprocess issues (including
+            # test monkeypatches of subprocess.run with a different signature)
+            # break latency recording.
+            branch = branch or ""
+            commit = commit or ""
+        meta["branch"] = branch
+        meta["commit"] = commit
+        meta["timestamp_unix"] = time.time()
+        meta_path = self._results_dir / "run_metadata.json"
+        tmp = meta_path.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(meta, indent=2, sort_keys=True))
+        tmp.replace(meta_path)
+
+    def record(
+        self, operation: str, node_tier: str, condition: str, latency_seconds: float, *, boundary: str | None = None
+    ) -> None:
         key = LatencyKey(operation=operation, node_tier=node_tier, condition=condition)
         with self._lock:
             self._samples.setdefault(key, []).append(float(latency_seconds))
+            self._boundaries.setdefault(key, set()).add(boundary)
+
+        sample = {
+            "ts_unix_ms": int(time.time() * 1000),
+            "operation": operation,
+            "node_tier": node_tier,
+            "condition": condition,
+            "duration_ms": float(latency_seconds) * 1000,
+            "boundary": boundary or None,
+        }
+        self._raw_write_queue.put(sample)
+
+    def flush_raw_samples(self) -> None:
+        self._raw_write_queue.join()
+        if self._raw_writer_error is not None:
+            raise RuntimeError("Unable to persist raw latency samples") from self._raw_writer_error
+
+    def reconcile_with_raw_log(self) -> None:
+        """Reconcile in-memory summary counts against the append-only raw
+        sample log (latency_samples.jsonl).
+
+        The in-memory recorder resets on process restart while the raw log
+        survives, so silent sample loss (e.g. a mid-run restart) shows up as
+        a raw-log count that disagrees with the in-memory summary count.
+        Raises RuntimeError on any mismatch. Never auto-corrects — the
+        caller must investigate and rerun if this fails.
+        """
+        self.flush_raw_samples()
+        raw_counts: dict[str, int] = {}
+        if self._raw_samples_path.exists():
+            with self._raw_samples_path.open("r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    rec = json.loads(line)
+                    key = f"{rec['operation']}|{rec['node_tier']}|{rec['condition']}"
+                    raw_counts[key] = raw_counts.get(key, 0) + 1
+        with self._lock:
+            in_memory_counts = {
+                key.as_string(): len(values) for key, values in self._samples.items() if values
+            }
+        mismatches = []
+        for key in sorted(set(raw_counts) | set(in_memory_counts)):
+            raw_n = raw_counts.get(key, 0)
+            mem_n = in_memory_counts.get(key, 0)
+            if raw_n != mem_n:
+                mismatches.append(f"{key}: raw_log_count={raw_n} in_memory_count={mem_n}")
+        if mismatches:
+            raise RuntimeError(
+                "Latency summary/raw-log reconciliation FAILED (samples may have been "
+                "silently lost, e.g. on process restart): " + "; ".join(mismatches)
+            )
 
     def has_samples(self, operation: str, node_tier: str) -> bool:
         with self._lock:
@@ -76,9 +208,14 @@ class LatencyRecorder:
                     "mean_ms": round(statistics.fmean(values) * 1000, 3),
                     "stddev_ms": round((statistics.pstdev(values) if len(values) > 1 else 0.0) * 1000, 3),
                     "min_ms": round(min(values) * 1000, 3),
+                    "median_ms": round(statistics.median(values) * 1000, 3),
+                    "p95_ms": round(sorted(values)[max(0, int((len(values) * 0.95) + 0.999999) - 1)] * 1000, 3),
                     "max_ms": round(max(values) * 1000, 3),
                     "count": len(values),
                 }
+                boundaries = self._boundaries.get(key, set())
+                if len(boundaries) == 1:
+                    payload[key.as_string()]["timer_boundary"] = next(iter(boundaries))
             return payload
 
     def write_summary(self) -> Path:
@@ -87,6 +224,7 @@ class LatencyRecorder:
         if output_path.exists() and (now - self._last_write) < 5.0:
             return output_path
         self._last_write = now
+        self.flush_raw_samples()
         data = self.summary()
         invalid_rows = [
             key
