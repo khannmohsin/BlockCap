@@ -1,0 +1,19 @@
+\begin{tikzpicture}[>=stealth, font=\scriptsize,
+  tok/.style={rectangle, draw, rounded corners=2pt, fill=gray!8, align=center, minimum width=1.9cm, inner sep=2pt},
+  hot/.style={tok, draw=red!70!black, fill=red!10, very thick},
+  lab/.style={font=\scriptsize\bfseries, anchor=west}]
+\node[lab] at (-1.05,0.62) {(a) state 3: delegation chain};
+\node[tok] (s00) at (0.00,0.00) {$p_{r}$: $n_{3}\!\to\!n_{3}$\\ $ops=\{o_{1}\}$};
+\node[tok] (s01) at (2.45,0.00) {$p_{c}$: $n_{2}\!\to\!n_{3}$\\ $ops=\{o_{1}\}$};
+\draw[->] (s01) -- (s00) node[midway, above] {$\prec$};
+\node[tok] (s02) at (4.90,0.00) {$p_{g}$: $n_{0}\!\to\!n_{3}$\\ $ops=\{o_{1}\}$};
+\draw[->] (s02) -- (s01) node[midway, above] {$\prec$};
+\node[lab] at (-1.05,-0.83) {(b) state 4: object owner narrows $p_{r}$ in place};
+\node[hot] (s10) at (0.00,-1.45) {$p_{r}$: $n_{3}\!\to\!n_{3}$\\ $ops=\{o_{0}\}$};
+\node[tok] (s11) at (2.45,-1.45) {$p_{c}$: $n_{2}\!\to\!n_{3}$\\ $ops=\{o_{1}\}$};
+\draw[->] (s11) -- (s10) node[midway, above] {$\prec$};
+\node[tok] (s12) at (4.90,-1.45) {$p_{g}$: $n_{0}\!\to\!n_{3}$\\ $ops=\{o_{1}\}$};
+\draw[->] (s12) -- (s11) node[midway, above] {$\prec$};
+\node[lab] at (-1.05,-2.28) {(c) evaluation in state 4 of $\mathrm{Auth}(n_{0}, o_{1}, n_{3})$};
+\node[anchor=west, align=left] at (-1.05,-2.85) {without ancestor conjunct: \textbf{granted}, although $o_{1} \notin p_{r}.ops$\\with ancestor conjunct (Eq.~\eqref{eq:auth}): \textbf{denied}, since ancestor $p_{r}$ lacks $o_{1}$};
+\end{tikzpicture}
