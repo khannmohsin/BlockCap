@@ -1,0 +1,296 @@
+{
+  "model": "models/blockcap_final.als",
+  "out": "results_final/scaling",
+  "scopes": {},
+  "default_timeout": 1800,
+  "jobs": [
+    {
+      "name": "P1_TokenUniqueness",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P1_TokenUniqueness__slot2_steps5",
+      "scope": "slot2_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 2 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "P3_AuthCorrectness",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P3_AuthCorrectness__slot2_steps5",
+      "scope": "slot2_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 2 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "R_Revocation",
+      "kind": "check",
+      "expect": "holds",
+      "label": "R_Revocation__slot2_steps5",
+      "scope": "slot2_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 2 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "R_ReissueOutcome",
+      "kind": "check",
+      "expect": "holds",
+      "label": "R_ReissueOutcome__slot2_steps5",
+      "scope": "slot2_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 2 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "P2_EvaluatedChain",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P2_EvaluatedChain__slot2_steps5",
+      "scope": "slot2_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 2 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "A4_NoUnattributedChange",
+      "kind": "check",
+      "expect": "holds",
+      "label": "A4_NoUnattributedChange__slot2_steps5",
+      "scope": "slot2_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 2 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "P1_TokenUniqueness",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P1_TokenUniqueness__slot2_steps7",
+      "scope": "slot2_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 2 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    },
+    {
+      "name": "P3_AuthCorrectness",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P3_AuthCorrectness__slot2_steps7",
+      "scope": "slot2_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 2 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    },
+    {
+      "name": "R_Revocation",
+      "kind": "check",
+      "expect": "holds",
+      "label": "R_Revocation__slot2_steps7",
+      "scope": "slot2_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 2 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    },
+    {
+      "name": "R_ReissueOutcome",
+      "kind": "check",
+      "expect": "holds",
+      "label": "R_ReissueOutcome__slot2_steps7",
+      "scope": "slot2_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 2 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    },
+    {
+      "name": "P2_EvaluatedChain",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P2_EvaluatedChain__slot2_steps7",
+      "scope": "slot2_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 2 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    },
+    {
+      "name": "A4_NoUnattributedChange",
+      "kind": "check",
+      "expect": "holds",
+      "label": "A4_NoUnattributedChange__slot2_steps7",
+      "scope": "slot2_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 2 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    },
+    {
+      "name": "P1_TokenUniqueness",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P1_TokenUniqueness__slot3_steps5",
+      "scope": "slot3_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "P3_AuthCorrectness",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P3_AuthCorrectness__slot3_steps5",
+      "scope": "slot3_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "R_Revocation",
+      "kind": "check",
+      "expect": "holds",
+      "label": "R_Revocation__slot3_steps5",
+      "scope": "slot3_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "R_ReissueOutcome",
+      "kind": "check",
+      "expect": "holds",
+      "label": "R_ReissueOutcome__slot3_steps5",
+      "scope": "slot3_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "P2_EvaluatedChain",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P2_EvaluatedChain__slot3_steps5",
+      "scope": "slot3_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "A4_NoUnattributedChange",
+      "kind": "check",
+      "expect": "holds",
+      "label": "A4_NoUnattributedChange__slot3_steps5",
+      "scope": "slot3_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "P1_TokenUniqueness",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P1_TokenUniqueness__slot3_steps7",
+      "scope": "slot3_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    },
+    {
+      "name": "P3_AuthCorrectness",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P3_AuthCorrectness__slot3_steps7",
+      "scope": "slot3_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    },
+    {
+      "name": "R_Revocation",
+      "kind": "check",
+      "expect": "holds",
+      "label": "R_Revocation__slot3_steps7",
+      "scope": "slot3_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    },
+    {
+      "name": "R_ReissueOutcome",
+      "kind": "check",
+      "expect": "holds",
+      "label": "R_ReissueOutcome__slot3_steps7",
+      "scope": "slot3_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    },
+    {
+      "name": "P2_EvaluatedChain",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P2_EvaluatedChain__slot3_steps7",
+      "scope": "slot3_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    },
+    {
+      "name": "A4_NoUnattributedChange",
+      "kind": "check",
+      "expect": "holds",
+      "label": "A4_NoUnattributedChange__slot3_steps7",
+      "scope": "slot3_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    },
+    {
+      "name": "P1_TokenUniqueness",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P1_TokenUniqueness__slot4_steps5",
+      "scope": "slot4_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "P3_AuthCorrectness",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P3_AuthCorrectness__slot4_steps5",
+      "scope": "slot4_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "R_Revocation",
+      "kind": "check",
+      "expect": "holds",
+      "label": "R_Revocation__slot4_steps5",
+      "scope": "slot4_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "R_ReissueOutcome",
+      "kind": "check",
+      "expect": "holds",
+      "label": "R_ReissueOutcome__slot4_steps5",
+      "scope": "slot4_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "P2_EvaluatedChain",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P2_EvaluatedChain__slot4_steps5",
+      "scope": "slot4_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "A4_NoUnattributedChange",
+      "kind": "check",
+      "expect": "holds",
+      "label": "A4_NoUnattributedChange__slot4_steps5",
+      "scope": "slot4_steps5",
+      "scope_str": "for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+    },
+    {
+      "name": "P1_TokenUniqueness",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P1_TokenUniqueness__slot4_steps7",
+      "scope": "slot4_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    },
+    {
+      "name": "P3_AuthCorrectness",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P3_AuthCorrectness__slot4_steps7",
+      "scope": "slot4_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    },
+    {
+      "name": "R_Revocation",
+      "kind": "check",
+      "expect": "holds",
+      "label": "R_Revocation__slot4_steps7",
+      "scope": "slot4_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    },
+    {
+      "name": "R_ReissueOutcome",
+      "kind": "check",
+      "expect": "holds",
+      "label": "R_ReissueOutcome__slot4_steps7",
+      "scope": "slot4_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    },
+    {
+      "name": "P2_EvaluatedChain",
+      "kind": "check",
+      "expect": "holds",
+      "label": "P2_EvaluatedChain__slot4_steps7",
+      "scope": "slot4_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    },
+    {
+      "name": "A4_NoUnattributedChange",
+      "kind": "check",
+      "expect": "holds",
+      "label": "A4_NoUnattributedChange__slot4_steps7",
+      "scope": "slot4_steps7",
+      "scope_str": "for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+# results/cmd_4_xml/P2b_MonotonicityOnLiveChains-solution-0.xml
+Counterexample witnesses: {'s': ['Slot1'], 'a': ['Slot0']}
+Nodes: Node0(own=Principal1), Node1(own=Principal0)
+
+-- state 0  now=0
+   Policy0: ops={Op0,Op1}
+
+-- state 1  now=0
+   Policy0: ops={Op0,Op1}
+   Slot0: Node1->Node1 pol=Policy0 [I-D] ops={Op1} texp=4 depth=6 gen=1 parent=none pgen=0
+
+-- state 2  now=0
+   Policy0: ops={Op0,Op1}
+   Slot0: Node1->Node1 pol=Policy0 [I-D] ops={Op1} texp=4 depth=6 gen=1 parent=none pgen=0
+   Slot1: Node0->Node1 pol=Policy0 [I-D] ops={} texp=3 depth=5 gen=1 parent=Slot0 pgen=1
+
+-- state 3  now=0
+   Policy0: ops={Op0,Op1}
+   Slot0: Node1->Node1 pol=Policy0 [I-D] ops={Op1} texp=4 depth=6 gen=1 parent=none pgen=0
+   Slot1: Node0->Node1 pol=Policy0 [I--] ops={Op0} texp=3 depth=2 gen=1 parent=Slot0 pgen=1
+
+Flags: I=issued R=revoked D=delegable

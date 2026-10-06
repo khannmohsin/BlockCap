@@ -1,0 +1,15 @@
+{
+  "purpose": "Reproducible security-test build identity (Hardhat side only -- see note below)",
+  "source": "../Node_root/smart_contract_deployment/contracts/NodeRegistry.sol",
+  "source_sha256": "cee78668a4378548a022a339a9fb2b512a8b4cb84eecf0641e637b3614066dbf",
+  "compiler": "solc 0.8.28+commit.7893614a",
+  "optimizer": { "enabled": true, "runs": 1 },
+  "viaIR": true,
+  "evmVersion": "berlin",
+  "creation_bytecode_sha256": "07f65d8b6bdaf2df4783d41119488b2f8a9b4a9b5b43626f82db7d299165f1a0",
+  "runtime_bytecode_sha256": "2686882ce60589110569fb01bcbb2db58aaf716eebfae7b6f8e58f19cb39ed2d",
+  "creation_bytecode_bytes": 20225,
+  "runtime_bytecode_bytes": 20180,
+  "verification": "npm test deploys this artifact on Hardhat's isolated in-memory network and compares retrieved runtime bytecode exactly. This is not an attestation of an external Besu deployment.",
+  "note_2026_09_16": "runs lowered from 20 to 1 (2-3 re-verification): the default deployment build (Node_root/smart_contract_deployment/truffle-config.js, compiled via Truffle) was found to revert on deploy at runs=20 because it exceeds the 24576-byte EIP-170 limit -- confirmed Truffle 5.11.5 does not honor `viaIR` (toggling it changes nothing under Truffle), so `runs=20` relied on a size reduction that was never actually happening there. `runs=1` is honored by Truffle and keeps its build under the limit (19127 bytes); Hardhat's build (this manifest) is NOT byte-identical to Truffle's -- Hardhat's viaIR is genuinely effective, Truffle's is not -- but both are independently confirmed deployable from the identical source. Byte-for-byte cross-toolchain identity is not currently achievable with Truffle 5.11.5; source identity and independent deployability of both are what's actually verified. SECOND bug found the same day, after fixing the size revert: the deployed genesis activates only berlinBlock (no london/paris/shanghai fork), and solc 0.8.28 defaults to a much newer EVM target (cancun) absent an explicit setting, emitting PUSH0 (0x5f) -- every subsequent transaction reverted with 'Invalid opcode' until `evmVersion: \"berlin\"` was added to both configs. sync_contract_sources() in scripts/run_topology.py was also found to copy only *.sol files, never truffle-config.js, so a fresh topology kept deploying from the template's stale, unsynced config even after the authoritative one was fixed -- now synced too. THIRD change the same day (2-3a/C07): added validatorAdmissionApproved mapping + approveValidatorAdmission/revokeValidatorAdmission (onlyPolicyAdmin), gating the validator-proposal listener's auto-vote on explicit admin approval in addition to mere registration. Deliberately does not also require addressToNodeId[candidate] to be set, since that mapping is keyed by registeredBy (an administrative/owning address this project's registration flow can set to a shared registrar account) not the candidate's own consensus/P2P identity -- requiring it would reject exactly the addresses this function exists to approve."
+}

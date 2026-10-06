@@ -1,0 +1,3 @@
+label,name,kind,expect,scope,verdict,secs,ok,trace,scope_str
+R_ReissueOutcome,R_ReissueOutcome,check,holds,small,UNSAT,2139.9,True,,"for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+F2_OpsNeverGrowWithinGeneration,F2_OpsNeverGrowWithinGeneration,check,holds,small,UNSAT,4420.0,True,,"for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"

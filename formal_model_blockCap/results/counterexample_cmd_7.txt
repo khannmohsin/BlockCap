@@ -1,0 +1,22 @@
+# results/cmd_7_xml/R_RevocationReachesDescendants_EqAuth-solution-0.xml
+Counterexample witnesses: {'s': ['Slot0'], 'op': ['Op1']}
+Nodes: Node0(own=Principal1), Node1(own=Principal0), Node2(own=Principal0), Node3(own=Principal0)
+
+-- state 0  now=0
+   Policy0: ops={Op0,Op1}
+
+-- state 1  now=0
+   Policy0: ops={Op0,Op1}
+   Slot1: Node1->Node3 pol=Policy0 [I-D] ops={Op1} texp=5 depth=1 gen=1 parent=none pgen=0
+
+-- state 2  now=0
+   Policy0: ops={Op0,Op1}
+   Slot0: Node2->Node3 pol=Policy0 [I-D] ops={Op1} texp=4 depth=0 gen=1 parent=Slot1 pgen=1
+   Slot1: Node1->Node3 pol=Policy0 [I-D] ops={Op1} texp=5 depth=1 gen=1 parent=none pgen=0
+
+-- state 3  now=0
+   Policy0: ops={Op0,Op1}
+   Slot0: Node2->Node3 pol=Policy0 [I-D] ops={Op1} texp=4 depth=0 gen=1 parent=Slot1 pgen=1
+   Slot1: Node1->Node3 pol=Policy0 [IRD] ops={Op1} texp=5 depth=1 gen=1 parent=none pgen=0
+
+Flags: I=issued R=revoked D=delegable

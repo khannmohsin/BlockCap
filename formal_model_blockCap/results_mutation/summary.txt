@@ -1,0 +1,26 @@
+Base model: models/blockcap_system_model_fixed.als
+Scope: for 4 Node, 2 Policy, 3 Slot, 2 Op, 1 Role, 2 Principal, 1 Res, 4 Int, 1..5 steps
+
+KILLED   M01_no_single_slot: Remove the one-slot-per-(pair, policy) fact (Assumption as:slot)
+           KILLED       7s  P1_TokenUniqueness
+KILLED   M02_reissue_may_widen: Drop FIX 2: re-issue in place may widen ops
+           KILLED       7s  F2_ReissueNeverWidens
+KILLED   M03_delegate_ops_unbounded: Delegation: drop ops' subset of p.ops
+           KILLED       7s  P2_AtDerivation
+KILLED   M04_delegate_outlives_parent: Delegation: drop t'_exp <= p.t_exp
+           KILLED       7s  P2_AtDerivation
+           KILLED       5s  P2_EvaluatedChain
+KILLED   M05_delegate_depth_not_reduced: Delegation: child depth = parent depth (no decrement)
+           KILLED       6s  P2_AtDerivation
+KILLED   M06_walk_ignores_ancestor_ops: Ancestor walk: drop 'op in a.tops'
+           KILLED      41s  P3_AuthCorrectness_Fixed
+KILLED   M07_walk_ignores_revocation: Ancestor walk: drop 'a not in Rev'
+           KILLED       9s  R_RevocationReachesDescendants_Fixed
+KILLED   M08_walk_ignores_generation: Ancestor walk: drop the generation match
+           KILLED      28s  R_ReissueDoesNotRevalidateStaleChild_Fixed
+SURVIVED M09_walk_ignores_expiry: Ancestor walk: drop the ancestor expiry check
+           survived   445s  P2_EvaluatedChain
+SURVIVED M10_fresh_issue_keeps_generation: Fresh issue does not bump the generation counter
+           survived     7s  R_ReissueDoesNotRevalidateStaleChild_Fixed
+KILLED   M11_auth_uses_eq_as_written: Undo FIX 1: authFixed without the ancestor walk
+           KILLED      73s  P3_AuthCorrectness_Fixed

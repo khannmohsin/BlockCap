@@ -1,0 +1,20 @@
+node_modules
+.env
+
+# Hardhat files
+/cache
+/artifacts
+
+# TypeChain files
+/typechain
+/typechain-types
+
+# solidity-coverage files
+/coverage
+/coverage.json
+
+# Generated immediately before Hardhat compiles; source lives in Node_root.
+/contracts/*.sol
+
+# Hardhat Ignition default folder for deployments against a local node
+ignition/deployments/chain-31337

@@ -1,0 +1,467 @@
+{
+  "duration":7815,
+  "incremental":true,
+  "instances":[
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$Reach_RevokedParentWithLiveChild_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$1"
+            ]
+          ]
+        }
+      },
+      "state":0,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$2":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$1":{
+          
+        },
+        "Policy$1":{
+          "res":[
+            
+          ],
+          "toRole":[
+            
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$2":{
+          "sub":[
+            
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            
+          ],
+          "depth":[
+            
+          ],
+          "pgen":[
+            
+          ],
+          "obj":[
+            
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            
+          ],
+          "texp":[
+            
+          ]
+        },
+        "Slot$3":{
+          "sub":[
+            
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            
+          ],
+          "depth":[
+            
+          ],
+          "pgen":[
+            
+          ],
+          "obj":[
+            
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            
+          ],
+          "texp":[
+            
+          ]
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$Reach_RevokedParentWithLiveChild_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$1"
+            ]
+          ]
+        }
+      },
+      "state":1,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$2":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$1":{
+          
+        },
+        "Policy$1":{
+          "res":[
+            
+          ],
+          "toRole":[
+            
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$2":{
+          
+        },
+        "Slot$3":{
+          "sub":[
+            
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            
+          ],
+          "depth":[
+            
+          ],
+          "pgen":[
+            
+          ],
+          "obj":[
+            
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            
+          ],
+          "texp":[
+            
+          ]
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$Reach_RevokedParentWithLiveChild_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$1"
+            ]
+          ]
+        }
+      },
+      "state":2,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$2":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$1":{
+          
+        },
+        "Policy$1":{
+          "res":[
+            
+          ],
+          "toRole":[
+            
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$2":{
+          
+        },
+        "Slot$3":{
+          
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$Reach_RevokedParentWithLiveChild_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$1"
+            ]
+          ]
+        }
+      },
+      "state":3,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$2":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$1":{
+          
+        },
+        "Policy$1":{
+          "res":[
+            
+          ],
+          "toRole":[
+            
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$2":{
+          
+        },
+        "Slot$3":{
+          
+        },
+        "True$0":{
+          
+        }
+      }
+    }
+  ],
+  "localtime":"2026-10-05T14:53:14.206599",
+  "loopstate":-1,
+  "sigs":{
+    
+  },
+  "timezone":"Europe/Oslo",
+  "utctime":1791204794206
+}

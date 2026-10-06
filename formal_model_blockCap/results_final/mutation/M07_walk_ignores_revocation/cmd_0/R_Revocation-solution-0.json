@@ -1,0 +1,847 @@
+{
+  "duration":5064,
+  "incremental":true,
+  "instances":[
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$R_Revocation_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$0"
+            ]
+          ]
+        },
+        "$R_Revocation_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$1"
+            ]
+          ]
+        }
+      },
+      "state":0,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "DelegateK$0":{
+          
+        },
+        "Ev$0":{
+          "actor":[
+            [
+              "Principal$0"
+            ]
+          ],
+          "src":[
+            
+          ],
+          "kind":[
+            [
+              "IssueK$0"
+            ]
+          ],
+          "target":[
+            [
+              "Slot$0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "IssueK$0":{
+          
+        },
+        "Node$2":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$1":{
+          
+        },
+        "Policy$0":{
+          "res":[
+            [
+              "Res$1"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$0"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Policy$1":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$1"
+            ]
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "PolicyK$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Res$1":{
+          
+        },
+        "RevokeK$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Role$1":{
+          
+        },
+        "Slot$1":{
+          "sub":[
+            [
+              "Node$0"
+            ]
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            [
+              "0"
+            ]
+          ],
+          "depth":[
+            [
+              "0"
+            ]
+          ],
+          "pgen":[
+            [
+              "0"
+            ]
+          ],
+          "obj":[
+            [
+              "Node$1"
+            ]
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            [
+              "Policy$0"
+            ]
+          ],
+          "texp":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "Slot$2":{
+          "sub":[
+            
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            
+          ],
+          "depth":[
+            
+          ],
+          "pgen":[
+            
+          ],
+          "obj":[
+            
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            
+          ],
+          "texp":[
+            
+          ]
+        },
+        "True$0":{
+          
+        },
+        "ordering/Ord$0":{
+          "Next":[
+            [
+              "IssueK$0",
+              "DelegateK$0"
+            ],
+            [
+              "DelegateK$0",
+              "RevokeK$0"
+            ],
+            [
+              "RevokeK$0",
+              "PolicyK$0"
+            ]
+          ],
+          "First":[
+            [
+              "IssueK$0"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$R_Revocation_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$0"
+            ]
+          ]
+        },
+        "$R_Revocation_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$1"
+            ]
+          ]
+        }
+      },
+      "state":1,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "DelegateK$0":{
+          
+        },
+        "Ev$0":{
+          "actor":[
+            [
+              "Principal$0"
+            ]
+          ],
+          "src":[
+            [
+              "Slot$0"
+            ]
+          ],
+          "kind":[
+            [
+              "DelegateK$0"
+            ]
+          ],
+          "target":[
+            [
+              "Slot$1"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "IssueK$0":{
+          
+        },
+        "Node$2":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$1":{
+          
+        },
+        "Policy$0":{
+          "res":[
+            [
+              "Res$1"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$0"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Policy$1":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$1"
+            ]
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "PolicyK$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Res$1":{
+          
+        },
+        "RevokeK$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Role$1":{
+          
+        },
+        "Slot$1":{
+          
+        },
+        "Slot$2":{
+          "sub":[
+            
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            
+          ],
+          "depth":[
+            
+          ],
+          "pgen":[
+            
+          ],
+          "obj":[
+            
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            
+          ],
+          "texp":[
+            
+          ]
+        },
+        "True$0":{
+          
+        },
+        "ordering/Ord$0":{
+          "Next":[
+            [
+              "IssueK$0",
+              "DelegateK$0"
+            ],
+            [
+              "DelegateK$0",
+              "RevokeK$0"
+            ],
+            [
+              "RevokeK$0",
+              "PolicyK$0"
+            ]
+          ],
+          "First":[
+            [
+              "IssueK$0"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$R_Revocation_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$0"
+            ]
+          ]
+        },
+        "$R_Revocation_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$1"
+            ]
+          ]
+        }
+      },
+      "state":2,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "DelegateK$0":{
+          
+        },
+        "Ev$0":{
+          "actor":[
+            [
+              "Principal$0"
+            ]
+          ],
+          "src":[
+            
+          ],
+          "kind":[
+            [
+              "RevokeK$0"
+            ]
+          ],
+          "target":[
+            [
+              "Slot$0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "IssueK$0":{
+          
+        },
+        "Node$2":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$1":{
+          
+        },
+        "Policy$0":{
+          "res":[
+            [
+              "Res$1"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$0"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Policy$1":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$1"
+            ]
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "PolicyK$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Res$1":{
+          
+        },
+        "RevokeK$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Role$1":{
+          
+        },
+        "Slot$1":{
+          
+        },
+        "Slot$2":{
+          
+        },
+        "True$0":{
+          
+        },
+        "ordering/Ord$0":{
+          "Next":[
+            [
+              "IssueK$0",
+              "DelegateK$0"
+            ],
+            [
+              "DelegateK$0",
+              "RevokeK$0"
+            ],
+            [
+              "RevokeK$0",
+              "PolicyK$0"
+            ]
+          ],
+          "First":[
+            [
+              "IssueK$0"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$R_Revocation_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$0"
+            ]
+          ]
+        },
+        "$R_Revocation_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$1"
+            ]
+          ]
+        }
+      },
+      "state":3,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "DelegateK$0":{
+          
+        },
+        "Ev$0":{
+          "actor":[
+            
+          ],
+          "src":[
+            
+          ],
+          "kind":[
+            [
+              "PolicyK$0"
+            ]
+          ],
+          "target":[
+            
+          ]
+        },
+        "False$0":{
+          
+        },
+        "IssueK$0":{
+          
+        },
+        "Node$2":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$1":{
+          
+        },
+        "Policy$0":{
+          "res":[
+            [
+              "Res$1"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$0"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Policy$1":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$1"
+            ]
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "PolicyK$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Res$1":{
+          
+        },
+        "RevokeK$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Role$1":{
+          
+        },
+        "Slot$1":{
+          
+        },
+        "Slot$2":{
+          
+        },
+        "True$0":{
+          
+        },
+        "ordering/Ord$0":{
+          "Next":[
+            [
+              "IssueK$0",
+              "DelegateK$0"
+            ],
+            [
+              "DelegateK$0",
+              "RevokeK$0"
+            ],
+            [
+              "RevokeK$0",
+              "PolicyK$0"
+            ]
+          ],
+          "First":[
+            [
+              "IssueK$0"
+            ]
+          ]
+        }
+      }
+    }
+  ],
+  "localtime":"2026-10-05T20:25:58.984004",
+  "loopstate":-1,
+  "sigs":{
+    
+  },
+  "timezone":"Europe/Oslo",
+  "utctime":1791224758983
+}

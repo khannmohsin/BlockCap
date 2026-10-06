@@ -1,0 +1,34 @@
+Base model: models/blockcap_final.als
+Scope: for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps
+
+KILLED   M01_no_single_slot: Remove the one-slot-per-(pair, policy) fact (Assumption as:slot)
+           KILLED       9s  P1_TokenUniqueness
+KILLED   M02_reissue_may_widen: Drop FIX 2: re-issue in place may widen ops
+           KILLED      21s  F2_OpsNeverGrowWithinGeneration
+KILLED   M03_delegate_ops_unbounded: Delegation: drop ops' subset of p.ops
+           KILLED       9s  P2_AtDerivation
+KILLED   M04_delegate_outlives_parent: Delegation: drop t'_exp <= p.t_exp
+           KILLED       9s  P2_AtDerivation
+           KILLED       5s  P2_EvaluatedChain
+KILLED   M05_delegate_depth_not_reduced: Delegation: child depth = parent depth (no decrement)
+           KILLED       5s  P2_AtDerivation
+KILLED   M06_walk_ignores_ancestor_ops: Ancestor walk: drop 'op in a.tops'
+           KILLED      85s  P3_AuthCorrectness
+KILLED   M07_walk_ignores_revocation: Ancestor walk: drop 'a not in Rev'
+           KILLED       6s  R_Revocation
+KILLED   M08_walk_ignores_generation: Ancestor walk: drop the generation match
+           KILLED     371s  R_ReissueOutcome
+SURVIVED M09_walk_ignores_expiry: Ancestor walk: drop the ancestor expiry check (expected equivalent)
+           survived   533s  P2_EvaluatedChain
+KILLED   M10_fresh_issue_keeps_generation: Fresh issue does not bump the generation counter
+           KILLED      47s  R_ReissueOutcome
+KILLED   M11_auth_uses_eq_as_written: Undo FIX 1: authFixed without the ancestor walk
+           KILLED     109s  P3_AuthCorrectness
+KILLED   M12_issue_without_owner_check: issueGrant: drop the caller = own(n_j) guard
+           KILLED       2s  A1_NonDelegationChangesOnlyByObjectOwner
+KILLED   M13_revoke_without_owner_check: revokeGrant: drop the caller = own(n_j) guard
+           KILLED       4s  A3_RevocationOnlyByObjectOwner
+KILLED   M14_delegate_without_holder_check: delegateGrant: drop the caller = holder guard
+           KILLED       4s  A2_DelegationOnlyByParentHolder
+KILLED   M15_issue_without_role_match: issueGrant: drop the role-match guard
+           KILLED       2s  R1_RootTokensMatchPolicyRoles

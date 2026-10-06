@@ -1,0 +1,29 @@
+# results/cmd_5_xml/P3_AuthCorrectness_EqAuth-solution-0.xml
+Counterexample witnesses: {'i': ['Node0'], 'j': ['Node3'], 'op': ['Op1'], 's': ['Slot2']}
+Nodes: Node0(own=Principal1), Node1(own=Principal0), Node2(own=Principal0), Node3(own=Principal0)
+
+-- state 0  now=0
+   Policy0: ops={Op0,Op1}
+
+-- state 1  now=0
+   Policy0: ops={Op0,Op1}
+   Slot0: Node3->Node3 pol=Policy0 [I-D] ops={Op1} texp=5 depth=6 gen=1 parent=none pgen=0
+
+-- state 2  now=0
+   Policy0: ops={Op0,Op1}
+   Slot0: Node3->Node3 pol=Policy0 [I-D] ops={Op1} texp=5 depth=6 gen=1 parent=none pgen=0
+   Slot1: Node2->Node3 pol=Policy0 [I-D] ops={Op1} texp=5 depth=5 gen=1 parent=Slot0 pgen=1
+
+-- state 3  now=0
+   Policy0: ops={Op0,Op1}
+   Slot0: Node3->Node3 pol=Policy0 [I-D] ops={Op1} texp=5 depth=6 gen=1 parent=none pgen=0
+   Slot1: Node2->Node3 pol=Policy0 [I-D] ops={Op1} texp=5 depth=5 gen=1 parent=Slot0 pgen=1
+   Slot2: Node0->Node3 pol=Policy0 [I-D] ops={Op1} texp=2 depth=4 gen=1 parent=Slot1 pgen=1
+
+-- state 4  now=0
+   Policy0: ops={Op0,Op1}
+   Slot0: Node3->Node3 pol=Policy0 [I--] ops={Op0} texp=5 depth=4 gen=1 parent=none pgen=0
+   Slot1: Node2->Node3 pol=Policy0 [I-D] ops={Op1} texp=5 depth=5 gen=1 parent=Slot0 pgen=1
+   Slot2: Node0->Node3 pol=Policy0 [I-D] ops={Op1} texp=2 depth=4 gen=1 parent=Slot1 pgen=1
+
+Flags: I=issued R=revoked D=delegable

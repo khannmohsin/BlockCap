@@ -1,0 +1,420 @@
+{
+  "duration":3791,
+  "incremental":true,
+  "instances":[
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$F2_ReissueNeverWidens_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$0"
+            ]
+          ]
+        }
+      },
+      "state":0,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$2":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$0":{
+          
+        },
+        "Op$1":{
+          
+        },
+        "Policy$0":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$1"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Policy$1":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$0"
+            ],
+            [
+              "Op$1"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$2":{
+          "sub":[
+            
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            
+          ],
+          "depth":[
+            
+          ],
+          "pgen":[
+            
+          ],
+          "obj":[
+            
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            
+          ],
+          "texp":[
+            
+          ]
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$F2_ReissueNeverWidens_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$0"
+            ]
+          ]
+        }
+      },
+      "state":1,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$2":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$0":{
+          
+        },
+        "Op$1":{
+          
+        },
+        "Policy$0":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$1"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Policy$1":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$0"
+            ],
+            [
+              "Op$1"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$2":{
+          
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$F2_ReissueNeverWidens_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$0"
+            ]
+          ]
+        }
+      },
+      "state":2,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$2":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$0":{
+          
+        },
+        "Op$1":{
+          
+        },
+        "Policy$0":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$1"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Policy$1":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$0"
+            ],
+            [
+              "Op$1"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$2":{
+          
+        },
+        "True$0":{
+          
+        }
+      }
+    }
+  ],
+  "localtime":"2026-10-05T16:37:47.767976",
+  "loopstate":-1,
+  "sigs":{
+    
+  },
+  "timezone":"Europe/Oslo",
+  "utctime":1791211067767
+}

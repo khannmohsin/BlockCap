@@ -1,0 +1,671 @@
+{
+  "duration":7746,
+  "incremental":true,
+  "instances":[
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$R_RevocationReachesDescendants_EqAuth_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$1"
+            ]
+          ]
+        },
+        "$R_RevocationReachesDescendants_EqAuth_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$0"
+            ]
+          ]
+        },
+        "$authEq_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$0"
+            ]
+          ]
+        }
+      },
+      "state":0,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$0":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$1"
+            ]
+          ]
+        },
+        "Node$1":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$2":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$3":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Op$0":{
+          
+        },
+        "Op$1":{
+          
+        },
+        "Policy$1":{
+          "res":[
+            
+          ],
+          "toRole":[
+            
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$2":{
+          "sub":[
+            
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            
+          ],
+          "depth":[
+            
+          ],
+          "pgen":[
+            
+          ],
+          "obj":[
+            
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            
+          ],
+          "texp":[
+            
+          ]
+        },
+        "Slot$3":{
+          "sub":[
+            
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            
+          ],
+          "depth":[
+            
+          ],
+          "pgen":[
+            
+          ],
+          "obj":[
+            
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            
+          ],
+          "texp":[
+            
+          ]
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$R_RevocationReachesDescendants_EqAuth_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$1"
+            ]
+          ]
+        },
+        "$R_RevocationReachesDescendants_EqAuth_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$0"
+            ]
+          ]
+        },
+        "$authEq_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$0"
+            ]
+          ]
+        }
+      },
+      "state":1,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$0":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$1"
+            ]
+          ]
+        },
+        "Node$1":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$2":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$3":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Op$0":{
+          
+        },
+        "Op$1":{
+          
+        },
+        "Policy$1":{
+          "res":[
+            
+          ],
+          "toRole":[
+            
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$2":{
+          "sub":[
+            
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            
+          ],
+          "depth":[
+            
+          ],
+          "pgen":[
+            
+          ],
+          "obj":[
+            
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            
+          ],
+          "texp":[
+            
+          ]
+        },
+        "Slot$3":{
+          
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$R_RevocationReachesDescendants_EqAuth_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$1"
+            ]
+          ]
+        },
+        "$R_RevocationReachesDescendants_EqAuth_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$0"
+            ]
+          ]
+        },
+        "$authEq_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$0"
+            ]
+          ]
+        }
+      },
+      "state":2,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$0":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$1"
+            ]
+          ]
+        },
+        "Node$1":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$2":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$3":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Op$0":{
+          
+        },
+        "Op$1":{
+          
+        },
+        "Policy$1":{
+          "res":[
+            
+          ],
+          "toRole":[
+            
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$2":{
+          
+        },
+        "Slot$3":{
+          
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$R_RevocationReachesDescendants_EqAuth_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$1"
+            ]
+          ]
+        },
+        "$R_RevocationReachesDescendants_EqAuth_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$0"
+            ]
+          ]
+        },
+        "$authEq_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$0"
+            ]
+          ]
+        }
+      },
+      "state":3,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$0":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$1"
+            ]
+          ]
+        },
+        "Node$1":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$2":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$3":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Op$0":{
+          
+        },
+        "Op$1":{
+          
+        },
+        "Policy$1":{
+          "res":[
+            
+          ],
+          "toRole":[
+            
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$2":{
+          
+        },
+        "Slot$3":{
+          
+        },
+        "True$0":{
+          
+        }
+      }
+    }
+  ],
+  "localtime":"2026-10-05T14:58:14.309947",
+  "loopstate":-1,
+  "sigs":{
+    
+  },
+  "timezone":"Europe/Oslo",
+  "utctime":1791205094309
+}

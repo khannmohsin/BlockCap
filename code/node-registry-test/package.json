@@ -1,0 +1,17 @@
+{
+  "name": "registry-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "sync:source": "node scripts/sync-contract-test-source.js",
+    "test": "npm run sync:source && hardhat test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^6.1.0",
+    "hardhat": "^2.26.3"
+  }
+}

@@ -1,0 +1,23 @@
+# /Users/khannmohsin/VSCode Projects/BlockCap/formal_model_blockCap/results_final/main/Reach_RevokedParentWithLiveChild/xml/Reach_RevokedParentWithLiveChild-solution-0.xml
+Counterexample witnesses: {'s': ['Slot1']}
+Nodes: Node0(role=Role1, own=Principal0), Node1(role=Role0, own=Principal0), Node2(role=Role0, own=Principal0)
+Policy roles: Policy0: Role0->Role0
+
+-- state 0  now=0
+   Policy0: ops={Op0}
+
+-- state 1  now=0
+   Policy0: ops={Op0}
+   Slot0: Node2->Node2 pol=Policy0 [I-D] ops={Op0} texp=4 depth=5 gen=1 parent=none pgen=0
+
+-- state 2  now=0
+   Policy0: ops={Op0}
+   Slot0: Node2->Node2 pol=Policy0 [I-D] ops={Op0} texp=4 depth=5 gen=1 parent=none pgen=0
+   Slot1: Node0->Node2 pol=Policy0 [I-D] ops={} texp=2 depth=4 gen=1 parent=Slot0 pgen=1
+
+-- state 3  now=0
+   Policy0: ops={Op0}
+   Slot0: Node2->Node2 pol=Policy0 [IRD] ops={Op0} texp=4 depth=5 gen=1 parent=none pgen=0
+   Slot1: Node0->Node2 pol=Policy0 [I-D] ops={} texp=2 depth=4 gen=1 parent=Slot0 pgen=1
+
+Flags: I=issued R=revoked D=delegable

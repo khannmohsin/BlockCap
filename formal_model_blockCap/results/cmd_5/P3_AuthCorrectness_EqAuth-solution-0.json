@@ -1,0 +1,991 @@
+{
+  "duration":89339,
+  "incremental":true,
+  "instances":[
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$P3_AuthCorrectness_EqAuth_i":{
+          "arity":1,
+          "data":[
+            [
+              "Node$0"
+            ]
+          ]
+        },
+        "$P3_AuthCorrectness_EqAuth_j":{
+          "arity":1,
+          "data":[
+            [
+              "Node$3"
+            ]
+          ]
+        },
+        "$P3_AuthCorrectness_EqAuth_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$1"
+            ]
+          ]
+        },
+        "$authEq_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$2"
+            ]
+          ]
+        }
+      },
+      "state":0,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$0":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$1"
+            ]
+          ]
+        },
+        "Node$1":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$2":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$3":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Op$0":{
+          
+        },
+        "Op$1":{
+          
+        },
+        "Policy$1":{
+          "res":[
+            
+          ],
+          "toRole":[
+            
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$1":{
+          "sub":[
+            [
+              "Node$2"
+            ]
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            [
+              "0"
+            ]
+          ],
+          "depth":[
+            [
+              "0"
+            ]
+          ],
+          "pgen":[
+            [
+              "0"
+            ]
+          ],
+          "obj":[
+            [
+              "Node$3"
+            ]
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            [
+              "Policy$0"
+            ]
+          ],
+          "texp":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "Slot$2":{
+          "sub":[
+            [
+              "Node$0"
+            ]
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            [
+              "0"
+            ]
+          ],
+          "depth":[
+            [
+              "0"
+            ]
+          ],
+          "pgen":[
+            [
+              "0"
+            ]
+          ],
+          "obj":[
+            [
+              "Node$3"
+            ]
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            [
+              "Policy$0"
+            ]
+          ],
+          "texp":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "Slot$3":{
+          "sub":[
+            
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            
+          ],
+          "depth":[
+            
+          ],
+          "pgen":[
+            
+          ],
+          "obj":[
+            
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            
+          ],
+          "texp":[
+            
+          ]
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$P3_AuthCorrectness_EqAuth_i":{
+          "arity":1,
+          "data":[
+            [
+              "Node$0"
+            ]
+          ]
+        },
+        "$P3_AuthCorrectness_EqAuth_j":{
+          "arity":1,
+          "data":[
+            [
+              "Node$3"
+            ]
+          ]
+        },
+        "$P3_AuthCorrectness_EqAuth_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$1"
+            ]
+          ]
+        },
+        "$authEq_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$2"
+            ]
+          ]
+        }
+      },
+      "state":1,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$0":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$1"
+            ]
+          ]
+        },
+        "Node$1":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$2":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$3":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Op$0":{
+          
+        },
+        "Op$1":{
+          
+        },
+        "Policy$1":{
+          "res":[
+            
+          ],
+          "toRole":[
+            
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$1":{
+          
+        },
+        "Slot$2":{
+          "sub":[
+            [
+              "Node$0"
+            ]
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            [
+              "0"
+            ]
+          ],
+          "depth":[
+            [
+              "0"
+            ]
+          ],
+          "pgen":[
+            [
+              "0"
+            ]
+          ],
+          "obj":[
+            [
+              "Node$3"
+            ]
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            [
+              "Policy$0"
+            ]
+          ],
+          "texp":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "Slot$3":{
+          "sub":[
+            
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            
+          ],
+          "depth":[
+            
+          ],
+          "pgen":[
+            
+          ],
+          "obj":[
+            
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            
+          ],
+          "texp":[
+            
+          ]
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$P3_AuthCorrectness_EqAuth_i":{
+          "arity":1,
+          "data":[
+            [
+              "Node$0"
+            ]
+          ]
+        },
+        "$P3_AuthCorrectness_EqAuth_j":{
+          "arity":1,
+          "data":[
+            [
+              "Node$3"
+            ]
+          ]
+        },
+        "$P3_AuthCorrectness_EqAuth_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$1"
+            ]
+          ]
+        },
+        "$authEq_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$2"
+            ]
+          ]
+        }
+      },
+      "state":2,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$0":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$1"
+            ]
+          ]
+        },
+        "Node$1":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$2":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$3":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Op$0":{
+          
+        },
+        "Op$1":{
+          
+        },
+        "Policy$1":{
+          "res":[
+            
+          ],
+          "toRole":[
+            
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$1":{
+          
+        },
+        "Slot$2":{
+          
+        },
+        "Slot$3":{
+          "sub":[
+            
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            
+          ],
+          "depth":[
+            
+          ],
+          "pgen":[
+            
+          ],
+          "obj":[
+            
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            
+          ],
+          "texp":[
+            
+          ]
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$P3_AuthCorrectness_EqAuth_i":{
+          "arity":1,
+          "data":[
+            [
+              "Node$0"
+            ]
+          ]
+        },
+        "$P3_AuthCorrectness_EqAuth_j":{
+          "arity":1,
+          "data":[
+            [
+              "Node$3"
+            ]
+          ]
+        },
+        "$P3_AuthCorrectness_EqAuth_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$1"
+            ]
+          ]
+        },
+        "$authEq_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$2"
+            ]
+          ]
+        }
+      },
+      "state":3,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$0":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$1"
+            ]
+          ]
+        },
+        "Node$1":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$2":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$3":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Op$0":{
+          
+        },
+        "Op$1":{
+          
+        },
+        "Policy$1":{
+          "res":[
+            
+          ],
+          "toRole":[
+            
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$1":{
+          
+        },
+        "Slot$2":{
+          
+        },
+        "Slot$3":{
+          
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$P3_AuthCorrectness_EqAuth_i":{
+          "arity":1,
+          "data":[
+            [
+              "Node$0"
+            ]
+          ]
+        },
+        "$P3_AuthCorrectness_EqAuth_j":{
+          "arity":1,
+          "data":[
+            [
+              "Node$3"
+            ]
+          ]
+        },
+        "$P3_AuthCorrectness_EqAuth_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$1"
+            ]
+          ]
+        },
+        "$authEq_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$2"
+            ]
+          ]
+        }
+      },
+      "state":4,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$0":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$1"
+            ]
+          ]
+        },
+        "Node$1":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$2":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Node$3":{
+          "role":[
+            [
+              "Role$0"
+            ]
+          ],
+          "own":[
+            [
+              "Principal$0"
+            ]
+          ]
+        },
+        "Op$0":{
+          
+        },
+        "Op$1":{
+          
+        },
+        "Policy$1":{
+          "res":[
+            
+          ],
+          "toRole":[
+            
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$1":{
+          
+        },
+        "Slot$2":{
+          
+        },
+        "Slot$3":{
+          
+        },
+        "True$0":{
+          
+        }
+      }
+    }
+  ],
+  "localtime":"2026-10-05T14:56:31.896946",
+  "loopstate":-1,
+  "sigs":{
+    
+  },
+  "timezone":"Europe/Oslo",
+  "utctime":1791204991896
+}

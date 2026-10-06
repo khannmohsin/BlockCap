@@ -1,0 +1,21 @@
+# /Users/khannmohsin/VSCode Projects/BlockCap/formal_model_blockCap/results_final/main/Reach_RoleMismatchDelegation/xml/Reach_RoleMismatchDelegation-solution-0.xml
+Counterexample witnesses: {'s': ['Slot1']}
+Nodes: Node0(role=Role1, own=Principal0), Node1(role=Role0, own=Principal0)
+Policy roles: Policy0: Role1->Role1, Policy1: Role0->Role0
+
+-- state 0  now=0
+   Policy0: ops={Op1}
+   Policy1: ops={Op0}
+
+-- state 1  now=0
+   Policy0: ops={Op1}
+   Policy1: ops={Op0}
+   Slot0: Node1->Node1 pol=Policy1 [I-D] ops={Op0} texp=7 depth=1 gen=1 parent=none pgen=0
+
+-- state 2  now=0
+   Policy0: ops={Op1}
+   Policy1: ops={Op0}
+   Slot0: Node1->Node1 pol=Policy1 [I-D] ops={Op0} texp=7 depth=1 gen=1 parent=none pgen=0
+   Slot1: Node0->Node1 pol=Policy1 [I-D] ops={} texp=5 depth=0 gen=1 parent=Slot0 pgen=1
+
+Flags: I=issued R=revoked D=delegable

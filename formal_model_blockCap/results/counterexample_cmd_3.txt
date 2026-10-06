@@ -1,0 +1,22 @@
+# results/cmd_3_xml/P2_DelegationMonotonicity-solution-0.xml
+Counterexample witnesses: {'s': ['Slot2'], 'a': ['Slot1']}
+Nodes: Node0(own=Principal1), Node1(own=Principal1), Node2(own=Principal0), Node3(own=Principal0)
+
+-- state 0  now=0
+   Policy0: ops={Op0}
+
+-- state 1  now=0
+   Policy0: ops={Op0}
+   Slot1: Node1->Node2 pol=Policy0 [I-D] ops={Op0} texp=1 depth=1 gen=1 parent=none pgen=0
+
+-- state 2  now=0
+   Policy0: ops={Op0}
+   Slot1: Node1->Node2 pol=Policy0 [I-D] ops={Op0} texp=1 depth=1 gen=1 parent=none pgen=0
+   Slot2: Node0->Node2 pol=Policy0 [I-D] ops={} texp=1 depth=0 gen=1 parent=Slot1 pgen=1
+
+-- state 3  now=0
+   Policy0: ops={Op0}
+   Slot1: Node1->Node2 pol=Policy0 [I-D] ops={Op0} texp=7 depth=0 gen=1 parent=none pgen=0
+   Slot2: Node0->Node2 pol=Policy0 [I-D] ops={} texp=1 depth=0 gen=1 parent=Slot1 pgen=1
+
+Flags: I=issued R=revoked D=delegable

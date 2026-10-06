@@ -1,0 +1,559 @@
+{
+  "duration":3560,
+  "incremental":true,
+  "instances":[
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$P1_TokenUniqueness_d":{
+          "arity":1,
+          "data":[
+            [
+              "Policy$0"
+            ]
+          ]
+        },
+        "$P1_TokenUniqueness_i":{
+          "arity":1,
+          "data":[
+            [
+              "Node$0"
+            ]
+          ]
+        },
+        "$P1_TokenUniqueness_j":{
+          "arity":1,
+          "data":[
+            [
+              "Node$0"
+            ]
+          ]
+        }
+      },
+      "state":0,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$1":{
+          
+        },
+        "Policy$1":{
+          "res":[
+            
+          ],
+          "toRole":[
+            
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            
+          ]
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$0":{
+          "sub":[
+            [
+              "Node$0"
+            ]
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            [
+              "0"
+            ]
+          ],
+          "depth":[
+            [
+              "0"
+            ]
+          ],
+          "pgen":[
+            [
+              "0"
+            ]
+          ],
+          "obj":[
+            [
+              "Node$0"
+            ]
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            [
+              "Policy$0"
+            ]
+          ],
+          "texp":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "Slot$1":{
+          "sub":[
+            [
+              "Node$0"
+            ]
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            [
+              "0"
+            ]
+          ],
+          "depth":[
+            [
+              "0"
+            ]
+          ],
+          "pgen":[
+            [
+              "0"
+            ]
+          ],
+          "obj":[
+            [
+              "Node$0"
+            ]
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            [
+              "Policy$0"
+            ]
+          ],
+          "texp":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "Slot$2":{
+          "sub":[
+            [
+              "Node$0"
+            ]
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            [
+              "0"
+            ]
+          ],
+          "depth":[
+            [
+              "0"
+            ]
+          ],
+          "pgen":[
+            [
+              "0"
+            ]
+          ],
+          "obj":[
+            [
+              "Node$0"
+            ]
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            [
+              "Policy$0"
+            ]
+          ],
+          "texp":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$P1_TokenUniqueness_d":{
+          "arity":1,
+          "data":[
+            [
+              "Policy$0"
+            ]
+          ]
+        },
+        "$P1_TokenUniqueness_i":{
+          "arity":1,
+          "data":[
+            [
+              "Node$0"
+            ]
+          ]
+        },
+        "$P1_TokenUniqueness_j":{
+          "arity":1,
+          "data":[
+            [
+              "Node$0"
+            ]
+          ]
+        }
+      },
+      "state":1,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$1":{
+          
+        },
+        "Policy$1":{
+          "res":[
+            
+          ],
+          "toRole":[
+            
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            
+          ]
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$0":{
+          "sub":[
+            [
+              "Node$0"
+            ]
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            [
+              "0"
+            ]
+          ],
+          "depth":[
+            [
+              "0"
+            ]
+          ],
+          "pgen":[
+            [
+              "0"
+            ]
+          ],
+          "obj":[
+            [
+              "Node$0"
+            ]
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            [
+              "Policy$0"
+            ]
+          ],
+          "texp":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "Slot$1":{
+          "sub":[
+            [
+              "Node$0"
+            ]
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            [
+              "0"
+            ]
+          ],
+          "depth":[
+            [
+              "0"
+            ]
+          ],
+          "pgen":[
+            [
+              "0"
+            ]
+          ],
+          "obj":[
+            [
+              "Node$0"
+            ]
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            [
+              "Policy$0"
+            ]
+          ],
+          "texp":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "Slot$2":{
+          
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$P1_TokenUniqueness_d":{
+          "arity":1,
+          "data":[
+            [
+              "Policy$0"
+            ]
+          ]
+        },
+        "$P1_TokenUniqueness_i":{
+          "arity":1,
+          "data":[
+            [
+              "Node$0"
+            ]
+          ]
+        },
+        "$P1_TokenUniqueness_j":{
+          "arity":1,
+          "data":[
+            [
+              "Node$0"
+            ]
+          ]
+        }
+      },
+      "state":2,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$1":{
+          
+        },
+        "Policy$1":{
+          "res":[
+            
+          ],
+          "toRole":[
+            
+          ],
+          "pops":[
+            
+          ],
+          "fromRole":[
+            
+          ]
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$0":{
+          
+        },
+        "Slot$1":{
+          "sub":[
+            [
+              "Node$0"
+            ]
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            [
+              "0"
+            ]
+          ],
+          "depth":[
+            [
+              "0"
+            ]
+          ],
+          "pgen":[
+            [
+              "0"
+            ]
+          ],
+          "obj":[
+            [
+              "Node$0"
+            ]
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            [
+              "Policy$0"
+            ]
+          ],
+          "texp":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "Slot$2":{
+          
+        },
+        "True$0":{
+          
+        }
+      }
+    }
+  ],
+  "localtime":"2026-10-05T16:37:47.996471",
+  "loopstate":-1,
+  "sigs":{
+    
+  },
+  "timezone":"Europe/Oslo",
+  "utctime":1791211067996
+}

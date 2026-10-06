@@ -1,0 +1,40 @@
+# /Users/khannmohsin/VSCode Projects/BlockCap/formal_model_blockCap/results_final/rerun/Rich_AllMechanismsInOneTrace/xml/Rich_AllMechanismsInOneTrace-solution-0.xml
+Counterexample witnesses: {'s': ['Slot0'], "s'": ['Slot1']}
+Nodes: Node0(role=Role1, own=Principal1), Node1(role=Role1, own=Principal0), Node2(role=Role1, own=Principal0), Node3(role=Role0, own=Principal0)
+Policy roles: Policy0: Role1->Role1, Policy1: Role1->Role0
+
+-- state 0  now=0
+   Policy0: ops={Op0,Op1}
+   Policy1: ops={Op1}
+
+-- state 1  now=0
+   Policy0: ops={Op0,Op1}
+   Policy1: ops={Op1}
+   Slot1: Node1->Node0 pol=Policy0 [I-D] ops={Op1} texp=6 depth=4 gen=1 parent=none pgen=0
+
+-- state 2  now=0
+   Policy0: ops={Op0,Op1}
+   Policy1: ops={Op1}
+   Slot1: Node1->Node0 pol=Policy0 [I-D] ops={Op1} texp=6 depth=4 gen=1 parent=none pgen=0
+   Slot2: Node0->Node0 pol=Policy0 [I-D] ops={} texp=1 depth=3 gen=1 parent=Slot1 pgen=1
+
+-- state 3  now=0
+   Policy0: ops={Op0,Op1}
+   Policy1: ops={Op1}
+   Slot1: Node1->Node0 pol=Policy0 [IRD] ops={Op1} texp=6 depth=4 gen=1 parent=none pgen=0
+   Slot2: Node0->Node0 pol=Policy0 [I-D] ops={} texp=1 depth=3 gen=1 parent=Slot1 pgen=1
+
+-- state 4  now=0
+   Policy0: ops={Op0,Op1}
+   Policy1: ops={Op1}
+   Slot1: Node1->Node0 pol=Policy0 [I-D] ops={Op0} texp=5 depth=1 gen=2 parent=none pgen=0
+   Slot2: Node0->Node0 pol=Policy0 [I-D] ops={} texp=1 depth=3 gen=1 parent=Slot1 pgen=1
+
+-- state 5  now=0
+   Policy0: ops={Op0,Op1}
+   Policy1: ops={Op1}
+   Slot0: Node2->Node0 pol=Policy0 [I-D] ops={} texp=1 depth=2 gen=1 parent=Slot2 pgen=1
+   Slot1: Node1->Node0 pol=Policy0 [I-D] ops={Op0} texp=5 depth=1 gen=2 parent=none pgen=0
+   Slot2: Node0->Node0 pol=Policy0 [I-D] ops={} texp=1 depth=3 gen=1 parent=Slot1 pgen=1
+
+Flags: I=issued R=revoked D=delegable

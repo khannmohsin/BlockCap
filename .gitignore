@@ -1,8 +1,8 @@
 node_modules/
 results/
 registration_fixtures/
-runtime/generated/
-runtime/*/data_stale_*/
+**/runtime/generated/
+**/runtime/*/data_stale_*/
 
 __pycache__/
 *.py[cod]
@@ -12,3 +12,23 @@ __pycache__/
 .venv-py314-failed/
 
 *.log
+
+# virtualenvs and local backups (never tracked)
+.venv/
+code/results_pre_rerun_backup/
+# Hardhat build output
+code/node-registry-test/artifacts/
+code/node-registry-test/cache/
+
+# Not published: manuscript, related papers, internal revision material, bulky data
+/paper/
+/references/
+/BlockCap_related_papers/
+/reviews/
+/revision/
+/docs/
+/data/
+/CLAUDE.md
+/.claude/
+# formal model: keep its results (overrides the generic results/ rule above)
+!formal_model_blockCap/results/

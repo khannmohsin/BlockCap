@@ -1,0 +1,811 @@
+{
+  "duration":261915,
+  "incremental":true,
+  "instances":[
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$R_ReissueOutcome_Fixed_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$0"
+            ]
+          ]
+        },
+        "$R_ReissueOutcome_Fixed_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$0"
+            ]
+          ]
+        }
+      },
+      "state":0,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$2":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$0":{
+          
+        },
+        "Op$1":{
+          
+        },
+        "Policy$0":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$1"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Policy$1":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$0"
+            ],
+            [
+              "Op$1"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$1":{
+          "sub":[
+            [
+              "Node$0"
+            ]
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            [
+              "0"
+            ]
+          ],
+          "depth":[
+            [
+              "0"
+            ]
+          ],
+          "pgen":[
+            [
+              "0"
+            ]
+          ],
+          "obj":[
+            [
+              "Node$1"
+            ]
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            [
+              "Policy$1"
+            ]
+          ],
+          "texp":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "Slot$2":{
+          "sub":[
+            
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            
+          ],
+          "depth":[
+            
+          ],
+          "pgen":[
+            
+          ],
+          "obj":[
+            
+          ],
+          "tops":[
+            
+          ],
+          "pol":[
+            
+          ],
+          "texp":[
+            
+          ]
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$R_ReissueOutcome_Fixed_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$0"
+            ]
+          ]
+        },
+        "$R_ReissueOutcome_Fixed_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$0"
+            ]
+          ]
+        }
+      },
+      "state":1,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$2":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$0":{
+          
+        },
+        "Op$1":{
+          
+        },
+        "Policy$0":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$1"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Policy$1":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$0"
+            ],
+            [
+              "Op$1"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$1":{
+          "sub":[
+            [
+              "Node$0"
+            ]
+          ],
+          "parent":[
+            
+          ],
+          "gen":[
+            [
+              "1"
+            ]
+          ],
+          "depth":[
+            [
+              "3"
+            ]
+          ],
+          "pgen":[
+            [
+              "0"
+            ]
+          ],
+          "obj":[
+            [
+              "Node$1"
+            ]
+          ],
+          "tops":[
+            [
+              "Op$1"
+            ]
+          ],
+          "pol":[
+            [
+              "Policy$1"
+            ]
+          ],
+          "texp":[
+            [
+              "1"
+            ]
+          ]
+        },
+        "Slot$2":{
+          
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$R_ReissueOutcome_Fixed_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$0"
+            ]
+          ]
+        },
+        "$R_ReissueOutcome_Fixed_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$0"
+            ]
+          ]
+        }
+      },
+      "state":2,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$2":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$0":{
+          
+        },
+        "Op$1":{
+          
+        },
+        "Policy$0":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$1"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Policy$1":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$0"
+            ],
+            [
+              "Op$1"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$1":{
+          
+        },
+        "Slot$2":{
+          
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$R_ReissueOutcome_Fixed_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$0"
+            ]
+          ]
+        },
+        "$R_ReissueOutcome_Fixed_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$0"
+            ]
+          ]
+        }
+      },
+      "state":3,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$2":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$0":{
+          
+        },
+        "Op$1":{
+          
+        },
+        "Policy$0":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$1"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Policy$1":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$0"
+            ],
+            [
+              "Op$1"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$1":{
+          
+        },
+        "Slot$2":{
+          
+        },
+        "True$0":{
+          
+        }
+      }
+    },
+    {
+      "messages":[
+        
+      ],
+      "skolems":{
+        "$R_ReissueOutcome_Fixed_op":{
+          "arity":1,
+          "data":[
+            [
+              "Op$0"
+            ]
+          ]
+        },
+        "$R_ReissueOutcome_Fixed_s":{
+          "arity":1,
+          "data":[
+            [
+              "Slot$0"
+            ]
+          ]
+        }
+      },
+      "state":4,
+      "values":{
+        "0":{
+          
+        },
+        "1":{
+          
+        },
+        "2":{
+          
+        },
+        "3":{
+          
+        },
+        "Clock$0":{
+          "now":[
+            [
+              "0"
+            ]
+          ]
+        },
+        "False$0":{
+          
+        },
+        "Node$2":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Node$3":{
+          "role":[
+            
+          ],
+          "own":[
+            
+          ]
+        },
+        "Op$0":{
+          
+        },
+        "Op$1":{
+          
+        },
+        "Policy$0":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$1"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Policy$1":{
+          "res":[
+            [
+              "Res$0"
+            ]
+          ],
+          "toRole":[
+            [
+              "Role$0"
+            ]
+          ],
+          "pops":[
+            [
+              "Op$0"
+            ],
+            [
+              "Op$1"
+            ]
+          ],
+          "fromRole":[
+            [
+              "Role$0"
+            ]
+          ]
+        },
+        "Principal$0":{
+          
+        },
+        "Principal$1":{
+          
+        },
+        "Res$0":{
+          
+        },
+        "Role$0":{
+          
+        },
+        "Slot$1":{
+          
+        },
+        "Slot$2":{
+          
+        },
+        "True$0":{
+          
+        }
+      }
+    }
+  ],
+  "localtime":"2026-10-05T16:59:18.337519",
+  "loopstate":-1,
+  "sigs":{
+    
+  },
+  "timezone":"Europe/Oslo",
+  "utctime":1791212358337
+}

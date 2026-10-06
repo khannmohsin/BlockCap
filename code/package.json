@@ -1,0 +1,18 @@
+{
+  "name": "blockcap",
+  "private": true,
+  "scripts": {
+    "test:contracts": "cd node-registry-test && npm test",
+    "metrics:contracts": "node scripts/collect_contract_metrics.js",
+    "metrics:gas": "node scripts/measure_gas.js",
+    "experiments:all": "./.venv/bin/python scripts/run_all_experiments.py",
+    "report:build": "./.venv/bin/python scripts/generate_matplotlib_report.py"
+  },
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^2.1.15",
+    "dotenv": "^17.3.1",
+    "node-fetch": "^2.7.0",
+    "truffle": "^5.11.5",
+    "web3": "^4.16.0"
+  }
+}

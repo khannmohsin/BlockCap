@@ -1,0 +1,14 @@
+Alloy: 6.2.0
+Model: models/blockcap_system_model.als  sha256=6736953f1347234698283307d9ad90ee8b808de66f02041ea845bed50027b500
+Date:  2026-10-05T12:52:50Z
+
+SAT       15s  [0] Run Reach_DelegationChainDepth2 for 4 int 1..7 steps, 4 Node, 2 Policy, 4 Slot, 2 Op, 1 Role, 2 Principal, 1 Res
+SAT        9s  [1] Run Reach_RevokedParentWithLiveChild for 4 int 1..7 steps, 4 Node, 2 Policy, 4 Slot, 2 Op, 1 Role, 2 Principal, 1 Res
+UNSAT     22s  [2] Check P1_TokenUniqueness for 4 int 1..7 steps, 4 Node, 2 Policy, 4 Slot, 2 Op, 1 Role, 2 Principal, 1 Res
+SAT       36s  [3] Check P2_DelegationMonotonicity for 4 int 1..7 steps, 4 Node, 2 Policy, 4 Slot, 2 Op, 1 Role, 2 Principal, 1 Res
+SAT       49s  [4] Check P2b_MonotonicityOnLiveChains for 4 int 1..7 steps, 4 Node, 2 Policy, 4 Slot, 2 Op, 1 Role, 2 Principal, 1 Res
+SAT      102s  [5] Check P3_AuthCorrectness_EqAuth for 4 int 1..7 steps, 4 Node, 2 Policy, 4 Slot, 2 Op, 1 Role, 2 Principal, 1 Res
+UNSAT     81s  [6] Check P3_AuthCorrectness_Walk for 4 int 1..7 steps, 4 Node, 2 Policy, 4 Slot, 2 Op, 1 Role, 2 Principal, 1 Res
+SAT        9s  [7] Check R_RevocationReachesDescendants_EqAuth for 4 int 1..7 steps, 4 Node, 2 Policy, 4 Slot, 2 Op, 1 Role, 2 Principal, 1 Res
+UNSAT     34s  [8] Check R_RevocationReachesDescendants_Walk for 4 int 1..7 steps, 4 Node, 2 Policy, 4 Slot, 2 Op, 1 Role, 2 Principal, 1 Res
+UNSAT     21s  [9] Check R_ReissueDoesNotRevalidateStaleChild_Walk for 4 int 1..7 steps, 4 Node, 2 Policy, 4 Slot, 2 Op, 1 Role, 2 Principal, 1 Res

@@ -1,0 +1,5 @@
+{
+  "Cloud|Fog|1|api:GET:/r05/faketest": 99,
+  "Edge|Fog|1|api:GET:/terminal-lineage-test": 7,
+  "Cloud|Edge|1|api:GET:/openloop-test": 2
+}

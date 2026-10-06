@@ -1,0 +1,1035 @@
+<alloy builddate="2025-01-09T08:17:18.350Z">
+
+<instance bitwidth="4" maxseq="4" mintrace="1" maxtrace="7" command="Check P3_AuthCorrectness_EqAuth for 4 int 1..7 steps, 4 Node, 2 Policy, 4 Slot, 2 Op, 1 Role, 2 Principal, 1 Res" filename="" tracelength="5" looplength="1">
+
+<sig label="seq/Int" ID="0" parentID="1" builtin="yes">
+</sig>
+
+<sig label="Int" ID="1" parentID="2" builtin="yes">
+</sig>
+
+<sig label="String" ID="3" parentID="2" builtin="yes">
+</sig>
+
+<sig label="this/Role" ID="4" parentID="2">
+   <atom label="Role$0"/>
+</sig>
+
+<sig label="this/Op" ID="5" parentID="2">
+   <atom label="Op$0"/>
+   <atom label="Op$1"/>
+</sig>
+
+<sig label="this/Res" ID="6" parentID="2">
+   <atom label="Res$0"/>
+</sig>
+
+<sig label="this/Principal" ID="7" parentID="2">
+   <atom label="Principal$0"/>
+   <atom label="Principal$1"/>
+</sig>
+
+<sig label="this/True" ID="8" parentID="9" one="yes">
+   <atom label="True$0"/>
+</sig>
+
+<sig label="this/False" ID="10" parentID="9" one="yes">
+   <atom label="False$0"/>
+</sig>
+
+<sig label="this/Bool" ID="9" parentID="2" abstract="yes">
+</sig>
+
+<sig label="this/Node" ID="11" parentID="2">
+   <atom label="Node$0"/>
+   <atom label="Node$1"/>
+   <atom label="Node$2"/>
+   <atom label="Node$3"/>
+</sig>
+
+<field label="role" ID="12" parentID="11">
+   <tuple> <atom label="Node$0"/> <atom label="Role$0"/> </tuple>
+   <tuple> <atom label="Node$1"/> <atom label="Role$0"/> </tuple>
+   <tuple> <atom label="Node$2"/> <atom label="Role$0"/> </tuple>
+   <tuple> <atom label="Node$3"/> <atom label="Role$0"/> </tuple>
+   <types> <type ID="11"/> <type ID="4"/> </types>
+</field>
+
+<field label="own" ID="13" parentID="11">
+   <tuple> <atom label="Node$0"/> <atom label="Principal$1"/> </tuple>
+   <tuple> <atom label="Node$1"/> <atom label="Principal$0"/> </tuple>
+   <tuple> <atom label="Node$2"/> <atom label="Principal$0"/> </tuple>
+   <tuple> <atom label="Node$3"/> <atom label="Principal$0"/> </tuple>
+   <types> <type ID="11"/> <type ID="7"/> </types>
+</field>
+
+<sig label="this/Policy" ID="14" parentID="2">
+   <atom label="Policy$0"/>
+</sig>
+
+<field label="fromRole" ID="15" parentID="14">
+   <tuple> <atom label="Policy$0"/> <atom label="Role$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> </types>
+</field>
+
+<field label="toRole" ID="16" parentID="14">
+   <tuple> <atom label="Policy$0"/> <atom label="Role$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> </types>
+</field>
+
+<field label="pops" ID="17" parentID="14" var="yes">
+   <tuple> <atom label="Policy$0"/> <atom label="Op$0"/> </tuple>
+   <tuple> <atom label="Policy$0"/> <atom label="Op$1"/> </tuple>
+   <types> <type ID="14"/> <type ID="5"/> </types>
+</field>
+
+<field label="res" ID="18" parentID="14">
+   <tuple> <atom label="Policy$0"/> <atom label="Res$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="6"/> </types>
+</field>
+
+<sig label="this/Slot" ID="19" parentID="2">
+   <atom label="Slot$0"/>
+   <atom label="Slot$1"/>
+   <atom label="Slot$2"/>
+</sig>
+
+<field label="sub" ID="20" parentID="19">
+   <tuple> <atom label="Slot$0"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Node$2"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Node$0"/> </tuple>
+   <types> <type ID="19"/> <type ID="11"/> </types>
+</field>
+
+<field label="obj" ID="21" parentID="19">
+   <tuple> <atom label="Slot$0"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Node$3"/> </tuple>
+   <types> <type ID="19"/> <type ID="11"/> </types>
+</field>
+
+<field label="pol" ID="22" parentID="19">
+   <tuple> <atom label="Slot$0"/> <atom label="Policy$0"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Policy$0"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Policy$0"/> </tuple>
+   <types> <type ID="19"/> <type ID="14"/> </types>
+</field>
+
+<field label="tops" ID="23" parentID="19" var="yes">
+   <types> <type ID="19"/> <type ID="5"/> </types>
+</field>
+
+<field label="texp" ID="24" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="0"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<field label="depth" ID="25" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="0"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<field label="parent" ID="26" parentID="19" var="yes">
+   <types> <type ID="19"/> <type ID="19"/> </types>
+</field>
+
+<field label="gen" ID="27" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="0"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<field label="pgen" ID="28" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="0"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<sig label="this/Clock" ID="29" parentID="2" one="yes">
+   <atom label="Clock$0"/>
+</sig>
+
+<field label="now" ID="30" parentID="29" var="yes">
+   <tuple> <atom label="Clock$0"/> <atom label="0"/> </tuple>
+   <types> <type ID="29"/> <type ID="1"/> </types>
+</field>
+
+<sig label="univ" ID="2" builtin="yes">
+</sig>
+
+<sig label="this/Dep" ID="31" var="yes">
+   <type ID="14"/>
+</sig>
+
+<sig label="this/Iss" ID="32" var="yes">
+   <type ID="19"/>
+</sig>
+
+<sig label="this/Rev" ID="33" var="yes">
+   <type ID="19"/>
+</sig>
+
+<sig label="this/Dlg" ID="34" var="yes">
+   <type ID="19"/>
+</sig>
+
+<skolem label="$P3_AuthCorrectness_EqAuth_i" ID="35">
+   <tuple> <atom label="Node$0"/> </tuple>
+   <types> <type ID="11"/> </types>
+</skolem>
+
+<skolem label="$P3_AuthCorrectness_EqAuth_j" ID="36">
+   <tuple> <atom label="Node$3"/> </tuple>
+   <types> <type ID="11"/> </types>
+</skolem>
+
+<skolem label="$P3_AuthCorrectness_EqAuth_op" ID="37">
+   <tuple> <atom label="Op$1"/> </tuple>
+   <types> <type ID="5"/> </types>
+</skolem>
+
+<skolem label="$authEq_s" ID="38">
+   <tuple> <atom label="Slot$2"/> </tuple>
+   <types> <type ID="19"/> </types>
+</skolem>
+
+</instance>
+<instance bitwidth="4" maxseq="4" mintrace="1" maxtrace="7" command="Check P3_AuthCorrectness_EqAuth for 4 int 1..7 steps, 4 Node, 2 Policy, 4 Slot, 2 Op, 1 Role, 2 Principal, 1 Res" filename="" tracelength="5" looplength="1">
+
+<sig label="seq/Int" ID="0" parentID="1" builtin="yes">
+</sig>
+
+<sig label="Int" ID="1" parentID="2" builtin="yes">
+</sig>
+
+<sig label="String" ID="3" parentID="2" builtin="yes">
+</sig>
+
+<sig label="this/Role" ID="4" parentID="2">
+   <atom label="Role$0"/>
+</sig>
+
+<sig label="this/Op" ID="5" parentID="2">
+   <atom label="Op$0"/>
+   <atom label="Op$1"/>
+</sig>
+
+<sig label="this/Res" ID="6" parentID="2">
+   <atom label="Res$0"/>
+</sig>
+
+<sig label="this/Principal" ID="7" parentID="2">
+   <atom label="Principal$0"/>
+   <atom label="Principal$1"/>
+</sig>
+
+<sig label="this/True" ID="8" parentID="9" one="yes">
+   <atom label="True$0"/>
+</sig>
+
+<sig label="this/False" ID="10" parentID="9" one="yes">
+   <atom label="False$0"/>
+</sig>
+
+<sig label="this/Bool" ID="9" parentID="2" abstract="yes">
+</sig>
+
+<sig label="this/Node" ID="11" parentID="2">
+   <atom label="Node$0"/>
+   <atom label="Node$1"/>
+   <atom label="Node$2"/>
+   <atom label="Node$3"/>
+</sig>
+
+<field label="role" ID="12" parentID="11">
+   <tuple> <atom label="Node$0"/> <atom label="Role$0"/> </tuple>
+   <tuple> <atom label="Node$1"/> <atom label="Role$0"/> </tuple>
+   <tuple> <atom label="Node$2"/> <atom label="Role$0"/> </tuple>
+   <tuple> <atom label="Node$3"/> <atom label="Role$0"/> </tuple>
+   <types> <type ID="11"/> <type ID="4"/> </types>
+</field>
+
+<field label="own" ID="13" parentID="11">
+   <tuple> <atom label="Node$0"/> <atom label="Principal$1"/> </tuple>
+   <tuple> <atom label="Node$1"/> <atom label="Principal$0"/> </tuple>
+   <tuple> <atom label="Node$2"/> <atom label="Principal$0"/> </tuple>
+   <tuple> <atom label="Node$3"/> <atom label="Principal$0"/> </tuple>
+   <types> <type ID="11"/> <type ID="7"/> </types>
+</field>
+
+<sig label="this/Policy" ID="14" parentID="2">
+   <atom label="Policy$0"/>
+</sig>
+
+<field label="fromRole" ID="15" parentID="14">
+   <tuple> <atom label="Policy$0"/> <atom label="Role$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> </types>
+</field>
+
+<field label="toRole" ID="16" parentID="14">
+   <tuple> <atom label="Policy$0"/> <atom label="Role$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> </types>
+</field>
+
+<field label="pops" ID="17" parentID="14" var="yes">
+   <tuple> <atom label="Policy$0"/> <atom label="Op$0"/> </tuple>
+   <tuple> <atom label="Policy$0"/> <atom label="Op$1"/> </tuple>
+   <types> <type ID="14"/> <type ID="5"/> </types>
+</field>
+
+<field label="res" ID="18" parentID="14">
+   <tuple> <atom label="Policy$0"/> <atom label="Res$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="6"/> </types>
+</field>
+
+<sig label="this/Slot" ID="19" parentID="2">
+   <atom label="Slot$0"/>
+   <atom label="Slot$1"/>
+   <atom label="Slot$2"/>
+</sig>
+
+<field label="sub" ID="20" parentID="19">
+   <tuple> <atom label="Slot$0"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Node$2"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Node$0"/> </tuple>
+   <types> <type ID="19"/> <type ID="11"/> </types>
+</field>
+
+<field label="obj" ID="21" parentID="19">
+   <tuple> <atom label="Slot$0"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Node$3"/> </tuple>
+   <types> <type ID="19"/> <type ID="11"/> </types>
+</field>
+
+<field label="pol" ID="22" parentID="19">
+   <tuple> <atom label="Slot$0"/> <atom label="Policy$0"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Policy$0"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Policy$0"/> </tuple>
+   <types> <type ID="19"/> <type ID="14"/> </types>
+</field>
+
+<field label="tops" ID="23" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="Op$1"/> </tuple>
+   <types> <type ID="19"/> <type ID="5"/> </types>
+</field>
+
+<field label="texp" ID="24" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="5"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="0"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<field label="depth" ID="25" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="6"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="0"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<field label="parent" ID="26" parentID="19" var="yes">
+   <types> <type ID="19"/> <type ID="19"/> </types>
+</field>
+
+<field label="gen" ID="27" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="1"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="0"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<field label="pgen" ID="28" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="0"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<sig label="this/Clock" ID="29" parentID="2" one="yes">
+   <atom label="Clock$0"/>
+</sig>
+
+<field label="now" ID="30" parentID="29" var="yes">
+   <tuple> <atom label="Clock$0"/> <atom label="0"/> </tuple>
+   <types> <type ID="29"/> <type ID="1"/> </types>
+</field>
+
+<sig label="univ" ID="2" builtin="yes">
+</sig>
+
+<sig label="this/Dep" ID="31" var="yes">
+   <type ID="14"/>
+</sig>
+
+<sig label="this/Iss" ID="32" var="yes">
+   <atom label="Slot$0"/>
+   <type ID="19"/>
+</sig>
+
+<sig label="this/Rev" ID="33" var="yes">
+   <type ID="19"/>
+</sig>
+
+<sig label="this/Dlg" ID="34" var="yes">
+   <atom label="Slot$0"/>
+   <type ID="19"/>
+</sig>
+
+<skolem label="$P3_AuthCorrectness_EqAuth_i" ID="35">
+   <tuple> <atom label="Node$0"/> </tuple>
+   <types> <type ID="11"/> </types>
+</skolem>
+
+<skolem label="$P3_AuthCorrectness_EqAuth_j" ID="36">
+   <tuple> <atom label="Node$3"/> </tuple>
+   <types> <type ID="11"/> </types>
+</skolem>
+
+<skolem label="$P3_AuthCorrectness_EqAuth_op" ID="37">
+   <tuple> <atom label="Op$1"/> </tuple>
+   <types> <type ID="5"/> </types>
+</skolem>
+
+<skolem label="$authEq_s" ID="38">
+   <tuple> <atom label="Slot$2"/> </tuple>
+   <types> <type ID="19"/> </types>
+</skolem>
+
+</instance>
+<instance bitwidth="4" maxseq="4" mintrace="1" maxtrace="7" command="Check P3_AuthCorrectness_EqAuth for 4 int 1..7 steps, 4 Node, 2 Policy, 4 Slot, 2 Op, 1 Role, 2 Principal, 1 Res" filename="" tracelength="5" looplength="1">
+
+<sig label="seq/Int" ID="0" parentID="1" builtin="yes">
+</sig>
+
+<sig label="Int" ID="1" parentID="2" builtin="yes">
+</sig>
+
+<sig label="String" ID="3" parentID="2" builtin="yes">
+</sig>
+
+<sig label="this/Role" ID="4" parentID="2">
+   <atom label="Role$0"/>
+</sig>
+
+<sig label="this/Op" ID="5" parentID="2">
+   <atom label="Op$0"/>
+   <atom label="Op$1"/>
+</sig>
+
+<sig label="this/Res" ID="6" parentID="2">
+   <atom label="Res$0"/>
+</sig>
+
+<sig label="this/Principal" ID="7" parentID="2">
+   <atom label="Principal$0"/>
+   <atom label="Principal$1"/>
+</sig>
+
+<sig label="this/True" ID="8" parentID="9" one="yes">
+   <atom label="True$0"/>
+</sig>
+
+<sig label="this/False" ID="10" parentID="9" one="yes">
+   <atom label="False$0"/>
+</sig>
+
+<sig label="this/Bool" ID="9" parentID="2" abstract="yes">
+</sig>
+
+<sig label="this/Node" ID="11" parentID="2">
+   <atom label="Node$0"/>
+   <atom label="Node$1"/>
+   <atom label="Node$2"/>
+   <atom label="Node$3"/>
+</sig>
+
+<field label="role" ID="12" parentID="11">
+   <tuple> <atom label="Node$0"/> <atom label="Role$0"/> </tuple>
+   <tuple> <atom label="Node$1"/> <atom label="Role$0"/> </tuple>
+   <tuple> <atom label="Node$2"/> <atom label="Role$0"/> </tuple>
+   <tuple> <atom label="Node$3"/> <atom label="Role$0"/> </tuple>
+   <types> <type ID="11"/> <type ID="4"/> </types>
+</field>
+
+<field label="own" ID="13" parentID="11">
+   <tuple> <atom label="Node$0"/> <atom label="Principal$1"/> </tuple>
+   <tuple> <atom label="Node$1"/> <atom label="Principal$0"/> </tuple>
+   <tuple> <atom label="Node$2"/> <atom label="Principal$0"/> </tuple>
+   <tuple> <atom label="Node$3"/> <atom label="Principal$0"/> </tuple>
+   <types> <type ID="11"/> <type ID="7"/> </types>
+</field>
+
+<sig label="this/Policy" ID="14" parentID="2">
+   <atom label="Policy$0"/>
+</sig>
+
+<field label="fromRole" ID="15" parentID="14">
+   <tuple> <atom label="Policy$0"/> <atom label="Role$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> </types>
+</field>
+
+<field label="toRole" ID="16" parentID="14">
+   <tuple> <atom label="Policy$0"/> <atom label="Role$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> </types>
+</field>
+
+<field label="pops" ID="17" parentID="14" var="yes">
+   <tuple> <atom label="Policy$0"/> <atom label="Op$0"/> </tuple>
+   <tuple> <atom label="Policy$0"/> <atom label="Op$1"/> </tuple>
+   <types> <type ID="14"/> <type ID="5"/> </types>
+</field>
+
+<field label="res" ID="18" parentID="14">
+   <tuple> <atom label="Policy$0"/> <atom label="Res$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="6"/> </types>
+</field>
+
+<sig label="this/Slot" ID="19" parentID="2">
+   <atom label="Slot$0"/>
+   <atom label="Slot$1"/>
+   <atom label="Slot$2"/>
+</sig>
+
+<field label="sub" ID="20" parentID="19">
+   <tuple> <atom label="Slot$0"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Node$2"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Node$0"/> </tuple>
+   <types> <type ID="19"/> <type ID="11"/> </types>
+</field>
+
+<field label="obj" ID="21" parentID="19">
+   <tuple> <atom label="Slot$0"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Node$3"/> </tuple>
+   <types> <type ID="19"/> <type ID="11"/> </types>
+</field>
+
+<field label="pol" ID="22" parentID="19">
+   <tuple> <atom label="Slot$0"/> <atom label="Policy$0"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Policy$0"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Policy$0"/> </tuple>
+   <types> <type ID="19"/> <type ID="14"/> </types>
+</field>
+
+<field label="tops" ID="23" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="Op$1"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Op$1"/> </tuple>
+   <types> <type ID="19"/> <type ID="5"/> </types>
+</field>
+
+<field label="texp" ID="24" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="5"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="5"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="0"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<field label="depth" ID="25" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="6"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="5"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="0"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<field label="parent" ID="26" parentID="19" var="yes">
+   <tuple> <atom label="Slot$1"/> <atom label="Slot$0"/> </tuple>
+   <types> <type ID="19"/> <type ID="19"/> </types>
+</field>
+
+<field label="gen" ID="27" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="1"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="1"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="0"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<field label="pgen" ID="28" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="1"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="0"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<sig label="this/Clock" ID="29" parentID="2" one="yes">
+   <atom label="Clock$0"/>
+</sig>
+
+<field label="now" ID="30" parentID="29" var="yes">
+   <tuple> <atom label="Clock$0"/> <atom label="0"/> </tuple>
+   <types> <type ID="29"/> <type ID="1"/> </types>
+</field>
+
+<sig label="univ" ID="2" builtin="yes">
+</sig>
+
+<sig label="this/Dep" ID="31" var="yes">
+   <type ID="14"/>
+</sig>
+
+<sig label="this/Iss" ID="32" var="yes">
+   <atom label="Slot$0"/>
+   <atom label="Slot$1"/>
+   <type ID="19"/>
+</sig>
+
+<sig label="this/Rev" ID="33" var="yes">
+   <type ID="19"/>
+</sig>
+
+<sig label="this/Dlg" ID="34" var="yes">
+   <atom label="Slot$0"/>
+   <atom label="Slot$1"/>
+   <type ID="19"/>
+</sig>
+
+<skolem label="$P3_AuthCorrectness_EqAuth_i" ID="35">
+   <tuple> <atom label="Node$0"/> </tuple>
+   <types> <type ID="11"/> </types>
+</skolem>
+
+<skolem label="$P3_AuthCorrectness_EqAuth_j" ID="36">
+   <tuple> <atom label="Node$3"/> </tuple>
+   <types> <type ID="11"/> </types>
+</skolem>
+
+<skolem label="$P3_AuthCorrectness_EqAuth_op" ID="37">
+   <tuple> <atom label="Op$1"/> </tuple>
+   <types> <type ID="5"/> </types>
+</skolem>
+
+<skolem label="$authEq_s" ID="38">
+   <tuple> <atom label="Slot$2"/> </tuple>
+   <types> <type ID="19"/> </types>
+</skolem>
+
+</instance>
+<instance bitwidth="4" maxseq="4" mintrace="1" maxtrace="7" command="Check P3_AuthCorrectness_EqAuth for 4 int 1..7 steps, 4 Node, 2 Policy, 4 Slot, 2 Op, 1 Role, 2 Principal, 1 Res" filename="" tracelength="5" looplength="1">
+
+<sig label="seq/Int" ID="0" parentID="1" builtin="yes">
+</sig>
+
+<sig label="Int" ID="1" parentID="2" builtin="yes">
+</sig>
+
+<sig label="String" ID="3" parentID="2" builtin="yes">
+</sig>
+
+<sig label="this/Role" ID="4" parentID="2">
+   <atom label="Role$0"/>
+</sig>
+
+<sig label="this/Op" ID="5" parentID="2">
+   <atom label="Op$0"/>
+   <atom label="Op$1"/>
+</sig>
+
+<sig label="this/Res" ID="6" parentID="2">
+   <atom label="Res$0"/>
+</sig>
+
+<sig label="this/Principal" ID="7" parentID="2">
+   <atom label="Principal$0"/>
+   <atom label="Principal$1"/>
+</sig>
+
+<sig label="this/True" ID="8" parentID="9" one="yes">
+   <atom label="True$0"/>
+</sig>
+
+<sig label="this/False" ID="10" parentID="9" one="yes">
+   <atom label="False$0"/>
+</sig>
+
+<sig label="this/Bool" ID="9" parentID="2" abstract="yes">
+</sig>
+
+<sig label="this/Node" ID="11" parentID="2">
+   <atom label="Node$0"/>
+   <atom label="Node$1"/>
+   <atom label="Node$2"/>
+   <atom label="Node$3"/>
+</sig>
+
+<field label="role" ID="12" parentID="11">
+   <tuple> <atom label="Node$0"/> <atom label="Role$0"/> </tuple>
+   <tuple> <atom label="Node$1"/> <atom label="Role$0"/> </tuple>
+   <tuple> <atom label="Node$2"/> <atom label="Role$0"/> </tuple>
+   <tuple> <atom label="Node$3"/> <atom label="Role$0"/> </tuple>
+   <types> <type ID="11"/> <type ID="4"/> </types>
+</field>
+
+<field label="own" ID="13" parentID="11">
+   <tuple> <atom label="Node$0"/> <atom label="Principal$1"/> </tuple>
+   <tuple> <atom label="Node$1"/> <atom label="Principal$0"/> </tuple>
+   <tuple> <atom label="Node$2"/> <atom label="Principal$0"/> </tuple>
+   <tuple> <atom label="Node$3"/> <atom label="Principal$0"/> </tuple>
+   <types> <type ID="11"/> <type ID="7"/> </types>
+</field>
+
+<sig label="this/Policy" ID="14" parentID="2">
+   <atom label="Policy$0"/>
+</sig>
+
+<field label="fromRole" ID="15" parentID="14">
+   <tuple> <atom label="Policy$0"/> <atom label="Role$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> </types>
+</field>
+
+<field label="toRole" ID="16" parentID="14">
+   <tuple> <atom label="Policy$0"/> <atom label="Role$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> </types>
+</field>
+
+<field label="pops" ID="17" parentID="14" var="yes">
+   <tuple> <atom label="Policy$0"/> <atom label="Op$0"/> </tuple>
+   <tuple> <atom label="Policy$0"/> <atom label="Op$1"/> </tuple>
+   <types> <type ID="14"/> <type ID="5"/> </types>
+</field>
+
+<field label="res" ID="18" parentID="14">
+   <tuple> <atom label="Policy$0"/> <atom label="Res$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="6"/> </types>
+</field>
+
+<sig label="this/Slot" ID="19" parentID="2">
+   <atom label="Slot$0"/>
+   <atom label="Slot$1"/>
+   <atom label="Slot$2"/>
+</sig>
+
+<field label="sub" ID="20" parentID="19">
+   <tuple> <atom label="Slot$0"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Node$2"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Node$0"/> </tuple>
+   <types> <type ID="19"/> <type ID="11"/> </types>
+</field>
+
+<field label="obj" ID="21" parentID="19">
+   <tuple> <atom label="Slot$0"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Node$3"/> </tuple>
+   <types> <type ID="19"/> <type ID="11"/> </types>
+</field>
+
+<field label="pol" ID="22" parentID="19">
+   <tuple> <atom label="Slot$0"/> <atom label="Policy$0"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Policy$0"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Policy$0"/> </tuple>
+   <types> <type ID="19"/> <type ID="14"/> </types>
+</field>
+
+<field label="tops" ID="23" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="Op$1"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Op$1"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Op$1"/> </tuple>
+   <types> <type ID="19"/> <type ID="5"/> </types>
+</field>
+
+<field label="texp" ID="24" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="5"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="5"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="2"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<field label="depth" ID="25" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="6"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="5"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="4"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<field label="parent" ID="26" parentID="19" var="yes">
+   <tuple> <atom label="Slot$1"/> <atom label="Slot$0"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Slot$1"/> </tuple>
+   <types> <type ID="19"/> <type ID="19"/> </types>
+</field>
+
+<field label="gen" ID="27" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="1"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="1"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="1"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<field label="pgen" ID="28" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="1"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="1"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<sig label="this/Clock" ID="29" parentID="2" one="yes">
+   <atom label="Clock$0"/>
+</sig>
+
+<field label="now" ID="30" parentID="29" var="yes">
+   <tuple> <atom label="Clock$0"/> <atom label="0"/> </tuple>
+   <types> <type ID="29"/> <type ID="1"/> </types>
+</field>
+
+<sig label="univ" ID="2" builtin="yes">
+</sig>
+
+<sig label="this/Dep" ID="31" var="yes">
+   <type ID="14"/>
+</sig>
+
+<sig label="this/Iss" ID="32" var="yes">
+   <atom label="Slot$0"/>
+   <atom label="Slot$1"/>
+   <atom label="Slot$2"/>
+   <type ID="19"/>
+</sig>
+
+<sig label="this/Rev" ID="33" var="yes">
+   <type ID="19"/>
+</sig>
+
+<sig label="this/Dlg" ID="34" var="yes">
+   <atom label="Slot$0"/>
+   <atom label="Slot$1"/>
+   <atom label="Slot$2"/>
+   <type ID="19"/>
+</sig>
+
+<skolem label="$P3_AuthCorrectness_EqAuth_i" ID="35">
+   <tuple> <atom label="Node$0"/> </tuple>
+   <types> <type ID="11"/> </types>
+</skolem>
+
+<skolem label="$P3_AuthCorrectness_EqAuth_j" ID="36">
+   <tuple> <atom label="Node$3"/> </tuple>
+   <types> <type ID="11"/> </types>
+</skolem>
+
+<skolem label="$P3_AuthCorrectness_EqAuth_op" ID="37">
+   <tuple> <atom label="Op$1"/> </tuple>
+   <types> <type ID="5"/> </types>
+</skolem>
+
+<skolem label="$authEq_s" ID="38">
+   <tuple> <atom label="Slot$2"/> </tuple>
+   <types> <type ID="19"/> </types>
+</skolem>
+
+</instance>
+<instance bitwidth="4" maxseq="4" mintrace="1" maxtrace="7" command="Check P3_AuthCorrectness_EqAuth for 4 int 1..7 steps, 4 Node, 2 Policy, 4 Slot, 2 Op, 1 Role, 2 Principal, 1 Res" filename="" tracelength="5" looplength="1">
+
+<sig label="seq/Int" ID="0" parentID="1" builtin="yes">
+</sig>
+
+<sig label="Int" ID="1" parentID="2" builtin="yes">
+</sig>
+
+<sig label="String" ID="3" parentID="2" builtin="yes">
+</sig>
+
+<sig label="this/Role" ID="4" parentID="2">
+   <atom label="Role$0"/>
+</sig>
+
+<sig label="this/Op" ID="5" parentID="2">
+   <atom label="Op$0"/>
+   <atom label="Op$1"/>
+</sig>
+
+<sig label="this/Res" ID="6" parentID="2">
+   <atom label="Res$0"/>
+</sig>
+
+<sig label="this/Principal" ID="7" parentID="2">
+   <atom label="Principal$0"/>
+   <atom label="Principal$1"/>
+</sig>
+
+<sig label="this/True" ID="8" parentID="9" one="yes">
+   <atom label="True$0"/>
+</sig>
+
+<sig label="this/False" ID="10" parentID="9" one="yes">
+   <atom label="False$0"/>
+</sig>
+
+<sig label="this/Bool" ID="9" parentID="2" abstract="yes">
+</sig>
+
+<sig label="this/Node" ID="11" parentID="2">
+   <atom label="Node$0"/>
+   <atom label="Node$1"/>
+   <atom label="Node$2"/>
+   <atom label="Node$3"/>
+</sig>
+
+<field label="role" ID="12" parentID="11">
+   <tuple> <atom label="Node$0"/> <atom label="Role$0"/> </tuple>
+   <tuple> <atom label="Node$1"/> <atom label="Role$0"/> </tuple>
+   <tuple> <atom label="Node$2"/> <atom label="Role$0"/> </tuple>
+   <tuple> <atom label="Node$3"/> <atom label="Role$0"/> </tuple>
+   <types> <type ID="11"/> <type ID="4"/> </types>
+</field>
+
+<field label="own" ID="13" parentID="11">
+   <tuple> <atom label="Node$0"/> <atom label="Principal$1"/> </tuple>
+   <tuple> <atom label="Node$1"/> <atom label="Principal$0"/> </tuple>
+   <tuple> <atom label="Node$2"/> <atom label="Principal$0"/> </tuple>
+   <tuple> <atom label="Node$3"/> <atom label="Principal$0"/> </tuple>
+   <types> <type ID="11"/> <type ID="7"/> </types>
+</field>
+
+<sig label="this/Policy" ID="14" parentID="2">
+   <atom label="Policy$0"/>
+</sig>
+
+<field label="fromRole" ID="15" parentID="14">
+   <tuple> <atom label="Policy$0"/> <atom label="Role$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> </types>
+</field>
+
+<field label="toRole" ID="16" parentID="14">
+   <tuple> <atom label="Policy$0"/> <atom label="Role$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> </types>
+</field>
+
+<field label="pops" ID="17" parentID="14" var="yes">
+   <tuple> <atom label="Policy$0"/> <atom label="Op$0"/> </tuple>
+   <tuple> <atom label="Policy$0"/> <atom label="Op$1"/> </tuple>
+   <types> <type ID="14"/> <type ID="5"/> </types>
+</field>
+
+<field label="res" ID="18" parentID="14">
+   <tuple> <atom label="Policy$0"/> <atom label="Res$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="6"/> </types>
+</field>
+
+<sig label="this/Slot" ID="19" parentID="2">
+   <atom label="Slot$0"/>
+   <atom label="Slot$1"/>
+   <atom label="Slot$2"/>
+</sig>
+
+<field label="sub" ID="20" parentID="19">
+   <tuple> <atom label="Slot$0"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Node$2"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Node$0"/> </tuple>
+   <types> <type ID="19"/> <type ID="11"/> </types>
+</field>
+
+<field label="obj" ID="21" parentID="19">
+   <tuple> <atom label="Slot$0"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Node$3"/> </tuple>
+   <types> <type ID="19"/> <type ID="11"/> </types>
+</field>
+
+<field label="pol" ID="22" parentID="19">
+   <tuple> <atom label="Slot$0"/> <atom label="Policy$0"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Policy$0"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Policy$0"/> </tuple>
+   <types> <type ID="19"/> <type ID="14"/> </types>
+</field>
+
+<field label="tops" ID="23" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="Op$0"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="Op$1"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Op$1"/> </tuple>
+   <types> <type ID="19"/> <type ID="5"/> </types>
+</field>
+
+<field label="texp" ID="24" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="5"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="5"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="2"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<field label="depth" ID="25" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="4"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="5"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="4"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<field label="parent" ID="26" parentID="19" var="yes">
+   <tuple> <atom label="Slot$1"/> <atom label="Slot$0"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="Slot$1"/> </tuple>
+   <types> <type ID="19"/> <type ID="19"/> </types>
+</field>
+
+<field label="gen" ID="27" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="1"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="1"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="1"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<field label="pgen" ID="28" parentID="19" var="yes">
+   <tuple> <atom label="Slot$0"/> <atom label="0"/> </tuple>
+   <tuple> <atom label="Slot$1"/> <atom label="1"/> </tuple>
+   <tuple> <atom label="Slot$2"/> <atom label="1"/> </tuple>
+   <types> <type ID="19"/> <type ID="1"/> </types>
+</field>
+
+<sig label="this/Clock" ID="29" parentID="2" one="yes">
+   <atom label="Clock$0"/>
+</sig>
+
+<field label="now" ID="30" parentID="29" var="yes">
+   <tuple> <atom label="Clock$0"/> <atom label="0"/> </tuple>
+   <types> <type ID="29"/> <type ID="1"/> </types>
+</field>
+
+<sig label="univ" ID="2" builtin="yes">
+</sig>
+
+<sig label="this/Dep" ID="31" var="yes">
+   <type ID="14"/>
+</sig>
+
+<sig label="this/Iss" ID="32" var="yes">
+   <atom label="Slot$0"/>
+   <atom label="Slot$1"/>
+   <atom label="Slot$2"/>
+   <type ID="19"/>
+</sig>
+
+<sig label="this/Rev" ID="33" var="yes">
+   <type ID="19"/>
+</sig>
+
+<sig label="this/Dlg" ID="34" var="yes">
+   <atom label="Slot$1"/>
+   <atom label="Slot$2"/>
+   <type ID="19"/>
+</sig>
+
+<skolem label="$P3_AuthCorrectness_EqAuth_i" ID="35">
+   <tuple> <atom label="Node$0"/> </tuple>
+   <types> <type ID="11"/> </types>
+</skolem>
+
+<skolem label="$P3_AuthCorrectness_EqAuth_j" ID="36">
+   <tuple> <atom label="Node$3"/> </tuple>
+   <types> <type ID="11"/> </types>
+</skolem>
+
+<skolem label="$P3_AuthCorrectness_EqAuth_op" ID="37">
+   <tuple> <atom label="Op$1"/> </tuple>
+   <types> <type ID="5"/> </types>
+</skolem>
+
+<skolem label="$authEq_s" ID="38">
+   <tuple> <atom label="Slot$2"/> </tuple>
+   <types> <type ID="19"/> </types>
+</skolem>
+
+</instance>
+
+</alloy>

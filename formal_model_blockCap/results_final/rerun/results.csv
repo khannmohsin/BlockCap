@@ -1,0 +1,6 @@
+label,name,kind,expect,scope,verdict,secs,ok,trace,scope_str
+Rich_AllMechanismsInOneTrace,Rich_AllMechanismsInOneTrace,run,reachable,main,SAT,1355.2,True,results_final/rerun/Rich_AllMechanismsInOneTrace/trace.txt,"for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+R1_RootTokensMatchPolicyRoles_small,R1_RootTokensMatchPolicyRoles,check,holds,small,UNSAT,64.3,True,,"for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+R_ReissueOutcome,R_ReissueOutcome,check,holds,small,UNSAT,8964.5,True,,"for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+WalkExpiryRedundant,WalkExpiryRedundant,check,holds,small,UNSAT,309.3,True,,"for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+F2_OpsNeverGrowWithinGeneration,F2_OpsNeverGrowWithinGeneration,check,holds,small,UNSAT,11904.1,True,,"for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"

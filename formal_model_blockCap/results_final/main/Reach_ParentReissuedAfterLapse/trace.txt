@@ -1,0 +1,33 @@
+# /Users/khannmohsin/VSCode Projects/BlockCap/formal_model_blockCap/results_final/main/Reach_ParentReissuedAfterLapse/xml/Reach_ParentReissuedAfterLapse-solution-0.xml
+Counterexample witnesses: {'s': ['Slot0']}
+Nodes: Node0(role=Role1, own=Principal0), Node1(role=Role0, own=Principal0), Node2(role=Role0, own=Principal0)
+Policy roles: Policy0: Role0->Role1, Policy1: Role0->Role0
+
+-- state 0  now=0
+   Policy0: ops={Op0}
+   Policy1: ops={}
+
+-- state 1  now=0
+   Policy0: ops={Op0}
+   Policy1: ops={}
+   Slot1: Node1->Node0 pol=Policy0 [I-D] ops={Op0} texp=2 depth=1 gen=1 parent=none pgen=0
+
+-- state 2  now=0
+   Policy0: ops={Op0}
+   Policy1: ops={}
+   Slot0: Node2->Node0 pol=Policy0 [I-D] ops={} texp=2 depth=0 gen=1 parent=Slot1 pgen=1
+   Slot1: Node1->Node0 pol=Policy0 [I-D] ops={Op0} texp=2 depth=1 gen=1 parent=none pgen=0
+
+-- state 3  now=0
+   Policy0: ops={Op0}
+   Policy1: ops={}
+   Slot0: Node2->Node0 pol=Policy0 [I-D] ops={} texp=2 depth=0 gen=1 parent=Slot1 pgen=1
+   Slot1: Node1->Node0 pol=Policy0 [IRD] ops={Op0} texp=2 depth=1 gen=1 parent=none pgen=0
+
+-- state 4  now=0
+   Policy0: ops={Op0}
+   Policy1: ops={}
+   Slot0: Node2->Node0 pol=Policy0 [I-D] ops={} texp=2 depth=0 gen=1 parent=Slot1 pgen=1
+   Slot1: Node1->Node0 pol=Policy0 [I--] ops={Op0} texp=7 depth=0 gen=2 parent=none pgen=0
+
+Flags: I=issued R=revoked D=delegable

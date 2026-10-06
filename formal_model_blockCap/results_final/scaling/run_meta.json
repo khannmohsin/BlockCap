@@ -1,0 +1,25 @@
+{
+  "date_utc": "2026-10-05T20:17:40+00:00",
+  "alloy": "6.2.0",
+  "java": "openjdk version \"21.0.11\" 2026-04-21",
+  "model": "models/blockcap_final.als",
+  "model_sha256": "90b02aed2f82957eb44c62a63310a30fb3b559212df43a9e1b584f13d3f0ad35",
+  "manifest": "suites/scaling.json",
+  "manifest_sha256": "a9a5171682c7fba8415f557631ff506370e1cd1ed9b3ce780f58045218d1c2b6",
+  "jar_sha256": "6b8c1cb5bc93bedfc7c61435c4e1ab6e688a242dc702a394628d9a9801edb78d",
+  "jobs": 4,
+  "budget_s": 14400,
+  "wall_s": 6167.7,
+  "scopes": {},
+  "unexpected": [],
+  "not_completed": [
+    "R_ReissueOutcome__slot3_steps5",
+    "R_ReissueOutcome__slot3_steps7",
+    "P2_EvaluatedChain__slot3_steps7",
+    "R_ReissueOutcome__slot4_steps5",
+    "P2_EvaluatedChain__slot4_steps5",
+    "R_ReissueOutcome__slot4_steps7",
+    "P2_EvaluatedChain__slot4_steps7",
+    "A4_NoUnattributedChange__slot4_steps7"
+  ]
+}

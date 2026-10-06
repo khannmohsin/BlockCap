@@ -1,0 +1,24 @@
+# /Users/khannmohsin/VSCode Projects/BlockCap/formal_model_blockCap/results_final/main/Reach_DelegationChainDepth2_small/xml/Reach_DelegationChainDepth2-solution-0.xml
+Counterexample witnesses: {'s': ['Slot0']}
+Nodes: Node0(role=Role1, own=Principal1), Node1(role=Role0, own=Principal1), Node2(role=Role1, own=Principal0), Node3(role=Role1, own=Principal0)
+Policy roles: Policy0: Role1->Role1
+
+-- state 0  now=0
+   Policy0: ops={Op0}
+
+-- state 1  now=0
+   Policy0: ops={Op0}
+   Slot1: Node2->Node3 pol=Policy0 [I-D] ops={Op0} texp=6 depth=3 gen=1 parent=none pgen=0
+
+-- state 2  now=0
+   Policy0: ops={Op0}
+   Slot1: Node2->Node3 pol=Policy0 [I-D] ops={Op0} texp=6 depth=3 gen=1 parent=none pgen=0
+   Slot2: Node0->Node3 pol=Policy0 [I-D] ops={} texp=6 depth=2 gen=1 parent=Slot1 pgen=1
+
+-- state 3  now=0
+   Policy0: ops={Op0}
+   Slot0: Node3->Node3 pol=Policy0 [I-D] ops={} texp=6 depth=1 gen=1 parent=Slot2 pgen=1
+   Slot1: Node2->Node3 pol=Policy0 [I-D] ops={Op0} texp=6 depth=3 gen=1 parent=none pgen=0
+   Slot2: Node0->Node3 pol=Policy0 [I-D] ops={} texp=6 depth=2 gen=1 parent=Slot1 pgen=1
+
+Flags: I=issued R=revoked D=delegable

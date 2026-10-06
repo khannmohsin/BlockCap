@@ -1,0 +1,31 @@
+Alloy: 6.2.0
+Model: models/blockcap_system_model_fixed.als  sha256=8ed1de85818b096dea551d287f915fba28ecdb970481f43e81cf79615a4389c8
+Date:  2026-10-05T14:30:04Z
+
+Main scope: 4 Node, 2 Policy, 4 Slot, 2 Op, 1 Role, 2 Principal, 1 Res, 4 Int, 1..7 steps
+Small scope: same with 3 Slot, 1..5 steps
+
+SAT      16s  [0]  Run Reach_DelegationChainDepth2                     (main scope)  reachable
+SAT       9s  [1]  Run Reach_RevokedParentWithLiveChild               (main scope)  reachable
+UNSAT    21s  [2]  Check P1_TokenUniqueness                           (main scope)  holds
+SAT      31s  [3]  Check P2_DelegationMonotonicity_StoredState        (main scope)  fails (kept for comparison)
+UNSAT   145s  [6]  Check P3_AuthCorrectness_Fixed                     (main scope)  holds   -> par_cmd_6
+UNSAT    92s  [7]  Check R_RevocationReachesDescendants_Fixed         (main scope)  holds   -> par_cmd_7
+UNSAT    34s  [8]  Check R_ReissueDoesNotRevalidateStaleChild_Fixed   (main scope)  holds   -> par_cmd_8
+UNSAT   397s  [10] Check P2_AtDerivation                              (small scope) holds   -> small_cmd_10
+UNSAT   672s  [11] Check P2_EvaluatedChain                            (small scope) holds   -> small_cmd_11
+UNSAT   130s  [12] Check F2_ReissueNeverWidens                        (small scope) holds   -> small_cmd_12
+SAT      16s  [13] Run Reach_DelegationChainDepth2_SmallScope         (small scope) reachable -> small_cmd_13
+
+Commands 4, 5 and 9 (P2_AtDerivation, P2_EvaluatedChain, F2_ReissueNeverWidens at
+the main scope) were stopped after 9-48 minutes without a verdict and are
+reported at the small scope instead (commands 10-12).
+
+Added after mutation testing (model sha256=0575e1a173bd463ffb49963eaa15f77362128fcbad6e045dec13b8bac16da796):
+UNSAT  1871s  [14] Check R_ReissueOutcome_Fixed       (small scope, 1..5 steps) holds   -> new_cmd_14
+UNSAT   271s  [15] Check WalkExpiryRedundant          (small scope)             holds   -> new_cmd_15
+UNSAT   303s  [16] Check R_ReissueOutcome_Fixed       (1..4 steps)  VACUOUS: scenario unreachable in 4 steps (see [17])
+UNSAT   329s  [17] Run Reach_ParentReissuedAfterLapse (1..4 steps)  not reachable
+SAT     328s  [18] Run Reach_ParentReissuedAfterLapse_5 (1..5 steps) reachable -> new_cmd_18
+[8] R_ReissueDoesNotRevalidateStaleChild_Fixed is superseded by [14]: mutation
+testing showed [8] passes even when fresh issue never bumps the generation (M10).
