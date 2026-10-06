@@ -1,0 +1,65 @@
+{
+  "model": "models/blockcap_inductive.als",
+  "out": "results_final/inductive",
+  "scopes": {
+    "anystate": "for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"
+  },
+  "default_timeout": 7200,
+  "note": "First state arbitrary (init disabled); 1..2 steps = any state plus one transition.",
+  "jobs": [
+    {
+      "name": "ANY_P1_TokenUniqueness",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "anystate"
+    },
+    {
+      "name": "ANY_P3_AuthCorrectness",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "anystate"
+    },
+    {
+      "name": "ANY_R_Revocation",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "anystate"
+    },
+    {
+      "name": "ANY_C8_BrokenMonotonicityDenies",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "anystate"
+    },
+    {
+      "name": "IND_InitEstablishes",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "anystate"
+    },
+    {
+      "name": "IND_Preserved",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "anystate"
+    },
+    {
+      "name": "IND_ImpliesP2b",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "anystate"
+    },
+    {
+      "name": "STEP_GenerationNeverDecreases",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "anystate"
+    },
+    {
+      "name": "STEP_RevalidationNeedsNewGeneration",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "anystate"
+    }
+  ]
+}

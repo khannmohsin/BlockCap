@@ -1,0 +1,20 @@
+# /Users/khannmohsin/VSCode Projects/BlockCap/formal_model_blockCap/results_final/consistency/Reach_DeprecationWhileTokenValid/xml/Reach_DeprecationWhileTokenValid-solution-0.xml
+Counterexample witnesses: {'s': ['Slot0']}
+Nodes: Node0(role=Role1, own=Principal0), Node1(role=Role1, own=Principal0), Node2(role=Role0, own=Principal0)
+Policy roles: Policy0: Role0->Role1, Policy1: Role0->Role0
+
+-- state 0  now=0
+   Policy0: ops={Op0}
+   Policy1: ops={Op0}
+
+-- state 1  now=0
+   Policy0: ops={Op0}
+   Policy1: ops={Op0}
+   Slot0: Node2->Node2 pol=Policy1 [I--] ops={Op0} texp=1 depth=6 gen=1 parent=none pgen=0
+
+-- state 2  now=0
+   Policy0: ops={Op0}
+   Policy1: ops={Op0}  DEPRECATED
+   Slot0: Node2->Node2 pol=Policy1 [I--] ops={Op0} texp=1 depth=6 gen=1 parent=none pgen=0
+
+Flags: I=issued R=revoked D=delegable

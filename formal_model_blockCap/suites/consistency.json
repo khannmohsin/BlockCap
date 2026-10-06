@@ -1,0 +1,78 @@
+{
+  "model": "models/blockcap_consistency.als",
+  "out": "results_final/consistency",
+  "scopes": {
+    "main": "for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps",
+    "small": "for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps"
+  },
+  "default_timeout": 7200,
+  "note": "Section II statements found unchecked by the traceability audit (2026-10-06).",
+  "jobs": [
+    {
+      "name": "Reach_AdjustDelegatedInPlace",
+      "kind": "run",
+      "expect": "reachable",
+      "scope": "small"
+    },
+    {
+      "name": "Reach_PolicyNarrowedWhileTokenValid",
+      "kind": "run",
+      "expect": "reachable",
+      "scope": "small"
+    },
+    {
+      "name": "Reach_DeprecationWhileTokenValid",
+      "kind": "run",
+      "expect": "reachable",
+      "scope": "small"
+    },
+    {
+      "name": "C1_PolicyNarrowingImmediate",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "small"
+    },
+    {
+      "name": "C2_DeprecationImmediate",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "small"
+    },
+    {
+      "name": "C3_AdjustRetainsParent",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "small"
+    },
+    {
+      "name": "C4_AdjustExpiryForward",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "small"
+    },
+    {
+      "name": "C5_AdjustDepthNotIncreased",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "small"
+    },
+    {
+      "name": "C6_AdjustNotBeyondParent",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "small"
+    },
+    {
+      "name": "C7_DelegationCopiesDlg",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "small"
+    },
+    {
+      "name": "C8_BrokenMonotonicityDenies",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "main"
+    }
+  ]
+}

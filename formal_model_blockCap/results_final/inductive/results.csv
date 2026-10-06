@@ -1,0 +1,10 @@
+label,name,kind,expect,scope,verdict,secs,ok,trace,scope_str
+ANY_P1_TokenUniqueness,ANY_P1_TokenUniqueness,check,holds,anystate,UNSAT,5.9,True,,"for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"
+ANY_P3_AuthCorrectness,ANY_P3_AuthCorrectness,check,holds,anystate,UNSAT,6.4,True,,"for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"
+ANY_R_Revocation,ANY_R_Revocation,check,holds,anystate,UNSAT,6.4,True,,"for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"
+ANY_C8_BrokenMonotonicityDenies,ANY_C8_BrokenMonotonicityDenies,check,holds,anystate,UNSAT,7.4,True,,"for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"
+IND_InitEstablishes,IND_InitEstablishes,check,holds,anystate,UNSAT,5.0,True,,"for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"
+IND_Preserved,IND_Preserved,check,holds,anystate,UNSAT,85.7,True,,"for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"
+IND_ImpliesP2b,IND_ImpliesP2b,check,holds,anystate,UNSAT,14.9,True,,"for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"
+STEP_GenerationNeverDecreases,STEP_GenerationNeverDecreases,check,holds,anystate,UNSAT,5.3,True,,"for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"
+STEP_RevalidationNeedsNewGeneration,STEP_RevalidationNeedsNewGeneration,check,holds,anystate,UNSAT,10.4,True,,"for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"

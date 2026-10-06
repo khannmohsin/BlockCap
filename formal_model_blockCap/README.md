@@ -281,3 +281,34 @@ No cell produced a counterexample. Timeouts mark where bounded analysis stops sc
 - Use "no counterexample exists for any configuration within scope …", with the scope stated, followed by "this is not a proof for all sizes (small-scope hypothesis)".
 - Never "proved" or "verified" without the bound.
 - The analysis covers the §II model, not `NodeRegistry.sol` or the daemon; the model–contract correspondence remains assumed.
+
+## Consistency audit and any-length checks (2026-10-06)
+
+A sentence-by-sentence traceability audit of §II found statements with no
+corresponding check. These were checked in two variants **generated from**
+`models/blockcap_final.als`. That file is unchanged, and its hash is still the one
+cited above. Each variant is the final model verbatim plus extra assertions:
+
+- **`models/blockcap_consistency.als`**: from the real initial state (`suites/consistency.json`, results in `results_final/consistency/`).
+- **`models/blockcap_inductive.als`**: the initial-state fact is disabled, so the first state is **arbitrary** (`suites/inductive.json`, `suites/inductive_steps.json`; results in `results_final/inductive/` and `results_final/inductive_steps/`). A property that holds there holds at every step of traces of any length, for the main-scope numbers of nodes and tokens.
+
+| Check | Variant | Result | Time (s) |
+|---|---|---|---|
+| Property 1, Property 3, Remark rem:revoke, denial when Eq. (eq:mono) fails | any state | hold | 6–7 |
+| Property 2(b): invariant I1 ∧ I2 holds initially / is preserved / implies 2(b) | any state | hold | 5 / 86 / 15 |
+| Generations never decrease; revalidation needs a new generation (Remark rem:reissue) | any state | hold | 5, 10 |
+| Policy narrowing / deprecation immediate (C1, C2) | any state, plus from init | hold | 7 (step) |
+| In-place adjustment: retains parent, expiry forward, depth not raised, expiry ≤ parent (C3–C6) | any state | hold | 8–26 |
+| Delegation copies `dlg` (C7) | any state, plus from init | hold | 6 |
+| Reachability: policy narrowed / deprecated while a token is valid; delegated token adjusted in place | from init | reachable | 8–20 |
+
+The from-initial-state runs of C4, C5 and C8 were stopped unfinished. They are superseded by the any-state results, which are strictly stronger.
+
+**Manuscript changes made:**
+- the Γ / Eq. (eq:mono) sentence reworded: checked at request time, and the request is denied if it fails;
+- the vague "deterministic, free of conflicts" sentence replaced;
+- Remark rem:revoke's first sentence corrected;
+- Table 2 and §IV-C extended with the any-state results;
+- Limitations updated.
+
+**Claims register:** C23 (Eq. (eq:mono) in Auth is stricter than the contract) and C24.

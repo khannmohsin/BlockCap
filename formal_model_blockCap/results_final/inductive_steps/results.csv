@@ -1,0 +1,8 @@
+label,name,kind,expect,scope,verdict,secs,ok,trace,scope_str
+STEP_C1_PolicyNarrowingImmediate,STEP_C1_PolicyNarrowingImmediate,check,holds,anystate,UNSAT,7.4,True,,"for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"
+STEP_C2_DeprecationImmediate,STEP_C2_DeprecationImmediate,check,holds,anystate,UNSAT,7.4,True,,"for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"
+STEP_C3_AdjustRetainsParent,STEP_C3_AdjustRetainsParent,check,holds,anystate,UNSAT,8.1,True,,"for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"
+STEP_C4_AdjustExpiryForward,STEP_C4_AdjustExpiryForward,check,holds,anystate,UNSAT,9.0,True,,"for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"
+STEP_C5_AdjustDepthNotIncreased,STEP_C5_AdjustDepthNotIncreased,check,holds,anystate,UNSAT,9.8,True,,"for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"
+STEP_C6_AdjustNotBeyondParent,STEP_C6_AdjustNotBeyondParent,check,holds,anystate,UNSAT,26.0,True,,"for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"
+STEP_C7_DelegationCopiesDlg,STEP_C7_DelegationCopiesDlg,check,holds,anystate,UNSAT,5.9,True,,"for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"

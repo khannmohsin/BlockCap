@@ -1,0 +1,18 @@
+{
+  "date_utc": "2026-10-06T11:13:33+00:00",
+  "alloy": "6.2.0",
+  "java": "openjdk version \"21.0.11\" 2026-04-21",
+  "model": "models/blockcap_inductive.als",
+  "model_sha256": "5d8eee1b8ad5286015d05f992fac085144c15465c745d7a54a8b5b05e052c82d",
+  "manifest": "suites/inductive_steps.json",
+  "manifest_sha256": "36af8f656a0ade624411096a5861beba6861f480031ad2700ce914b0fe879062",
+  "jar_sha256": "6b8c1cb5bc93bedfc7c61435c4e1ab6e688a242dc702a394628d9a9801edb78d",
+  "jobs": 3,
+  "budget_s": 0,
+  "wall_s": 34.4,
+  "scopes": {
+    "anystate": "for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..2 steps"
+  },
+  "unexpected": [],
+  "not_completed": []
+}
