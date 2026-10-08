@@ -1,0 +1,73 @@
+{
+  "date_utc": "20261006T135034Z",
+  "n_warm": 100,
+  "anchor_every": 50,
+  "besu": "besu/v26.2.0/osx-aarch_64/openjdk-java-21",
+  "warm_off": {
+    "n": 100,
+    "mean": 25.171,
+    "sd": 2.127,
+    "median": 24.94,
+    "p95": 27.57
+  },
+  "warm_on": {
+    "n": 100,
+    "mean": 30.945,
+    "sd": 4.685,
+    "median": 29.845,
+    "p95": 38.047
+  },
+  "granted_off": 100,
+  "granted_on": 100,
+  "receipts_received": 101,
+  "anchors": [
+    {
+      "latency_ms": 210.826,
+      "root": "0xbf9771328df74b4b1279b834407a66ed2b6d3cc9b436b83e7118847fed3106bb",
+      "seq": 50,
+      "ts_ms": 1791295026827,
+      "tx": "0x19c5f48ee461fd91f11e4c5f8aebe0979d2776d421d22f5b6be564859be80f1b"
+    },
+    {
+      "latency_ms": 371.187,
+      "root": "0x298397b01a2d9b15725da1f036e119e57a8bbc8d103089ed1160dda2c3da5394",
+      "seq": 100,
+      "ts_ms": 1791295028674,
+      "tx": "0x84b02f4fc4b89adf89d494fac6fcfd8bb0d5883cc421eb7078a051bda5b8b884"
+    }
+  ],
+  "anchor_gas": [
+    71570,
+    37370
+  ],
+  "onchain": {
+    "events": [
+      {
+        "seq": 50,
+        "root": "0xbf9771328df74b4b1279b834407a66ed2b6d3cc9b436b83e7118847fed3106bb"
+      },
+      {
+        "seq": 100,
+        "root": "0x298397b01a2d9b15725da1f036e119e57a8bbc8d103089ed1160dda2c3da5394"
+      }
+    ],
+    "state": {
+      "0x446ffA93A0ccb744aA726b13fD547F20BD01dcC7": {
+        "seq": 100,
+        "root": "0x298397b01a2d9b15725da1f036e119e57a8bbc8d103089ed1160dda2c3da5394"
+      }
+    },
+    "anchor_gas": [
+      71570,
+      37370
+    ],
+    "matches_last_local_anchor": true
+  },
+  "verify": {
+    "ok": true,
+    "problems": [],
+    "entries": 101,
+    "anchored_through": 100,
+    "unanchored_tail": 1
+  }
+}

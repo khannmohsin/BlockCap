@@ -1,0 +1,88 @@
+{
+  "date_utc": "20261006T134243Z",
+  "n_warm": 100,
+  "anchor_every": 50,
+  "besu": "besu/v26.2.0/osx-aarch_64/openjdk-java-21",
+  "warm_off": {
+    "n": 100,
+    "mean": 28.516,
+    "sd": 3.829,
+    "median": 27.769,
+    "p95": 33.883
+  },
+  "warm_on": {
+    "n": 100,
+    "mean": 29.782,
+    "sd": 2.496,
+    "median": 29.338,
+    "p95": 34.52
+  },
+  "granted_off": 100,
+  "granted_on": 100,
+  "receipts_received": 101,
+  "anchors": [
+    {
+      "latency_ms": 219.663,
+      "root": "0x6a4034626046b3909692ebbdd36ca751b904700451a4aa1dc78394131340ed08",
+      "seq": 50,
+      "ts_ms": 1791294560805,
+      "tx": "0xda53f2d9a3d113fd729f72596739da9e1b9ad323349a416bb5b97aa342d28256"
+    },
+    {
+      "latency_ms": 1011.251,
+      "root": "0x4c90f0cf7d7f71f8c4ef69118aa4260029065cdacdb36599f5e3da66a91103c3",
+      "seq": 56,
+      "ts_ms": 1791294561025,
+      "tx": "0x206e9c2238ec2b61398a4dee86e753ae92e0fa7b173f3b807a03560353c5f65a"
+    },
+    {
+      "latency_ms": 1009.92,
+      "root": "0xca90059d64bbf6459bc6e3d7eb1b9d707367344afa8515695a474a7408450cf7",
+      "seq": 85,
+      "ts_ms": 1791294562037,
+      "tx": "0xf2a91e5af5638aa16e69e0b84f6b16894e51b7a34ce17e07c70e4fb9e56fee03"
+    },
+    {
+      "latency_ms": 1024.317,
+      "root": "0x693ecf5ca9b21d42d91d800d5475c2f5699bbb66e518795243318baec0a88333",
+      "seq": 101,
+      "ts_ms": 1791294563047,
+      "tx": "0xc52a30eed18731586398da4b639ae9975bf0b8d2f14dca47c6c26876628d5982"
+    }
+  ],
+  "anchor_gas": [],
+  "onchain": {
+    "events": [
+      {
+        "seq": 50,
+        "root": "0x6a4034626046b3909692ebbdd36ca751b904700451a4aa1dc78394131340ed08"
+      },
+      {
+        "seq": 56,
+        "root": "0x4c90f0cf7d7f71f8c4ef69118aa4260029065cdacdb36599f5e3da66a91103c3"
+      },
+      {
+        "seq": 85,
+        "root": "0xca90059d64bbf6459bc6e3d7eb1b9d707367344afa8515695a474a7408450cf7"
+      },
+      {
+        "seq": 101,
+        "root": "0x693ecf5ca9b21d42d91d800d5475c2f5699bbb66e518795243318baec0a88333"
+      }
+    ],
+    "state": {
+      "0x446ffA93A0ccb744aA726b13fD547F20BD01dcC7": {
+        "seq": 101,
+        "root": "0x693ecf5ca9b21d42d91d800d5475c2f5699bbb66e518795243318baec0a88333"
+      }
+    },
+    "matches_last_local_anchor": true
+  },
+  "verify": {
+    "ok": true,
+    "problems": [],
+    "entries": 101,
+    "anchored_through": 101,
+    "unanchored_tail": 0
+  }
+}

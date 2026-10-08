@@ -151,12 +151,56 @@ describe("NodeRegistry delegation lineage", function () {
     const exp = (await nowTs()) + 3600;
     await reg.connect(fogOwner).issueGrantDelegable("sigEdgeA", "sigFog", 1, OP_READ, exp, true, 1);
 
+    // Audit events are written by the object's owner (the enforcing node).
     await expect(
-      reg.connect(edgeOwnerA).checkGrantAndLog("sigEdgeA", "sigFog", 1, OP_READ)
+      reg.connect(fogOwner).checkGrantAndLog("sigEdgeA", "sigFog", 1, OP_READ)
     ).to.emit(reg, "AccessGranted");
 
     await expect(
-      reg.connect(edgeOwnerB).checkGrantAndLog("sigEdgeB", "sigFog", 1, OP_READ)
+      reg.connect(fogOwner).checkGrantAndLog("sigEdgeB", "sigFog", 1, OP_READ)
     ).to.emit(reg, "AccessDenied");
+  });
+
+  it("rejects audit events written by anyone other than the object's owner", async () => {
+    const exp = (await nowTs()) + 3600;
+    await reg.connect(fogOwner).issueGrantDelegable("sigEdgeA", "sigFog", 1, OP_READ, exp, true, 1);
+
+    await expect(
+      reg.connect(edgeOwnerA).checkGrantAndLog("sigEdgeA", "sigFog", 1, OP_READ)
+    ).to.be.revertedWithCustomError(reg, "NotResourceOwner");
+    await expect(
+      reg.connect(edgeOwnerB).checkGrantAndLog("sigEdgeB", "sigFog", 1, OP_READ)
+    ).to.be.revertedWithCustomError(reg, "NotResourceOwner");
+  });
+
+  it("anchors audit-log roots with a strictly increasing sequence per node", async () => {
+    const r1 = ethers.keccak256(ethers.toUtf8Bytes("log-head-1"));
+    const r2 = ethers.keccak256(ethers.toUtf8Bytes("log-head-2"));
+
+    await expect(reg.connect(fogOwner).anchorAuditRoot(r1, 10))
+      .to.emit(reg, "AuditRootAnchored").withArgs(fogOwner.address, 10, r1);
+    expect(await reg.auditSeq(fogOwner.address)).to.equal(10n);
+    expect(await reg.auditRoot(fogOwner.address)).to.equal(r1);
+
+    // Equal or lower sequence numbers cannot replace committed history.
+    await expect(reg.connect(fogOwner).anchorAuditRoot(r2, 10))
+      .to.be.revertedWithCustomError(reg, "AuditSeqNotIncreasing");
+    await expect(reg.connect(fogOwner).anchorAuditRoot(r2, 9))
+      .to.be.revertedWithCustomError(reg, "AuditSeqNotIncreasing");
+
+    await expect(reg.connect(fogOwner).anchorAuditRoot(r2, 11))
+      .to.emit(reg, "AuditRootAnchored").withArgs(fogOwner.address, 11, r2);
+    expect(await reg.auditRoot(fogOwner.address)).to.equal(r2);
+
+    // Sequences are per node: another registered owner starts independently.
+    await expect(reg.connect(edgeOwnerA).anchorAuditRoot(r1, 1))
+      .to.emit(reg, "AuditRootAnchored").withArgs(edgeOwnerA.address, 1, r1);
+  });
+
+  it("rejects audit-log anchors from unregistered addresses", async () => {
+    const outsider = (await ethers.getSigners())[4];
+    const r = ethers.keccak256(ethers.toUtf8Bytes("forged"));
+    await expect(reg.connect(outsider).anchorAuditRoot(r, 1))
+      .to.be.revertedWithCustomError(reg, "AddressNotRegistered");
   });
 });

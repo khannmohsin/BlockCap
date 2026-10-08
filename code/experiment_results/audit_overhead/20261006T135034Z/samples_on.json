@@ -1,0 +1,502 @@
+[
+ {
+  "latency_ms": 39.472,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 30.891,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 29.489,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 29.971,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 29.465,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 38.941,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 33.226,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 36.558,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 31.348,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 32.07,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 31.84,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 31.893,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 33.063,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 30.111,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 56.991,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 32.922,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.65,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 27.891,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.986,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.078,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 27.98,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.289,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 29.65,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 29.597,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 33.42,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 35.211,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 32.121,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 29.405,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 27.454,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 27.773,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 27.402,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 26.673,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.188,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.623,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.166,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 27.709,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.878,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 27.105,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 26.71,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.845,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 29.629,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 26.803,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.478,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 27.671,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 29.273,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 29.077,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 30.071,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.461,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 27.355,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 42.149,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 31.518,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 31.556,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.152,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 30.095,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 29.153,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.74,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.11,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 27.467,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 27.656,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 29.484,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 56.845,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 35.24,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 31.004,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 29.44,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 37.888,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 30.713,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 32.007,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 31.941,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 32.124,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 30.229,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 31.268,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 32.239,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 30.319,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 30.686,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 30.182,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 29.791,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 30.978,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 31.145,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.963,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.889,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 29.757,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 31.766,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 27.505,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 27.485,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.887,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 29.899,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.401,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 29.61,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 32.976,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 31.238,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 30.205,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 30.886,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 28.78,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 30.006,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 33.62,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 30.979,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 31.089,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 29.544,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 30.0,
+  "status": 200,
+  "granted": true
+ },
+ {
+  "latency_ms": 38.047,
+  "status": 200,
+  "granted": true
+ }
+]

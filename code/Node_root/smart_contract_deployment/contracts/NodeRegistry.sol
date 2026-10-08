@@ -29,6 +29,7 @@ contract NodeRegistry {
     error NotGrantHolder();
     error AlreadyRevoked();
     error InvalidDelegationDepth();
+    error AuditSeqNotIncreasing();
 
     // -------- Types --------
     enum NodeType { Unknown, Cloud, Fog, Edge, Sensor, Actuator }
@@ -148,6 +149,10 @@ contract NodeRegistry {
     event GrantDelegated(bytes32 indexed parentGrantId, bytes32 indexed grantId, uint8 depthRemaining);
     event AccessDenied(address indexed from, address indexed to, bytes32 indexed policyId, uint8 op, string reason, uint256 timestamp);
     event AccessGranted(address indexed from, address indexed to, bytes32 indexed policyId, uint8 op, uint256 timestamp);
+    // Audit-log anchoring: an enforcing node commits the head hash of its
+    // signed, hash-chained off-chain decision log. Any later change to an
+    // entry at or before `seq` no longer matches a committed root.
+    event AuditRootAnchored(address indexed anchoredBy, uint64 indexed seq, bytes32 root);
 
     // ============== MULTISIG CONFIG (STATE + EVENTS) ==============
     bool public msigRequired;                     // on/off switch
@@ -1041,11 +1046,14 @@ contract NodeRegistry {
         uint256 policyId,
         uint8 opBit
     ) external returns (bool) {
+        string memory toNodeId = nodeSignatureToNodeId[toNodeSignature];
+        address toAddr = iotNodes[toNodeId].registeredBy;
+        // Only the object's owner -- the enforcing node -- may write audit
+        // events, so no other account can forge an AccessGranted/Denied record.
+        if (msg.sender != toAddr) revert NotResourceOwner();
         (bool ok, string memory reason) = _evaluateGrant(fromNodeSignature, toNodeSignature, policyId, opBit);
         string memory fromNodeId = nodeSignatureToNodeId[fromNodeSignature];
-        string memory toNodeId = nodeSignatureToNodeId[toNodeSignature];
         address fromAddr = iotNodes[fromNodeId].registeredBy;
-        address toAddr = iotNodes[toNodeId].registeredBy;
         bytes32 policyKey = bytes32(policyId);
 
         if (ok) {
@@ -1054,6 +1062,21 @@ contract NodeRegistry {
             emit AccessDenied(fromAddr, toAddr, policyKey, opBit, reason, block.timestamp);
         }
         return ok;
+    }
+
+    // Latest committed audit-log head per enforcing node.
+    mapping(address => uint64) public auditSeq;
+    mapping(address => bytes32) public auditRoot;
+
+    // Commit the head hash `root` of the caller's audit log after entry `seq`.
+    // Only a registered owner address may anchor, and `seq` must strictly
+    // increase, so committed history cannot be replaced.
+    function anchorAuditRoot(bytes32 root, uint64 seq) external {
+        if (bytes(addressToNodeId[msg.sender]).length == 0) revert AddressNotRegistered();
+        if (seq <= auditSeq[msg.sender]) revert AuditSeqNotIncreasing();
+        auditSeq[msg.sender] = seq;
+        auditRoot[msg.sender] = root;
+        emit AuditRootAnchored(msg.sender, seq, root);
     }
 
     function isGrantExpired(

@@ -14,6 +14,7 @@
 #   decision = orch.access_flow(from_sig, to_sig, http_method, resource_path)
 #   orch.delegate_flow(parent_from_sig, to_sig, child_from_sig, ops_csv, child_exp_secs)
 
+import inspect
 import json
 import os
 import re
@@ -77,6 +78,10 @@ except Exception:
         _poa_middleware = None
 
 from tef_metrics import LatencyRecorder, ProcessEventRecorder, ensure_results_dir
+try:
+    from audit_log import AuditLog
+except Exception:
+    AuditLog = None
     
 # --------------- constants ---------------
 
@@ -360,6 +365,54 @@ class Orchestrator:
         self._init_web3_contract()
         self._load_accounts()
         self._start_policy_cache_watcher()
+        self._decision_ctx = threading.local()  # per-request cache-hit flag
+        self._audit_log = self._init_audit_log()
+
+    def _init_audit_log(self):
+        """Signed, hash-chained log of every access decision (see audit_log.py).
+        On unless AUDIT_LOG=0 (used only to measure its overhead). Entries are
+        signed with this node's identity key; the head is anchored on-chain by
+        anchor_audit_root every AUDIT_ANCHOR_EVERY entries or
+        AUDIT_ANCHOR_INTERVAL_S seconds."""
+        # Logging is required unless explicitly disabled; if it is required but
+        # cannot be set up, access_flow denies every request (fail closed)
+        # rather than silently making unlogged decisions.
+        self._audit_required = os.getenv("AUDIT_LOG", "1") != "0"
+        if not self._audit_required:
+            return None
+        if AuditLog is None:
+            print("[audit] audit log required but audit_log module unavailable; denying access requests")
+            return None
+        key_path = self.repo_path / "data" / "key.priv"
+        if not key_path.exists():
+            print("[audit] audit log required but node identity key missing; denying access requests")
+            return None
+        try:
+            return AuditLog(
+                self.repo_path / "data" / "audit_log.jsonl",
+                key_path.read_text().strip(),
+                anchor_fn=self.anchor_audit_root,
+                anchor_every=int(os.getenv("AUDIT_ANCHOR_EVERY", "50")),
+                anchor_interval_s=float(os.getenv("AUDIT_ANCHOR_INTERVAL_S", "30")),
+            )
+        except Exception as exc:
+            print(f"[audit] audit log unavailable: {exc}")
+            return None
+
+    def anchor_audit_root(self, root_hex: str, seq: int) -> Optional[str]:
+        """Commit the audit-log head on-chain via anchorAuditRoot. Signed by the
+        owner (registeredBy) of this node's own registration, a registered
+        address the contract accepts as an anchoring identity."""
+        if self._should_use_js():
+            return None  # no on-chain anchoring in JS-bridge/mock mode
+        own_sig = str(self.nd.get("signature") or "")
+        owner = self.get_address_from_signature(own_sig) if own_sig else None
+        idx = self._require_signer_idx(owner, "anchor_audit_root")
+        receipt = self._w3_send(
+            self._contract.functions.anchorAuditRoot(bytes.fromhex(root_hex.removeprefix("0x")), int(seq)),
+            from_idx=idx, gas=200_000, gas_label="anchorAuditRoot",
+        )
+        return self._receipt_tx_hash(receipt)
 
     # ---------- low-level JS bridge ----------
 
@@ -2455,8 +2508,13 @@ class Orchestrator:
                 granted = "true" in (r.stdout or "").lower()
         else:
             try:
+                # The contract accepts audit events only from the object's
+                # owner (the enforcing node), so sign as that address.
+                owner_idx = self._require_signer_idx(
+                    self.get_address_from_signature(to_sig), "check_grant_and_log")
                 receipt = self._w3_send(
                     self._contract.functions.checkGrantAndLog(from_sig, to_sig, int(policy_id), _ops_mask(op_csv)),
+                    from_idx=owner_idx,
                     gas_label="checkGrantAndLog",
                 )
                 # Return value not available from receipt; fall back to checkGrant read
@@ -3329,8 +3387,44 @@ class Orchestrator:
 
     # ---------- Algorithm B: Access Control + Delegation ----------
 
-    #@track_performance
     def access_flow(self, from_sig: str, to_sig: str, http_method: str, resource_path: str,
+                    *args, **kwargs) -> Dict[str,Any]:
+        """Decide an access request and record the decision in the signed
+        audit log. Every outcome of _access_flow_decide -- granted, denied, or
+        served from the positive-decision cache -- is logged, and the signed
+        receipt is returned to the requester as `audit_receipt`. If the
+        decision cannot be logged, the request is denied (fail closed), so no
+        decision goes unrecorded."""
+        ctx = self.__dict__.setdefault("_decision_ctx", threading.local())
+        ctx.cached = False
+        result = self._access_flow_decide(from_sig, to_sig, http_method, resource_path, *args, **kwargs)
+        audit = getattr(self, "_audit_log", None)
+        if audit is None:
+            if getattr(self, "_audit_required", False):
+                return {"ok": False, "why": "audit_log_unavailable:not_initialised"}
+            return result
+        bound = inspect.signature(self._access_flow_decide).bind(
+            from_sig, to_sig, http_method, resource_path, *args, **kwargs)
+        bound.apply_defaults()
+        cache_hit = bool(getattr(ctx, "cached", False))
+        ctx.cached = False
+        try:
+            receipt = audit.append({
+                "from_sig": from_sig, "to_sig": to_sig,
+                "method": (http_method or "").upper(), "resource": resource_path,
+                "policy_id": result.get("policyId"), "op": result.get("op"),
+                "granted": bool(result.get("ok") and result.get("granted")),
+                "reason": result.get("why") or ("granted" if result.get("granted") else "denied"),
+                "cache_hit": cache_hit,
+                "nonce_ms": bound.arguments.get("nonce_ms"),
+                "request_proof": bound.arguments.get("request_proof"),
+            })
+        except Exception as exc:
+            return {"ok": False, "why": f"audit_log_unavailable:{exc}"}
+        return {**result, "audit_receipt": receipt}
+
+    #@track_performance
+    def _access_flow_decide(self, from_sig: str, to_sig: str, http_method: str, resource_path: str,
                     expiry_secs: int = 900, allow_delegation: bool=False, delegation_depth: int=0,
                     audit: bool=True, nonce_ms: Optional[int]=None,
                     request_proof: Optional[str]=None) -> Dict[str,Any]:
@@ -3387,6 +3481,7 @@ class Orchestrator:
         if _cached:
             _cached_result, _cached_expiry = _cached
             if time.time() < _cached_expiry:
+                self.__dict__.setdefault("_decision_ctx", threading.local()).cached = True
                 return _cached_result
 
         # Check registration first

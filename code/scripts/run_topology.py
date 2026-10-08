@@ -49,6 +49,7 @@ DEFAULT_ROOT_API_PORT = 0
 
 SERVICE_BUNDLE_FILES = (
     "acknowledgement.py",
+    "audit_log.py",
     "device_catalog.py",
     "infrastructure_control.py",
     "interact.js",
