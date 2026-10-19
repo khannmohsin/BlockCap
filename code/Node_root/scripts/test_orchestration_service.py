@@ -779,6 +779,17 @@ def test_bootstrap_ack_persists_embedded_bootstrap_payload(monkeypatch, tmp_path
     assert (repo_dir / "data" / ".bootstrap_ready").read_text() == "1"
 
 
+def test_error_responses_omit_traceback_unless_debug(monkeypatch, service_module):
+    monkeypatch.delenv("FLASK_DEBUG", raising=False)
+    with service_module.Flask(__name__).app_context():
+        body, code = service_module.err("boom", 500, detail="x", trace="Traceback (most recent call last): ...")
+        assert code == 500
+        assert "trace" not in body.get_json()
+        monkeypatch.setenv("FLASK_DEBUG", "1")
+        body, _ = service_module.err("boom", 500, trace="Traceback ...")
+        assert body.get_json()["trace"] == "Traceback ..."
+
+
 def test_bootstrap_enode_returns_current_root_enode(monkeypatch, tmp_path, service_module):
     FakeOrchestrator.reset(tmp_path)
     FakeInfrastructureController.reset()

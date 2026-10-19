@@ -69,6 +69,14 @@ def ok(data: Dict[str, Any], code: int = 200):
 
 def err(message: str, code: int = 400, **extra):
     payload = {"ok": False, "error": message}
+    # Stack traces are logged server-side only; they are returned to the
+    # client solely when FLASK_DEBUG=1, so error responses do not disclose
+    # internal paths or code structure.
+    trace = extra.pop("trace", None)
+    if trace:
+        print(trace, file=sys.stderr, flush=True)
+        if os.getenv("FLASK_DEBUG", "0") == "1":
+            payload["trace"] = trace
     payload.update(extra or {})
     return jsonify(payload), code
 

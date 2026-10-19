@@ -337,7 +337,8 @@ class Orchestrator:
         self.nd = _json_load(node_details_path, {})
         # Prefer the node's own persisted address; fallback to prefunded[0] only when absent.
         node_details_addr = _clean_address_text(self.nd.get("address", ""))
-        prefunded_addr = _clean_address_text(pk.get("prefunded_accounts", [])[0].get("address", "")) if pk else ""
+        _pf = (pk or {}).get("prefunded_accounts") or []
+        prefunded_addr = _clean_address_text(_pf[0].get("address", "")) if _pf else ""
         self.registrar_addr = node_details_addr or prefunded_addr or None
         # --- intelligent validator listening / dedupe ---
         self._vlisten_lock = threading.Lock()
