@@ -5,12 +5,15 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 
 import aiohttp
+import os
 
-sys.path.insert(0, "/Users/khannmohsin/VSCode Projects/BlockCap/code/Node_root")
+CODE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
+
+sys.path.insert(0, os.path.join(CODE_DIR, "Node_root"))
 from node_identity import sign_request_proof
 
 ROOT_SIG = "0xd798d81cdea9f8fb3cd084e5a5f4b839fc89ae8591025c840122b126405a588c3d4cab8e0f1ad91a886e6a1b804760437d483bd73f765f61d05032028a05b57b00"
-ROOT_KEY = "/Users/khannmohsin/VSCode Projects/BlockCap/code/runtime/generated/r2-c11-openloop/root/data/key.priv"
+ROOT_KEY = os.path.join(CODE_DIR, "runtime", "generated", "r2-c11-openloop", "root", "data", "key.priv")
 FOG1_SIG = "0xbc2aa1eca2394c660437281fff3cc34359bed6b4d519dc0c3cbf986945e016587ab342432d28bf0948fe108fd33e1e536fec69a62679f1b2e95c7584cd46ce2a01"
 FOG1_API = "http://127.0.0.1:52461"
 EDGE1_SIG = "0x8f1c884e8d408f65c9ed46fbcc140732702fbe3b4ad1039d5cd3dbf2e0035ca6023d3c8389b5d6cfbd793b8d201baf285983d4a0922a2482b16fe08455bda44500"
@@ -137,10 +140,12 @@ async def main():
         raw_by_label[r["label"]] = raw
         await asyncio.sleep(3)
 
-    out_path = "/private/tmp/claude-501/-Users-khannmohsin-VSCode-Projects-BlockCap/scratchpad/r2c11_openloop_results.json"
+    out_dir = os.path.join(CODE_DIR, "results", "r2_c11")
+    os.makedirs(out_dir, exist_ok=True)
+    out_path = os.path.join(out_dir, "openloop_results.json")
     with open(out_path, "w") as f:
         json.dump(all_results, f, indent=2)
-    raw_path = "/private/tmp/claude-501/-Users-khannmohsin-VSCode-Projects-BlockCap/scratchpad/r2c11_openloop_raw.json"
+    raw_path = os.path.join(out_dir, "openloop_raw.json")
     with open(raw_path, "w") as f:
         json.dump(raw_by_label, f, indent=2)
     print("wrote", out_path, "and", raw_path)

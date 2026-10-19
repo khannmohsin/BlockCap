@@ -1,0 +1,23 @@
+{
+  "machine": {
+    "cpu_brand": "Apple M1 Max",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.12"
+  },
+  "note_on_hardware": "Run on the machine this revision session executes all single-machine work on. Its CPU identifies as 'Apple M1 Max'; Table II in the manuscript describes the single-machine tier as 'Apple MacBook Pro (M1)' (8-core, unspecified variant). This baseline does not independently confirm those two descriptions refer to the same physical unit -- report this discrepancy rather than assume equivalence.",
+  "n": 1000,
+  "git_commit": "8b6c601",
+  "baseline_in_process_policy_decision": {
+    "n": 1000,
+    "median_ms": 0.0003,
+    "p25_ms": 0.0003,
+    "p75_ms": 0.0004
+  },
+  "baseline_signed_capability_revocation_list": {
+    "n": 1000,
+    "median_ms": 5.0573,
+    "p25_ms": 5.0356,
+    "p75_ms": 5.0969
+  },
+  "comparison_note": "For reference, BlockCap's own checkGrant (on-chain read via web3.py, co-located Besu node, same call-boundary methodology) reports a published median of 6.5 ms (IQR 5.7-7.1 ms, n=375; see main.tex, Section VI-A)."
+}

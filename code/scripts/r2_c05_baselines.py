@@ -1,4 +1,4 @@
-"""r2-c05: same-hardware, same-workload baselines requested by Reviewer 2 (C5):
+"""Same-hardware authorization baselines for the single-machine evaluation:
   (1) an in-process, centralized policy decision point;
   (2) a signed capability checked against an in-memory revocation list.
 
@@ -164,7 +164,9 @@ result = {
     ),
 }
 
-out_path = "/private/tmp/claude-501/-Users-khannmohsin-VSCode-Projects-BlockCap/scratchpad/r2_c05_baseline_results.json"
+out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results", "r2_c05")
+os.makedirs(out_dir, exist_ok=True)
+out_path = os.path.join(out_dir, "baseline_results.json")
 with open(out_path, "w") as f:
     json.dump(result, f, indent=2)
 
