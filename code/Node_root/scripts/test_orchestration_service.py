@@ -785,6 +785,9 @@ def test_error_responses_omit_traceback_unless_debug(monkeypatch, service_module
         body, code = service_module.err("boom", 500, detail="x", trace="Traceback (most recent call last): ...")
         assert code == 500
         assert "trace" not in body.get_json()
+        assert "detail" not in body.get_json()
+        body, _ = service_module.err("bad input", 400, detail="missing field")
+        assert body.get_json()["detail"] == "missing field"
         monkeypatch.setenv("FLASK_DEBUG", "1")
         body, _ = service_module.err("boom", 500, trace="Traceback ...")
         assert body.get_json()["trace"] == "Traceback ..."

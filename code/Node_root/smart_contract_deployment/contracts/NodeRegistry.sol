@@ -876,6 +876,10 @@ contract NodeRegistry {
         if (expiresAt <= uint64(block.timestamp) || expiresAt > parent.expiresAt) revert InvalidExpiry();
         if (requestedDepth >= parent.depthDel || parent.depthDel == 0) revert InvalidDelegationDepth();
 
+        // The delegatee must be a registered node, as for every other
+        // lifecycle operation (Assumption as:deleg).
+        if (!iotNodes[nodeSignatureToNodeId[newFromNodeSignature]].isRegistered) revert NodeNotRegistered();
+
         // Create/extend child grant (newFrom -> to, same policyId)
         bytes32 childId = _grantKey(newFromNodeSignature, toNodeSignature, policyId);
         CapabilityGrant storage c = grants[childId];
@@ -889,6 +893,12 @@ contract NodeRegistry {
             c.opsSubset = opsSubset;
             if (expiresAt > c.expiresAt) {
                 c.expiresAt = expiresAt;
+            }
+            // Re-attaching to the parent's current generation must not let
+            // the child outlive that parent (Property 2(b)): cap the retained
+            // expiry at the parent's.
+            if (c.expiresAt > parent.expiresAt) {
+                c.expiresAt = parent.expiresAt;
             }
             c.delegationAllowed = requestedDepth > 0;
             c.delegationDepth = requestedDepth;

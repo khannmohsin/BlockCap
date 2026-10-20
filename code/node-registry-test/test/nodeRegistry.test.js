@@ -114,6 +114,30 @@ describe("NodeRegistry delegation lineage", function () {
     ).to.be.revertedWithCustomError(reg, "InvalidDelegationDepth");
   });
 
+  it("re-delegation onto a re-issued parent never lets the child outlive it (D6)", async () => {
+    const t0 = await nowTs();
+    // parent: EdgeA -> Fog, expiry t0+3600, depth 2
+    await reg.connect(fogOwner).issueGrantDelegable("sigEdgeA", "sigFog", 1, OP_READ, t0 + 3600, true, 2);
+    // child: EdgeB -> Fog, expiry t0+3000
+    await reg.connect(edgeOwnerA).issueTokenDelegable("sigEdgeA", "sigFog", "sigEdgeB", 1, OP_READ, t0 + 3000, 1);
+    // owner revokes the parent, then re-issues it with a shorter expiry
+    await reg.connect(fogOwner).revokeGrant("sigEdgeA", "sigFog", 1);
+    await reg.connect(fogOwner).issueGrantDelegable("sigEdgeA", "sigFog", 1, OP_READ, t0 + 600, true, 2);
+    // holder re-delegates to the same child with a short requested expiry
+    await reg.connect(edgeOwnerA).issueTokenDelegable("sigEdgeA", "sigFog", "sigEdgeB", 1, OP_READ, t0 + 300, 0);
+    const parent = await reg.getGrantEx("sigEdgeA", "sigFog", 1);
+    const child = await reg.getGrantEx("sigEdgeB", "sigFog", 1);
+    expect(child[3]).to.be.lte(parent[3]); // expiresAt
+  });
+
+  it("rejects delegation to an unregistered node (D4)", async () => {
+    const exp = (await nowTs()) + 3600;
+    await reg.connect(fogOwner).issueGrantDelegable("sigEdgeA", "sigFog", 1, OP_READ, exp, true, 2);
+    await expect(
+      reg.connect(edgeOwnerA).issueTokenDelegable("sigEdgeA", "sigFog", "sigUnregistered", 1, OP_READ, exp - 30, 1)
+    ).to.be.revertedWithCustomError(reg, "NodeNotRegistered");
+  });
+
   it("accepts a valid subset delegation and stores the parent linkage", async () => {
     const exp = (await nowTs()) + 3600;
     await reg.connect(fogOwner).issueGrantDelegable("sigEdgeA", "sigFog", 1, OP_READ | OP_WRITE, exp, true, 2);

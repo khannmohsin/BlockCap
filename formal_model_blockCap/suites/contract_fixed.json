@@ -1,0 +1,74 @@
+{
+  "model": "models/blockcap_contract.als",
+  "out": "results_contract_fixed",
+  "scopes": {
+    "two": "for 3 Node, 1 Policy, 2 Slot, 1 Op, 1 Role, 1 Res, 2 Principal, 4 Int, 1..7 steps",
+    "small": "for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps",
+    "main": "for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+  },
+  "default_timeout": 7200,
+  "note": "Contract-faithful model of the FIXED contract (D4, D6), experimental 2026-10-20.",
+  "jobs": [
+    {
+      "name": "Reach_DelegationChainDepth2",
+      "kind": "run",
+      "expect": "reachable",
+      "scope": "small"
+    },
+    {
+      "name": "Reach_ChildOutlivesParent",
+      "kind": "run",
+      "expect": "not reachable",
+      "scope": "two"
+    },
+    {
+      "name": "P2_EvaluatedChain",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "two"
+    },
+    {
+      "name": "P1_TokenUniqueness",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "main"
+    },
+    {
+      "name": "P2_AtDerivation",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "small"
+    },
+    {
+      "name": "P2_EvaluatedChain",
+      "label": "P2_EvaluatedChain_small",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "small"
+    },
+    {
+      "name": "P3_AuthCorrectness",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "main"
+    },
+    {
+      "name": "R_Revocation",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "main"
+    },
+    {
+      "name": "A2_DelegationOnlyByParentHolder",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "small"
+    },
+    {
+      "name": "R_ReissueOutcome",
+      "kind": "check",
+      "expect": "holds",
+      "scope": "small"
+    }
+  ]
+}

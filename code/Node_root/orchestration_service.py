@@ -77,6 +77,10 @@ def err(message: str, code: int = 400, **extra):
         print(trace, file=sys.stderr, flush=True)
         if os.getenv("FLASK_DEBUG", "0") == "1":
             payload["trace"] = trace
+    # Raw exception text from server-side failures (5xx) is likewise logged,
+    # not returned, unless FLASK_DEBUG=1.
+    if code >= 500 and "detail" in extra and os.getenv("FLASK_DEBUG", "0") != "1":
+        print(f"[{message}] {extra.pop('detail')}", file=sys.stderr, flush=True)
     payload.update(extra or {})
     return jsonify(payload), code
 

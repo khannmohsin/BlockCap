@@ -1,0 +1,2 @@
+label,name,kind,expect,scope,verdict,secs,ok,trace,scope_str
+P2_EvaluatedChain_Acyclic,P2_EvaluatedChain_Acyclic,check,counterexample,two,SAT,273.5,True,results_contract_acyclic/P2_EvaluatedChain_Acyclic/trace.txt,"for 3 Node, 1 Policy, 2 Slot, 1 Op, 1 Role, 1 Res, 2 Principal, 4 Int, 1..7 steps"

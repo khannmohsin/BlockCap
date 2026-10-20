@@ -1,0 +1,3 @@
+label,name,kind,expect,scope,verdict,secs,ok,trace,scope_str
+Reach_ChildOutlivesParent,Reach_ChildOutlivesParent,run,reachable,two,SAT,462.4,True,results_contract/Reach_ChildOutlivesParent/trace.txt,"for 3 Node, 1 Policy, 2 Slot, 1 Op, 1 Role, 1 Res, 2 Principal, 4 Int, 1..7 steps"
+P2_EvaluatedChain,P2_EvaluatedChain,check,counterexample,two,SAT,456.4,True,results_contract/P2_EvaluatedChain/trace.txt,"for 3 Node, 1 Policy, 2 Slot, 1 Op, 1 Role, 1 Res, 2 Principal, 4 Int, 1..7 steps"
