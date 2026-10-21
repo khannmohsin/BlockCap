@@ -1,0 +1,20 @@
+{
+  "date_utc": "2026-10-20T15:47:06+00:00",
+  "alloy": "6.2.0",
+  "java": "openjdk version \"21.0.11\" 2026-04-21",
+  "model": "models/blockcap_contract.als",
+  "model_sha256": "35fb7893815c25d2f3c4529d61779f976ca7ab8f77d19af93e813e9b277bf0b1",
+  "manifest": "suites/contract_fixed.json",
+  "manifest_sha256": "e9eb16ab107ab4b6df467bb55181d9a20b0a7046930052924fefaf11f3a54ac2",
+  "jar_sha256": "6b8c1cb5bc93bedfc7c61435c4e1ab6e688a242dc702a394628d9a9801edb78d",
+  "jobs": 4,
+  "budget_s": 0,
+  "wall_s": 11492.6,
+  "scopes": {
+    "two": "for 3 Node, 1 Policy, 2 Slot, 1 Op, 1 Role, 1 Res, 2 Principal, 4 Int, 1..7 steps",
+    "small": "for 4 Node, 2 Policy, 3 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..5 steps",
+    "main": "for 4 Node, 2 Policy, 4 Slot, 2 Op, 2 Role, 2 Res, 2 Principal, 4 Int, 1..7 steps"
+  },
+  "unexpected": [],
+  "not_completed": []
+}
